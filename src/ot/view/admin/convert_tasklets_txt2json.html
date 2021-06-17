@@ -1,0 +1,133 @@
+<div ng-init="svr.title = vm.title  "
+     ng-include="'src/view/header.html'"></div>
+
+
+
+<div class="md-toolbar-tools " >
+
+    <md-button class="md-fab md-mini " ng-click="vm.refresh()" >
+        <i class="fa fa-refresh"></i>
+    </md-button>
+
+    <span flex></span>
+
+</div>
+
+
+
+<md-table-container>
+    <table md-table>
+        <thead md-head>
+        <tr md-row>
+
+            <th md-column style="width: 100px">
+                產品
+            </th>
+            <th md-column style="width: 100px">
+                Outlet
+            </th>
+
+            <th md-column style="width: 500px">txt</th>
+            <th md-column style="width: 500px">json</th>
+
+            </th>
+
+        </tr>
+        </thead>
+        <tbody md-body class="md-inline-form">
+
+        <tr ng-repeat="e in vm.templates  | limitTo:10"
+
+            ng-mouseover="e._isMouseOver = true"
+            ng-mouseleave="e._isMouseOver = false"
+
+            ng-style="{ color: !e._dirty ? 'green' : 'red' } ">
+
+            <td md-cell style="width: 10px" title="{{e}}">
+                {{ svr.getItemName(e.ItemCode) }}
+                <br>
+                <span style="margin-top: 3px">
+                    {{ e.ItemCode }}
+                </span>
+
+            </td>
+
+            <td md-cell style="width: 10px" title="{{e}}">
+                {{ svr.getOutletName(e.OutletCode) }}
+                <br>
+                <span style="margin-top: 3px">
+                    {{ e.OutletCode }}
+                </span>
+
+            </td>
+
+
+            <td md-cell style="width: 10px" >
+                <pre>
+                {{ e.TaskletsText }}
+                    </pre>
+            </td>
+
+
+            <td md-cell style="padding: 0 ; width: 600px" >
+                <div layout="column">
+
+                    <span ng-repeat="tlet in e.getTasklets()"
+                          ng-init="tmpName = tlet.Name"
+                          ng-mouseover="tlet._isMouseOver = true"
+                          ng-mouseleave="tlet._isMouseOver = false"
+                          title="{{e.TaskletsText}}  \n {{ tlet}}"
+                          style="margin: 0; min-height: 0"
+                          ng-click="e._dirty = true">
+
+                        <md-input-container style="margin: 0; width: 70%; " >
+                            <textarea  ng-model="tlet.Name" type="text" md-select-on-focus></textarea>
+                        </md-input-container>
+
+                        <md-input-container style="width: 60px; margin: 0 ; ">
+                            <input   ng-model="tlet.Qty" type="number">
+
+                        </md-input-container>
+
+                        <md-input-container style="width: 50px; margin: 0; ">
+
+                             <md-select name="Unit" ng-model="tlet.Unit" required >
+
+                                <md-option ng-repeat="type in svr.unitTypeMgr.getAllUnitTypes()"
+
+                                           value="{{type.Code}}">{{type.Name}}</md-option>
+
+                              </md-select>
+
+                        </md-input-container>
+
+                        <md-input-container style="margin: 0px; ">
+
+                            <a ng-click="svr.removeTasklet(e, tlet)"
+                               class="md-secondary"
+                               style=" cursor: pointer; color:orangered"
+                               ng-show="tlet._isMouseOver">
+                                <i class="fa fa-remove btn-link btn-warning "></i>
+                            </a>
+                        </md-input-container>
+
+                        <br/>
+
+
+                    </span>
+
+                    <i class="fa fa-plus "  style="cursor: pointer" ng-style="{color: e._isMouseOver ? 'red' : 'darkgrey'}"  ng-click="e.addNewTasklet()" ></i>
+
+                </div>
+            </td>
+
+
+
+        </tr>
+
+
+        </tbody>
+    </table>
+</md-table-container>
+
+

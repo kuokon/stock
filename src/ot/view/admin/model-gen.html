@@ -1,0 +1,59 @@
+<div ng-init="svr.title = vm.title + '| 導入' +' | '+  svr.getConfigYear() +'年 '+ svr.getConfigMonth() +'月' ;vm.prevPage ='..'"
+     ng-include="'src/view/header.html'"></div>
+<div
+        ng-include="'src/view/admin/sub-header.html'"></div>
+
+
+<div layout="column" ng-init="rawText = 'Obj| A:int; B:str;  C:str; D:int;'">
+
+    <div layout="row" layout-align="center " ng-init=" modeGen = svr.onModeGen(rawText) ">
+
+        <div style="width: 30%" >
+<!--        <span ng-init="headers = ['編號','商戶','地址']" style="margin-left: 30px">-->
+<!--            <span ng-repeat="h in headers  track by $index">   {{h}} | </span>-->
+<!--        </span>-->
+
+            <md-button class="md-raised  md-hue-1" ng-click="rawText = ''">清除</md-button>
+<!--            --><md-button class="md-raised  md-primary md-hue-3" ng-click="svr.onModeGen(res)">保存</md-button>
+
+            <md-input-container >
+                Use Comma
+                <md-checkbox ng-model="vm.isUseComma"</md-checkbox>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>Excel Cut & Paste</label>
+                <textarea ng-model="rawText"
+                          ng-model-options="{ allowInvalid: true, updateOn: 'default', debounce: 500 }"
+                          ng-change="modeGen = svr.onModeGen(rawText); data= modeGen.toAll()"
+                          md-maxlength="99000" rows="10" md-select-on-focus></textarea>
+            </md-input-container>
+
+        </div>
+        <div style="width: 55%" >
+
+            <md-button ng-click="data = modeGen.toAll() ; svr.helper.copyToClipboard(svr, 'modeGenData') " >All</md-button>
+            <md-button ng-click="data = modeGen.toCSharp() ; svr.helper.copyToClipboard(svr, 'modeGenData')">CSharp</md-button>
+            <md-button ng-click="data = modeGen.toJS() ; svr.helper.copyToClipboard(svr, 'modeGenData')">JS</md-button>
+
+            <md-button ng-click="svr.helper.copyToClipboard(svr, 'modeGenData') ">Clipboard </md-button>
+
+
+            <md-table-container >
+
+                <textarea rows="25" cols="100"  id="modeGenData" ng-model="data" >
+
+<!--                    {{data }}-->
+
+
+                </textarea>
+
+            </md-table-container>
+
+
+        </div>
+
+
+    </div>
+
+</div>

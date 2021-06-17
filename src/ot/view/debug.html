@@ -1,0 +1,20 @@
+
+<div id='debug' class="md-fab-top-right" layout-align="end end" ng-show="svr.isDev()">
+
+
+    <!--<md-button aria-label="dump" class="md-fab md-raised md-mini layout-align-end" ng-click="vm.onDump()">-->
+        <!--'D'-->
+    <!--</md-button>-->
+
+    <span> <small>{{svr.getDataStatus()}}</small> </span>
+
+
+    <!--<button ng-click="svr.dumpDataToFile(svr.getApproveOutletsMap())" class="btn-sm">dumpData</button>-->
+    <button ng-click="svr.autoFill()" class="btn-sm">AutoFill</button>
+    <button ng-click="svr.doAdminApproveAll()" class="btn-sm">ApproveAll</button>
+    <!--<button ng-click="svr.setIsCheckedOut(true)" class="btn-sm">Offline</button>-->
+
+
+
+
+</div>

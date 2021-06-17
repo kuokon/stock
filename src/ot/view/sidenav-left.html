@@ -1,0 +1,117 @@
+<md-sidenav class="md-sidenav-left md-whiteframe-z2"
+            md-component-id="left"
+            mode="side"
+            md-is-open="false"
+
+
+            xmd-is-locked-open="$mdMedia('gt-sm')">
+    <md-toolbar>
+
+        <br/>
+        <span>
+                <label ng-click="svr.goTo('/user')">
+                    {{ svr.getCurrUser().Name }} |
+                    <small>{{ svr.getUserRoleName() }}</small>
+
+
+                </label>
+            <br/>
+            <br/>
+
+            <span >
+
+
+                <small> {{ svr.getConfigYear()}} 年 {{svr.getConfigMonth()}}月</small>
+                <small> v{{svr.getVersion()}}</small>
+
+
+
+            </span>
+
+        </span>
+        <br/>
+
+
+    </md-toolbar>
+
+
+    <md-content ng-init="u = svr.getCurrUser()">
+        <md-list ng-show="!u.isInspector()">
+
+            <md-list-item ng-show="! u.isInspector()" ng-click="svr.goTo('template')">
+                <i class="fa fa-clone "> 計劃 樣板 </i>
+                <i class="fa fa-chevron-right md-secondary"></i>
+            </md-list-item>
+            <md-list-item ng-show="! u.isInspector()" ng-click="svr.goTo('plan')">
+                <i class="fa fa-calendar-check-o"> 每月 計劃 </i>
+
+                <i class="fa fa-chevron-right md-secondary"></i>
+            </md-list-item>
+
+
+            <md-list-item ng-show="! u.isInspector()" ng-click="svr.goTo('approve')">
+                <i class="fa fa-check-square-o"> 審批 本月價格</i>
+                <i class="fa fa-chevron-right md-secondary"></i>
+            </md-list-item>
+
+            <md-list-item ng-show="! u.isInspector()" ng-click="svr.goTo('outlet')">
+                <i class="fa fa-building-o"> 商戶 </i>
+                <i class="fa fa-chevron-right md-secondary"></i>
+            </md-list-item>
+
+            <md-list-item ng-show="! u.isInspector()" ng-click="svr.goTo('upc')">
+                <i class="fa fa-barcode"> UPC </i>
+                <i class="fa fa-chevron-right md-secondary"></i>
+            </md-list-item>
+
+
+            <md-list-item></md-list-item>
+
+
+        </md-list>
+
+        <md-divider/>
+
+
+        <md-list ng-show="  u.isAdmin() || svr.isDev()  ">
+
+            <md-list-item ng-click="svr.goTo('task')">
+                <i class="fa fa-pencil-square-o"> 收集 / 檢閱 價格</i>
+                <i class="fa fa-chevron-right md-secondary"></i>
+            </md-list-item>
+
+
+        </md-list>
+
+        <md-divider/>
+
+        <md-list>
+
+
+            <md-list-item ng-click="svr.goTo('user')">
+                <i class="fa fa-user-circle "> 用戶</i>
+                <i class="fa fa-chevron-right md-secondary"></i>
+            </md-list-item>
+
+
+            <!--<md-list-item ng-click="svr.goTo('config')">-->
+            <!--<i class="fa fa-cog "> 設置</i>-->
+
+            <!--<i class="fa fa-chevron-right pull-right"></i>-->
+            <!--</md-list-item>-->
+
+
+            <md-list-item></md-list-item>
+
+            <md-list-item ng-show="u.isAdmin()" ng-click="svr.goTo('approve/refprice')">
+                <i class="fa fa-dollar"> 參考價格 </i>
+                <i class="fa fa-chevron-right md-secondary"></i>
+            </md-list-item>
+
+
+        </md-list>
+
+    </md-content>
+
+
+</md-sidenav>

@@ -1,0 +1,70 @@
+<div ng-init="svr.title = vm.title  "
+     ng-include="'src/view/header.html'"></div>
+
+<div
+     ng-include="'src/view/admin/sub-header.html'"></div>
+
+<md-toolbar class=" md-primary md-hue-1" ng-init="user = svr.getCurrUser()">
+
+
+    <div class="md-toolbar-tools" ng-init="numTotalDirty = 0">
+
+        <i class="fa fa-user-o "> {{user.Name}} </i>, {{user.Name_E}} |
+        <small> {{user.getRoleName()}}</small>
+
+        <span flex md-truncate></span>
+        <span>
+                <md-button style="min-width: 0" class="md-raised md-primary md-hue-3" ng-click="svr.doLogout()">
+                    登出 <i class="fa  fa-sign-out">  </i>
+                </md-button>
+
+        </span>
+
+
+    </div>
+
+
+</md-toolbar>
+
+
+<div layout="column">
+
+
+    <md-list style="text-align: center; font-size: xx-large; margin-top: 5%; margin-left: 5%">
+
+                <md-list-item>
+                    <button class="md-button md-raised md-primary"   ng-click="svr.onTestOk()" >test OK</button>
+
+                    <button class="md-button md-raised md-primary" ng-click="svr.onTest1Fail()" >test Fails</button>
+
+                    <button class="md-button md-raised md-primary" ng-click="svr.onTest12Fail()" >test Fails12</button>
+                </md-list-item>
+
+
+<!--        <md-list-item>-->
+<!--            <button class="md-button md-raised md-primary" ngf-select="svr.doSelectFileForUpload($file)">Upload on file select</button>-->
+<!--        </md-list-item>-->
+
+<!--        <md-list-item ng-init="idx = 50">-->
+
+<!--            <img style="margin-right: 10px" width="100"    src="../api/smkt/file/1" >-->
+<!--            <img style="margin-right: 10px" width="100"    src="../api/smkt/file/{{idx}}" >-->
+<!--            <img style="margin-right: 10px" width="100"    src="../api/smkt/file/{{idx+1}}" >-->
+<!--            <img style="margin-right: 10px" width="100"    src="../api/smkt/file/{{idx+2}}" >-->
+<!--            <img style="margin-right: 10px" width="100"    src="../api/smkt/file/{{idx+3}}" >-->
+<!--            <img style="margin-right: 10px" width="100"    src="../api/smkt/file/{{idx+4}}" >-->
+<!--            <img style="margin-right: 10px" width="100"    src="../api/smkt/file/{{idx+5}}" >-->
+<!--        </md-list-item>-->
+
+<!--        &lt;!&ndash;<md-list-item style="margin-top: 20px" ng-click="svr.goTo('/admin/convert_tasklets_txt2json')" >&ndash;&gt;-->
+<!--        &lt;!&ndash;<i class="fa fa-pencil-square-o"> Template TaskletsTxt -> TaskletsJson </i>&ndash;&gt;-->
+<!--        &lt;!&ndash;</md-list-item>&ndash;&gt;-->
+
+
+<!--        &lt;!&ndash;<md-list-item></md-list-item>&ndash;&gt;-->
+
+
+<!--    </md-list>-->
+
+</div>
+
