@@ -1,0 +1,14 @@
+{
+  "ambientDependencies": {
+    "angular": "registry:dt/angular#1.5.0+20160320081937",
+    "angular-material": "registry:dt/angular-material#1.0.0-rc5.0+20160317120654"
+  },
+  "dependencies": {
+    "angular": "registry:dt/angular#1.6.0+20170321201455",
+    "angular-animate": "registry:dt/angular-animate#1.5.0+20161206185711",
+    "angular-material": "registry:dt/angular-material#1.1.0+20170315084937"
+  },
+  "globalDependencies": {
+    "jquery": "registry:dt/jquery#1.10.0+20170310222111"
+  }
+}

@@ -1,0 +1,9 @@
+.idea
+.settings
+/typings
+/app/bower_components
+
+./dist
+./node_modules
+./bower_components
+/dist/

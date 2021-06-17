@@ -1,0 +1,140 @@
+<div id="questions" flex layout="column" layout-wrap
+     style="padding-left: 10px; padding-top: 1px ; min-width: 360px"
+>
+
+    <!--    q3 == (china-> provence-> city)-->
+    <div ng-init="q_label = vm.page.questions[0];  q = vm.page.questions[1]; q_oth = vm.page.questions[2];  q3=vm.page.questions[3]; qIsAirportShip=vm.page.questions[4]; extraQs = vm.page.getPlaceExtQs() ">
+
+        <span ng-show="q_label.isShow()">
+            <h3>{{q_label.title}}</h3>
+        </span>
+
+
+        <div ng-style="{ 'background-color': !q.hasAnswer() ? 'lightcoral':'' }" ng-init="sel = q.selection">
+            <h3 ng-click="vm.page.dump()">{{::q.title}}
+
+                <i class="fa _fa-trash-o fa-times-circle-o "
+                   ng-click="q.maybeClearAnswer()"></i>
+
+            </h3>
+            <md-radio-group
+                    ng-change="vm.page.onChange()"
+                    layout="row"
+                    layout-align="start left"
+                    layout-wrap
+                    ng-model="q.answer">
+                <div ng-repeat="item in ::sel.items track by $index">
+
+                    <md-radio-button
+                            _title="{{::item}}"
+                            ng-show="item.isShow()"
+                            ng-disabled="item.isDisabled()"
+                            style="width: 200px ; margin-bottom: 10px"
+                            value="{{::item.value}}">{{::item.getName(svr)}}
+                    </md-radio-button>
+
+                </div>
+
+            </md-radio-group>
+        </div>
+
+
+        <div ng-show="q_oth.isShow()">
+            <h3
+                    id="{{::q_oth.id}}"
+                    ng-show="::q_oth.isShowTitle()">{{::q_oth.title}}
+                <!--<small style="color: lightgrey">{{::q_oth.id}}: {{q_oth.answer}}</small>-->
+            </h3>
+
+            <md-autocomplete
+                    ng-style="{ 'background-color': !q_oth.hasAnswer() ? 'lightcoral':'' }"
+                    md-selected-item="q_oth.selection.selectedItem"
+                    md-items="item in q_oth.selection.suggest(token)"
+                    md-match-case-insensitive=true
+                    md-min-length="0"
+                    md-item-text="item.display() "
+                    md-selected-item-change="q_oth.setAnswer(q_oth.selection.selectedItem.value); vm.page.onChange()"
+                    md-search-text="token"
+            >
+                <md-item-template>
+                    <span md-highlight-text="searchText">{{::item.display()}} </span>
+                </md-item-template>
+
+            </md-autocomplete>
+
+            <br/><br/>
+
+        </div>
+
+        <!--    q3 == (china-> provence-> city)-->
+        <div ng-show="q3.isShow()" ng-style="{ 'background-color': !q3.hasAnswer() ? 'lightcoral':'' }">
+            <h3 id="{{q3.id}}">{{q3.title}}
+
+                <!--<small style="color: lightgrey">{{q3.id}}: {{q3.answer}}</small>-->
+            </h3>
+            <md-radio-group
+                    ng-change="vm.page.onChange()"
+                    layout="row"
+                    layout-align="start left"
+                    layout-wrap
+                    ng-model="q3.answer">
+                <div ng-repeat="item in q3.selection.items track by $index">
+
+                    <md-radio-button
+                            _title="{{item}}"
+                            ng-show="item.isShow()"
+                            ng-disabled="item.isDisabled()"
+                            style="width: 200px ; margin-bottom: 10px"
+                            value="{{item.value}}">{{item.getName(svr)}}
+                    </md-radio-button>
+
+                </div>
+
+            </md-radio-group>
+        </div>
+
+    </div>
+
+
+    <!-- qIsAirportShip-->
+    <div>
+        <div layout="column" ng-show="qIsAirportShip.isShow()" ng-style="{ 'background-color': !qIsAirportShip.hasAnswer() ? 'lightcoral':'' }">
+
+        <span>
+            <h3>{{qIsAirportShip.title}} </h3>
+        </span>
+
+            <md-radio-group
+                    ng-change="vm.page.onChange()"
+                    ng-model="qIsAirportShip.answer">
+                <div ng-repeat="item in qIsAirportShip.selection.items track by $index"
+                     style="margin-bottom: 10px; ">
+                <span title="{{::item.value}}" ng-if="item.tag !== 'hide-show-trigger'">
+                                    <md-radio-button
+                                            ng-disabled="item.isDisabled()"
+                                            ng-show="item.isShow()"
+                                            value="{{::item.value}}"> <small ng-if=":: svr.isDev()"
+                                                                             style="color: lightgrey">{{::item.value}}</small>
+
+                                        {{::item.getName(svr)}}
+
+                                        <!--<small ng-if="svr.config.hasDict"><span style="color: lightgray"></span>{{::item.name}}</small>-->
+                                    </md-radio-button>
+                                </span>
+                </div>
+            </md-radio-group>
+        </div>
+    </div>
+
+</div>
+
+
+<div ng-repeat="q in ::vm.page.getPlaceExtQs()">
+
+    <div ng-include="'src/idv2/view/part/question.html'"></div>
+
+</div>
+
+
+
+<div style="padding-bottom: 30%"></div>

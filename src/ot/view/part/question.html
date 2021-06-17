@@ -1,0 +1,264 @@
+<div id="{{::q.id}}" title="{{q.id}} : {{q.getAnswer()}} "
+     ng-style="{ 'background-color': q.getColor() }" style="padding-left: 10px;  min-width: 360px">
+    <div ng-init="sel = q.selection; isShowTitle=q.isShowTitle()" ng-show="q.isShow()">
+
+        <h3 ng-if="isShowTitle" ng-click="vm.page.dump() " >
+            <span style="white-space: break-spaces;">    {{::q.getTitle(svr)}}  <small style="color: lightgray" ng-if="svr.isDev()"> {{::q.id}}</small> </span>
+            <i class="fa _fa-trash-o fa-times-circle-o " ng-show="::q.isSelectionType()"
+               ng-click="q.maybeClearAnswer()"></i>
+        </h3>
+
+        <div ng-switch="{{::sel.type}}">
+
+            <!--SINGLE = 1,-->
+            <div ng-switch-when="1" layout="column">
+
+                <md-radio-group
+                        ng-change="vm.page.onChange()"
+                        ng-model="q.answer">
+                    <div ng-repeat="item in sel.items track by $index"
+                         style="margin-bottom: 10px; ">
+
+                                <span ng-if="item.tag === 'hide-show-trigger'" ng-click="q.toggleHideShow()">
+                                    <label style=" background: lightgreen; margin-left: 20%; cursor: pointer"> <b>更多 / 隱藏</b> </label>
+                                    <br/><br/>
+                                </span>
+                        <span title="{{::item.value}}" ng-if="item.tag !== 'hide-show-trigger'">
+                                    <md-radio-button
+                                            ng-disabled="item.isDisabled()"
+                                            ng-show="item.isShow()"
+                                            value="{{::item.value}}"> <small ng-if=":: svr.isDev()"
+                                                                             style="color: lightgrey">{{::item.value}}</small>
+
+                                        {{::item.getName(svr)}}
+
+                                        <!--<small ng-if="svr.config.hasDict"><span style="color: lightgray"></span>{{::item.name}}</small>-->
+                                    </md-radio-button>
+                                </span>
+                    </div>
+                </md-radio-group>
+            </div>
+
+
+            <div ng-switch-when="2">
+
+
+                <div ng-repeat="item in sel.items track by $index" ng-init="hasHideShow = false">
+
+
+
+                                <span ng-if="item.tag === 'hide-show-trigger'" ng-click="q.toggleHideShow()">
+                                    <label style=" background: lightgreen; margin-left: 20%; cursor: pointer"> <b>更多 / 隱藏</b> </label>
+                                    <br/><br/>
+                                </span>
+
+                    <span ng-if="item.tag !== 'hide-show-trigger'">
+
+                                    <md-checkbox title=" {{item}} "
+                                                 ng-model="q.answer[item.value]"
+                                                 ng-show="item.isShow()"
+
+                                                 ng-disabled="item.isDisabled()"
+
+
+                                                 ng-change="vm.page.onChange()"
+                                                 value="{{::item.value}}">
+                                        <small ng-if=":: svr.isDev()" style="color: lightgrey">{{::item.value}}</small> {{::item.getName(svr)}}
+                                    </md-checkbox>
+                                </span>
+
+                </div>
+            </div>
+
+            <div ng-switch-when="3">
+
+                <md-autocomplete
+                        md-selected-item="sel.selectedItem"
+                        md-items="item in sel.suggest(token)"
+                        md-match-case-insensitive=true
+                        md-item-text="item.display()"
+                        md-min-length="0"
+                        md-selected-item-change="q.setAnswer(sel.selectedItem.value); vm.page.onChange()"
+                        md-search-text="token"
+                >
+                    <md-item-template>
+                        <span md-highlight-text="searchText"> {{::item.display()}} </span>
+                    </md-item-template>
+
+                </md-autocomplete>
+                <br/>
+
+            </div>
+
+            <!--REMARK = 4,-->
+            <div ng-switch-when="4" style="padding-top: 0; margin-left: 20px">
+
+                <md-input-container class="md-block ">
+                    <label style="font-size: smaller" ng-if="!isShowTitle"> {{q.title}}</label>
+                    <input type="text" ng-model="q.answer" ng-change="vm.page.onChange()">
+
+                    <small ng-if=" sel.items.length > 0 " style="margin-top: 5px">
+
+                                <span ng-repeat="item in sel.items track by $index">
+                                   <span style="margin-right: 10px; color: blue; background: lightgoldenrodyellow;"
+                                          ng-click="q.setAnswer(item.value); q.onChange()">
+                                       {{item.value}}</span>
+                                </span>
+
+                    </small>
+
+                </md-input-container>
+
+
+            </div>
+
+            <!--DATE = 5,-->
+            <div ng-switch-when="5" style="padding-top: 20px; margin-left: 20px"
+                 ng-click="svr.native.kbShowDatePicker()">
+
+
+                <md-datepicker style="font-size: xx-large" ng-model="q.answer"
+                               xng-model-options="{ allowInvalid: true }"
+                               xmd-max-date="svr.getMaxDate()"
+                               md-is-open="vm.isOpen"
+                               ng-disabled='svr.isPhone()'
+
+                               ng-change="vm.page.onChange()"></md-datepicker>
+
+
+            </div>
+
+            <!-- HOUR = 6 -->
+            <div ng-switch-when="6" style="padding-top: 20px; margin-left: 20px"
+                 ng-click="svr.native.kbShowDatePicker()">
+                <md-input-container class="md-block">
+                    <label>小時</label>
+                    <input ng-model="q.answer" type="number" min="0" max="24" ng-change="vm.page.onChange()">
+                </md-input-container>
+            </div>
+
+            <!-- MINUTE = 7 -->
+            <div ng-switch-when="7" style="padding-top: 20px; margin-left: 20px"
+                 ng-click="svr.native.kbShowDatePicker()">
+                <md-input-container>
+                    <label>分鐘</label>
+                    <input ng-model="q.answer" type="number" min="0" max="59" ng-change="vm.page.onChange()">
+                </md-input-container>
+            </div>
+
+            <!--INTEGER = 8 -->
+            <div ng-switch-when="8" style="padding-top: 20px; margin-left: 20px"
+                 ng-click="svr.native.kbShow(q)">
+                        <span>
+                            <md-input-container style="xwidth: 70%; margin: 0">
+                                 <label style="font-size: smaller" ng-if="!isShowTitle">{{::q.title}} : </label>
+                                <input ng-model-options="{ allowInvalid: true, debounce: 500 }"
+                                       ng-model="q.answer" type="number" step="1" min="{{::q.getMin()}}"
+                                       ng-change="vm.page.onChange()">
+                            </md-input-container>
+
+                            <span style="cursor: pointer; color: lightskyblue">
+                                <span ng-click="q.onPlus()" ><i class="fa fa-2x fa-plus"></i></span>
+                                <span style="margin-left: 5px" ng-click="q.onMinus()" ><i class="fa fa-2x fa-minus"></i></span>
+                            </span>
+                        </span>
+            </div>
+
+            <!--NUMBER = 13 -->
+            <div ng-switch-when="13" style="padding-top: 20px; margin-left: 20px"
+                 ng-click="svr.native.kbShow(q)">
+                        <span>
+                            <md-input-container style="width: 90%; margin: 0">
+                                 <label style="font-size: smaller" ng-if="!isShowTitle">{{::q.title}} : </label>
+                                <input ng-model-options="{ allowInvalid: true, debounce: 500 }"
+                                       ng-model="q.answer" type="number" min="{{::q.getMin()}}"
+                                       ng-change="vm.page.onChange()">
+                            </md-input-container>
+                        </span>
+            </div>
+
+            <!-- TEXT = 9 -->
+            <div ng-switch-when="9" style="padding-top: 20px; margin-left: 20px">
+                <md-input-container style="width: 90%">
+                    <label ng-if="!isShowTitle">{{::q.title}}</label>
+                    <input ng-model="q.answer" type="text" ng-change="vm.page.onChange()">
+                </md-input-container>
+            </div>
+
+
+            <!-- Currency = 10 -->
+            <div ng-switch-when="10">
+                <small>
+                    <div layout="row" style="margin-bottom: 10px">
+
+                        <md-radio-group ng-model="q.answer" layout="row" ng-change="vm.page.onChange()">
+
+                            <div ng-repeat="item in ::svr.getCurrencyShotCuts() track by $index">
+                                <md-radio-button
+
+                                        style="margin-right: 10px ;"
+                                        value="{{::item.value}}"><span
+                                        style="margin-left: -8px">{{::item.name}}</span>
+                                </md-radio-button>
+                            </div>
+
+                        </md-radio-group>
+
+                        <md-select ng-model="q.answer"
+                                   ng-change="vm.page.onChange()"
+                                   style="margin-top: 0; margin-bottom: 0; width: 160px">
+                            <md-option ng-value="e.value" ng-repeat="e in svr.getAllCurrency()">{{ e.name }}
+                            </md-option>
+                        </md-select>
+
+                    </div>
+                </small>
+            </div>
+
+
+            <!--DISPLAY_ONLY-->
+            <div ng-switch-when="11">
+                <h3 ng-if="!isShowTitle">{{q.title}}</h3>
+                <small>
+                    <div ng-repeat="item in sel.items track by $index">
+                        <small style=" margin-right: 10px; color: lightgrey "><span
+                                style="width: 30%">{{::item.name}}</span>
+                            {{::item.value}}
+                        </small>
+                    </div>
+                </small>
+            </div>
+
+            <!--COMPUTED = 12,-->
+            <div ng-switch-when="12">
+                <h4 ng-show="q.isShow()" title="{{::q}}"> {{::q.title}} : {{::q.answer}} </h4>
+            </div>
+
+
+            <!--NONE = 0,-->
+            <div ng-switch-when="0"></div>
+            <!--HOLDER = 14 -->
+            <div ng-switch-when="14">
+            </div>
+
+
+            <div ng-switch-default="">
+                <h4 ng-show="::sel" title="{{q}}" style="color: indianred"> ... NOT handled type
+                    ({{::sel.type}})... </h4>
+            </div>
+
+
+        </div>
+
+
+        <!-- not need so subQ expander  EXPANDER = 15 -->
+        <div ng-if=" q.getSubQuestions().length > 0 " layout="column">
+            <div style="margin-left: 3px"
+                 ng-repeat="q in q.getSubQuestions()">
+                <div ng-include="'src/idv2/view/part/question.html'"></div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
