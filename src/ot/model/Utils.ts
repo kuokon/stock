@@ -1,34 +1,34 @@
 
 module MyApp {
 
-
-    export class Log extends Base {
-
-        Log: string;
-
-        UpdateBy: number;
-        UpdateAt : Date = Helper.getLocalTime();
-
-
-        static fromJson( json): Log {
-
-            let res = new Log();
-
-            res.Id = json.Id;
-            res.Name = json.log;
-            res.Log = json.log;
-            res.UpdateAt = new Date(json.UpdateAt);
-            res.UpdateBy = json.UpdateBy;
-
-            return res;
-        }
-
-        match(filter:string) : boolean {
-            let str =  this.UpdateBy + this.Log;
-
-            return str.indexOf(filter) >=0;
-        }
-    }
+    //
+    // export class Log extends Base {
+    //
+    //     Log: string;
+    //
+    //     UpdateBy: number;
+    //     UpdateAt : Date = Helper.getLocalTime();
+    //
+    //
+    //     static fromJson( json): Log {
+    //
+    //         let res = new Log();
+    //
+    //         res.Id = json.Id;
+    //         res.Name = json.log;
+    //         res.Log = json.log;
+    //         res.UpdateAt = new Date(json.UpdateAt);
+    //         res.UpdateBy = json.UpdateBy;
+    //
+    //         return res;
+    //     }
+    //
+    //     match(filter:string) : boolean {
+    //         let str =  this.UpdateBy + this.Log;
+    //
+    //         return str.indexOf(filter) >=0;
+    //     }
+    // }
 
 
     export class Infolet extends Base {

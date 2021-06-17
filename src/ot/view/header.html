@@ -38,43 +38,7 @@
             <i class="fa fa-superpowers"></i>
         </md-button>
 
-        <h3 ng-show="!isInspector " style="margin-right: 10px; ">
-            <!--            <span ng-show="svr.config.ItemCodeTerm == 1" style="background: darkseagreen ; padding: 3px">新 基期</span>-->
-            <span ng-show="svr.config.ItemCodeTerm == 0" style="background: lightsalmon ; padding: 3px">舊 基期 </span>
-        </h3>
 
-        <h3 ng-init="isDateClicked=false" ng-click="isDateClicked = true  "
-
-            ng-style="{background : svr.config.getDateBackgroundColor()}"
-            style="min-width: 60px; padding: 3px ; cursor: pointer">
-
-            <span ng-show="!isInspector">{{svr.getConfigYear()}} 年</span>
-            <span>{{svr.getConfigMonth()}} 月</span>
-
-
-            <md-datepicker
-                    xng-show="false"
-
-                    ng-if="!isInspector"
-                    style="max-width: 1px; padding: 0; margin: 0; color: grey; height: 2px; width: 2px"
-
-                    ng-model="selectedMonth" md-placeholder="Enter date"
-                    md-hide-icons="all"
-
-                    md-mode="month"
-                    md-min-date="svr.config.minDate"
-                    md-max-date="svr.config.maxDate"
-                    md-current-view="year"
-                    ng-change="svr.config.selectYearMonth(selectedMonth)"
-                    md-is-open="isDateClicked">
-            </md-datepicker>
-
-        </h3>
-
-
-        <small style="width: 60px; font-size: small"> {{svr.getCurrUser().Name_E}}
-            <span ng-click="svr.onVersionClicked()" style="margin-right: 3px">| v{{svr.getVersion()}} </span>
-        </small>
 
         <h3 ng-show="svr.networkMgr.isNetworkError()" ng-click="svr.networkMgr.onNetworkOk(); svr.doSyncTasks();"
             style="background: orangered;">

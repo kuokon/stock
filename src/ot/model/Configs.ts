@@ -25,10 +25,16 @@ module MyApp {
         // @ts-ignore
         constructor(private $routeProvider: ng.route.IRouteProvider,) {
 
-            // console.info('config router');
+
+            $routeProvider.when('/option', {
+                templateUrl: 'src/ot/view/option/list.html',
+                reloadOnSearch: false,
+                controller: 'OptionController as vm'
+            });
+
 
             $routeProvider.when('/admin/log', {
-                templateUrl: 'src/view/admin/log.html',
+                templateUrl: 'src/ot/view/admin/log.html',
                 reloadOnSearch: false,
                 controller: 'AdminController as vm'
             });

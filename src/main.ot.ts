@@ -24,22 +24,6 @@ module MyApp {
             // console.info('skipped click hijacking');
         })
 
-        .config(function ($mdDateLocaleProvider) {
-            $mdDateLocaleProvider.formatDate = function (date) {
-                //return moment(date).format('YYYY-MM-DD');
-
-                var day = date.getDate();
-                var monthIndex = date.getMonth();
-                var year = date.getFullYear();
-
-                return day + '/' + (monthIndex + 1) + '/' + year;
-
-                // return  year   + '/' + (monthIndex + 1) + '/' + day;
-
-
-            };
-        })
-
 
         .config(function ($mdInkRippleProvider) {
             $mdInkRippleProvider.disableInkRipple();
@@ -61,7 +45,7 @@ module MyApp {
         })
 
         .controller('AdminController', AdminController)
-        // .controller('MainController', MainController)
+        .controller('OptionController', OptionController)
 
 
         .service('DbService', DbService)
@@ -84,7 +68,7 @@ module MyApp {
         );
 
 
-    ;
+
 
 
 }

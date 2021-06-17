@@ -7,7 +7,7 @@ module MyApp {
     export class AdminController {
 
         static $inject = ['DbService', '$routeParams', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', '$mdBottomSheet'];
-        title: string = 'Info';
+        title: string = 'Admin';
         svr: DbService;
 
         constructor(private DbService: DbService,
@@ -26,6 +26,27 @@ module MyApp {
     }
 
 
+
+    export class OptionController {
+
+        static $inject = ['DbService', '$routeParams', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', '$mdBottomSheet'];
+        title: string = 'Option';
+        svr: DbService;
+
+        constructor(private DbService: DbService,
+                    $routeParams: any,
+                    private $mdSidenav: ng.material.ISidenavService,
+                    private $mdToast: ng.material.IToastService,
+                    private $mdDialog: ng.material.IDialogService,
+                    private $mdMedia: ng.material.IMedia,
+                    private $mdBottomSheet: ng.material.IBottomSheetService) {
+
+            this.svr = DbService;
+
+        }
+
+
+    }
 
 }
 

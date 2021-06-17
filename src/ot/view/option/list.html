@@ -1,0 +1,132 @@
+<div ng-init="svr.title = vm.title  ;vm.prevPage = '/admin'"
+     ng-include="'src/ot/view/header.html'"></div>
+
+<div        ng-include="'src/ot/view/option/sub-header.html'"></div>
+
+<!--<md-virtual-repeat-container md-orient-horizontal="">-->
+<!--    <div md-virtual-repeat="i in items" md-item-size="20">Hello {{i}}!</div>-->
+<!--</md-virtual-repeat-container>-->
+
+
+<!--        <md-virtual-repeat-container style="width: 800px">-->
+<md-table-container>
+
+    <table md-table md-virtual-repeat-container style="height: 800px">
+        <thead md-head>
+        <tr md-row>
+
+            <th md-column style="width: 70px; ">
+                <md-input-container class="box-none" style="background: lightpink">
+                    <label class="fa fa-search"></label>
+                    <input ng-model="vm.filter" type="text"
+                           id="search"
+                           ng-model-options="{ allowInvalid: true, debounce: 500 }">
+                </md-input-container>
+
+            </th>
+
+
+            <!--<th md-column style="width: 50px;"><i class="fa fa-user-o"></i></th>-->
+
+            <th md-column style="width: 40px;">數量#</th>
+
+
+            <th md-column style="width: 150px;"> 商戶 ({{ ::vm.getAllOutlets().length}})
+                <button class="md-button md-fab md-mini md-primary " ng-click="vm.showAddEditor()"><i
+                        class="fa fa-plus"></i></button>
+            </th>
+
+            <th md-column style="width: 85px;"><i class="fa fa-phone"></i></th>
+            <th md-column>地址</th>
+
+            <th md-column>
+                聯絡人
+
+                <span class="flex"></span>
+                <span flex="">
+                    <button class="md-button   md-primary md-raised"
+                            ng-click="svr.reportMgr.makeOutletAssignmentReport()"><i class="fa fa-file-excel-o"> Assignment</i></button>
+                </span>
+
+                <!--<button class="md-raised md-primary md-hue-3   md-button" type="button"  ng-click="svr.goTo('/outlet/import')">-->
+                <!--<i class="fa fa-upload   ng-scope">  導入 <i class="fa fa-file-excel-o"></i>  </i>-->
+                <!--</button>-->
+            </th>
+            <th md-column> 內部 備註</th>
+            <th md-column style="width: 100px;">
+                <button class="md-button   md-primary md-raised" ng-show="svr.getCurrUser().isAdmin()"
+                        ng-click="svr.goTo('outlet/import')"><i class="fa fa-upload"> Import </i></button>
+            </th>
+
+        </tr>
+        </thead>
+        <tbody md-body class="md-inline-form">
+
+        <!--            <tr md-row ng-repeat="e in vm.getOutlets() track by $index ">-->
+        <tr md-row md-virtual-repeat="e in vm.getOutlets()  "
+            xng-init="total = svr.templateMgr.getByOutlet(e.OutletCode).length; active = svr.templateMgr.getActiveTemplates(e.OutletCode).length">
+
+            <td md-cell> {{ e.OutletCode}}</td>
+            <!--<td md-cell style="color: grey"><span  ng-repeat="u in e._owners">{{u.Name}} </span></td>-->
+            <td md-cell>
+                <span >{{svr.templateMgr.getByOutlet(e.OutletCode).length}}
+<!--                    <span ng-if="total!=active">| {{active}}</span>-->
+                </span>
+            </td>
+
+            <td md-cell >
+                <md-input-container style=" margin: 0 ;width: 100% ">
+                    <input ng-change="e.onChange()" ng-model="e.Name" type="text">
+                </md-input-container>
+            </td>
+            <td md-cell>
+                <md-input-container style=" margin: 0 ; ">
+                    <input ng-change="e.onChange()" ng-model="e.Tel" type="text">
+                </md-input-container>
+            </td>
+
+            <td md-cell>
+                <md-input-container style=" margin: 0 ;width: 100% ">
+                    <input ng-change="e.onChange()" ng-model="e.Address" type="text">
+
+                </md-input-container>
+
+            </td>
+
+
+            <td md-cell>
+                <md-input-container style=" margin: 0; width: 100%">
+                    <input ng-change="e.onChange()" ng-model="e.Contact" type="text">
+                </md-input-container>
+
+            </td>
+
+            <td md-cell>
+                <md-input-container style=" margin: 0; width: 100%">
+                    <input ng-change="e.onChange()" ng-model="e.Remark2" type="text">
+                </md-input-container>
+
+            </td>
+
+
+            <td md-cell>
+
+                <button ng-show="e._dirty "
+                        class="md-raised md-warn md-button" type="button"
+                        ng-click="svr.doUpdateOutlet(e)">
+                    保存
+                </button>
+
+            </td>
+
+        </tr>
+
+
+        </tbody>
+
+
+    </table>
+</md-table-container>
+<!--                    </md-virtual-repeat-container>-->
+
+

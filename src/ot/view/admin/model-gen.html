@@ -1,7 +1,7 @@
-<div ng-init="svr.title = vm.title + '| 導入' +' | '+  svr.getConfigYear() +'年 '+ svr.getConfigMonth() +'月' ;vm.prevPage ='..'"
-     ng-include="'src/view/header.html'"></div>
+<div ng-init="svr.title = vm.title  ;vm.prevPage ='/option'"
+     ng-include="'src/ot/view/header.html'"></div>
 <div
-        ng-include="'src/view/admin/sub-header.html'"></div>
+        ng-include="'src/ot/view/admin/sub-header.html'"></div>
 
 
 <div layout="column" ng-init="rawText = 'Obj| A:int; B:str;  C:str; D:int;'">

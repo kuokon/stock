@@ -108,7 +108,7 @@ module MyApp {
             this.currUser = user;
 
             let basicAuth = user ? 'Basic ' + window.btoa(user.Id + ':' + passwd) : null;
-            this.svr.api.$http.defaults.headers.common['Authorization'] = basicAuth;
+            // this.svr.api.$http.defaults.headers.common['Authorization'] = basicAuth;
 
 
             let auth_key = this.appID + '-basic-auth';
