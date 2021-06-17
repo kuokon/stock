@@ -147,32 +147,6 @@ module MyApp {
             this.listUpdated();
         }
 
-        public doUploadAll(): void {
-
-
-            // then, sync all local-tmp infolets
-            let tmpTasks = this.getAll();
-
-
-            if (tmpTasks.length > 0) {
-                this._svr.api.httpPostInfolets(this._svr.getCurrUserId(), tmpTasks).then(res => {
-
-
-                    this.removeAll();
-
-                    let msg = this.TAG + ' infolet synced : ' + tmpTasks.length + ', store: ' + this.getAll().length;
-                    console.info(msg);
-                    // this._svr.doLogServerMsg(msg);
-
-                }).catch(e => {
-
-                    let msg = this.TAG + ' failed to sync infolets : ' + tmpTasks.length + ', tmp: ' + this.getAll().length;
-                    console.info(msg);
-                    this._svr.doLogServerMsg(msg);
-
-                })
-            }
-        }
 
         public hasPending(): boolean {
             return this.getAll().length > 0;
@@ -223,7 +197,7 @@ module MyApp {
             if (item.Id > 0) {
                 let msg = 'infolet already in store? id: ' + item.Id;
                 console.warn(msg);
-                this._svr.doLogServerMsg(msg);
+                // this._svr.doLogServerMsg(msg);
             }
 
             item.Id = this._maxId++;
@@ -250,7 +224,7 @@ module MyApp {
                 let msg = this.TAG + ' infolet not found on local-storage for key' + key;
                 console.info(msg);
 
-                this._svr.doLogServerMsg(msg);
+                // this._svr.doLogServerMsg(msg);
             }
 
             return res;

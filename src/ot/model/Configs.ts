@@ -35,22 +35,22 @@ module MyApp {
 
 
             $routeProvider.when('/admin/modelgen', {
-                templateUrl: 'src/view/admin/model-gen.html',
+                templateUrl: 'src/ot/view/admin/model-gen.html',
                 reloadOnSearch: false,
                 controller: 'AdminController as vm'
             });
 
             $routeProvider.when('/admin', {
-                templateUrl: 'src/view/admin/list.html',
+                templateUrl: 'src/ot/view/admin/list.html',
                 reloadOnSearch: false,
                 controller: 'AdminController as vm'
             });
 
             $routeProvider.otherwise({
                 // redirect: '/user'
-                templateUrl: 'src/view/user/list.html',
+                templateUrl: 'src/ot/view/admin/list.html',
                 reloadOnSearch: false,
-                controller: 'UserController as vm'
+                controller: 'AdminController as vm'
 
             })
 

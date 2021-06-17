@@ -64,7 +64,6 @@ module MyApp {
         // .controller('MainController', MainController)
 
 
-        // .service('ApiService', ApiService)
         .service('DbService', DbService)
 
         .run(["$rootScope", "$location", 'DbService',

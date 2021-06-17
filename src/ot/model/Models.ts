@@ -66,12 +66,6 @@ module MyApp {
 
         }
 
-        public getUserInfo(): string {
-
-            let u = this.svr.getCurrUser();
-            return u.Name + '-' + u.Id;
-            //return u.Name + '-' + u.Id + '-' + u.Name_E;
-        }
 
         public getTimeInfo(): string {
             return this.getConfigYear() + '-' + this.getConfigMonth();
@@ -126,13 +120,6 @@ module MyApp {
             this.$localStorage[auth_key] = basicAuth;
         }
 
-        public selectYearMonth(selected: Date) {
-            console.info('selected : ' + JSON.stringify(selected));
-            let year = selected.getFullYear();
-            let month = selected.getMonth() + 1;
-            this.setConfigYearMonth(year, month);
-        }
-
         public selectPaperReportDate(d: Date) {
             this.paperReportDate = d;
         }
@@ -163,68 +150,6 @@ module MyApp {
             }
         }
 
-        setConfigYearMonth(year, month, force?: boolean): boolean {
-
-            let date = new Date();
-
-            if (year == this.getConfigYear() && month == this.getConfigMonth()) {
-                console.info('same as configured year/month, skipped ');
-                return;
-            }
-
-
-            if (year || month) {
-                if (!force) {
-                    if (!confirm('Are you sure to change default to : ' + year + '年 ' + month + ' 月 ? ')) {
-                        return
-                    }
-                }
-            }
-
-            year = year || date.getFullYear();
-            month = month || date.getMonth() + 1;
-
-            if (year && year >= 2015 && year < 2015 + 30 && month >= 1 && month <= 12) {
-
-                if (year != this.getConfigYear() || month != this.getConfigMonth()) {
-
-                    this.configYear = year;
-                    this.configMonth = month;
-
-                    let year_key = Config.APP_ID + '-config-year';
-                    let month_key = Config.APP_ID + '-config-month';
-
-                    if (this.isConfigDateSameAsActual()) {
-                        // set the curr, clear all;
-                        delete this.$localStorage[year_key];
-                        delete this.$localStorage[month_key];
-                    } else {
-
-                        // if it's other days and not inspector
-                        let user = this.svr.getCurrUser();
-                        // if (!user.isInspector()) {
-                        this.$localStorage[year_key] = year;
-                        this.$localStorage[month_key] = month;
-                        // }
-                    }
-
-                    this.svr.clearAllData();
-                    this.svr.doRefreshData();
-                    return true;
-
-                } else {
-                    console.info(' skipped, same year/month: ' + year + '/' + month);
-                }
-
-            } else {
-                let msg = 'Invalid date :' + year + '|' + month;
-                console.info(msg);
-                alert(msg);
-            }
-
-            return false
-
-        };
 
         public getMonthOptions(): number[] {
             return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -541,7 +466,7 @@ module MyApp {
             this._delayedSyncTask = this.$timeout(() => {
 
                 console.info(this.delaySeconds + 's  times up, really do the sync ');
-                this.svr.doSyncTasks();
+                // this.svr.doSyncTasks();
 
             }, this.delaySeconds * 1000)
 

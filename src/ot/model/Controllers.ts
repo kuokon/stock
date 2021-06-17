@@ -6,11 +6,11 @@ module MyApp {
 
     export class AdminController {
 
-        static $inject = ['DbService', 'ApiService', '$routeParams', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', '$mdBottomSheet'];
+        static $inject = ['DbService', '$routeParams', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', '$mdBottomSheet'];
         title: string = 'Info';
         svr: DbService;
 
-        constructor(private DbService: DbService, private Api: ApiService,
+        constructor(private DbService: DbService,
                     $routeParams: any,
                     private $mdSidenav: ng.material.ISidenavService,
                     private $mdToast: ng.material.IToastService,
