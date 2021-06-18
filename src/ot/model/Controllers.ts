@@ -50,6 +50,14 @@ module MyApp {
             return Option.parseRaw(this.svr, raw);
         }
 
+        onCopyDataToClipboard(pr:ParseResult ) : void {
+
+            let res :Option[] = pr.parsed;
+            let buf = JSON.stringify(res);
+            Helper.copyTxtToClipboard(this.svr, buf);
+
+        }
+
     }
 
 }

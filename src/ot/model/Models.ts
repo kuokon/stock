@@ -244,7 +244,6 @@ module MyApp {
             return null;
         }
 
-        // static fromJson(json): Base ;
 
         toString() {
             //return '[' + this.constructor.name + ', id:' + this.Id + ', name: ' + this.Name + ' ]';
@@ -283,7 +282,7 @@ module MyApp {
 
         }
 
-        static fromJson(json): User {
+        static fromJson(svr: DbService, json): User {
 
             return new User(json.Id, json.Name, json.Name_E, json.Role, json.Status);
         }
@@ -338,6 +337,40 @@ module MyApp {
         onChange() {
             this._dirty = true;
         }
+    }
+
+    declare var OPTIONS_JSON;
+
+    export class Mgr {
+
+
+        public options: Cache<Option> = new Cache<Option>();
+        private _svr: DbService;
+
+        constructor(svr: DbService) {
+            this._svr = svr;
+
+
+            this.initKV();
+        }
+
+        initKV(): void {
+            this.options.init(this._svr, Option.name, Option.fromJson, OPTIONS_JSON);
+        }
+        public clearAll(): void {
+
+            this.options.clearAll();
+        }
+        //
+        //
+        // init(svr: DbService, res) {
+        //
+        //     this.clearAll();
+        //
+        //
+        //
+        //
+        // }
     }
 
 
@@ -653,6 +686,36 @@ module MyApp {
             return obj === undefined || obj === null || ('' + obj).trim() === '';
         }
 
+        public static copyTxtToClipboard(svr: DbService, text: string): void {
+
+            // https://www.codegrepper.com/code-examples/javascript/how+to+copy+to+clipboard+in+angularjs+w3schools
+
+            // Since Async Clipboard API is not supported for all browser!
+
+            var textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                var successful = document.execCommand('copy');
+                var msg = successful ? 'successful' : 'unsuccessful';
+                console.log('Copying text command was ' + msg);
+
+
+                svr.UiInfo('copied ok')
+
+            } catch (err) {
+                console.log('Oops, unable to copy');
+
+                svr.UiInfo('copied failed! ')
+            }
+
+            document.body.removeChild(textArea);
+
+        }
+
         public static copyToClipboard(svr: DbService, docId): void {
 
 
@@ -933,7 +996,7 @@ module MyApp {
 
             this.listUpdated();
 
-            console.info(TmpStore.TAG + ' saved : ' + task.Id );
+            console.info(TmpStore.TAG + ' saved : ' + task.Id);
         }
 
 
@@ -943,13 +1006,13 @@ module MyApp {
             let res: Option = null;
             if (jsonStr) {
                 let json = JSON.parse(jsonStr);
-                res = Option.fromJson(json);
+                res = Option.fromJson(this._svr, json);
                 // console.info(TmpStore.TAG + ' unpacking: ' + jsonStr );
                 // console.info(TmpStore.TAG + ' unpacked: ' + JSON.stringify(res) );
                 res._dirty = true;
 
                 // let tlet0 = res.getTasklets()[0];
-                console.info(TmpStore.TAG + ' load id: ' + res.Id );
+                console.info(TmpStore.TAG + ' load id: ' + res.Id);
 
             } else {
                 let msg = TmpStore.TAG + ' task not found on local-storage for key' + key;
@@ -1039,6 +1102,8 @@ module MyApp {
         public Remark: string = '';
         public UpdateBy: number = 0;
         public UpdateAt: Date;
+
+
         public Name: string = '';
         public StockTicker: string = '';
         public DateBought: string = '';
@@ -1049,7 +1114,7 @@ module MyApp {
         public P_C: string = '';
         public _dirty: boolean = true;
 
-        static fromJson(json): Option {
+        static fromJson(svr: DbService, json): Option {
             let e = new Option();
             e._dirty = false;
             e.Id = json.Id;
@@ -1112,15 +1177,15 @@ module MyApp {
             let txts = line.split('\t');
 
             // 代碼
-            let sym = txts[0]|| '';  // ALB201127C240000.HK
-            let name = txts[1]|| ''; // 阿里 201127 240.00 購
+            let sym = txts[0] || '';  // ALB201127C240000.HK
+            let name = txts[1] || ''; // 阿里 201127 240.00 購
 
             // 方向
             let direction = txts[2] || '';
 
 
             // 交易狀態
-            let status =  txts[5] || '';
+            let status = txts[5] || '';
 
             // 已成交@均價
             let executed = txts[6] || '';
@@ -1139,7 +1204,7 @@ module MyApp {
             let isOption = numExecuted.indexOf('張') >= 0;
             let isSkipped = status == '已撤單';
 
-            if(isSkipped) {
+            if (isSkipped) {
                 return res;
             }
 
@@ -1164,7 +1229,7 @@ module MyApp {
                 res.Premium = parseInt(priceExecuted);
                 res.NumShareExposed = parseInt(amtExecuted) / res.Premium / Math.abs(res.NumContract);
 
-                if(!(direction == '沽空' || direction == '買入' )) {
+                if (!(direction == '沽空' || direction == '買入')) {
                     console.warn(' option not buy/sell  direction : ' + direction);
 
                 }
@@ -1251,7 +1316,7 @@ module MyApp {
         }
 
 
-        public init(name: string, maker, jsons) {
+        public init(svr: DbService, name: string, maker, jsons) {
 
             // let res = new Cache<T>();
             this.clearAll();
@@ -1261,7 +1326,7 @@ module MyApp {
                 let json = jsons[i];
 
                 //let e: T =   T.fromJson2(json);
-                let e: T = maker(json);
+                let e: T = maker(svr, json);
                 this.add(e);
             }
             console.info(' ' + name + ' :' + this._all.length);

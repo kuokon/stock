@@ -3,7 +3,7 @@
 module MyApp {
 
     angular.module('MyApp', ['ngMaterial', 'ngSanitize', 'ngMessages',
-        // 'md.data.table',
+        'md.data.table',
         // 'ngTouch',
         'ngRoute',
         // 'angular-loading-bar',
@@ -62,7 +62,7 @@ module MyApp {
 
                 $rootScope._isDev = host == 'localhost';
 
-                svr.goTo('/option/import');
+                svr.goTo('/option');
 
             }]
         );

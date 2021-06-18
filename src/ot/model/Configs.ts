@@ -27,7 +27,7 @@ module MyApp {
 
 
             $routeProvider.when('/option', {
-                templateUrl: 'src/ot/view/option/import.html',
+                templateUrl: 'src/ot/view/option/list.html',
                 reloadOnSearch: false,
                 controller: 'OptionController as vm'
             });

@@ -28,12 +28,13 @@
             </md-input-container>
 
         </div>
-        <div style="width: 55%">
+        <div style="width: 55%" >
 
             <md-table-container>
 
 
-                <h2> {{res.msg}} </h2>
+                <h3 > {{res.msg}} </h3>
+                <i class="fa fa-clipboard" ng-click="vm.onCopyDataToClipboard(res) "></i>
 
                 <table md-table style="text-align: center">
                     <thead md-head>

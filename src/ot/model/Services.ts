@@ -14,6 +14,7 @@ module MyApp {
 
 
         public config: Config = null;
+        public mgr: Mgr;
         public helper: Helper = Helper;
         public tmpStore: TmpStore;
 
@@ -33,6 +34,7 @@ module MyApp {
         ) {
 
             this.config = new Config(this, window.localStorage);
+            this.mgr = new Mgr(this);
 
         }
 
