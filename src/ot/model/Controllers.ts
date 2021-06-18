@@ -50,10 +50,17 @@ module MyApp {
             return Option.parseRaw(this.svr, raw);
         }
 
-        onCopyDataToClipboard(pr:ParseResult ) : void {
+        getSubheaders() : NV[] {
+            return [
+                {name: 'main', value: '/'}
+                , {name: 'import', value: '/option/'}
+            ]
+        }
 
-            let res :Option[] = pr.parsed;
-            let buf = JSON.stringify(res);
+        onCopyDataToClipboard(options:Option[] ) : void {
+
+            //let res :Option[] = pr.parsed;
+            let buf = JSON.stringify(options, Helper.json_replacer);
             Helper.copyTxtToClipboard(this.svr, buf);
 
         }

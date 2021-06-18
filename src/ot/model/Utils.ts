@@ -1,6 +1,42 @@
 
 module MyApp {
 
+    export interface NV {
+        name: string,
+        value: string,
+    }
+
+
+    export class ParseResult {
+
+        skipped: string[] = [];
+        failed: string[] = [];
+        duplicates: any [] = [];
+        msg: string = null;
+        parsed: any[] = [];
+
+        public clear() {
+            this.parsed = [];
+            this.failed = [];
+            this.skipped = [];
+        }
+
+        public copyDups(): void {
+            this.parsed.push.apply(this.parsed, this.duplicates);
+        }
+    }
+
+    export class ImportUtil {
+
+        public static onParseTemplate(svr: DbService, txt: string): ParseResult {
+
+            return Option.parseRaw(svr, txt);
+
+        }
+    }
+
+
+
     //
     // export class Log extends Base {
     //

@@ -1,5 +1,6 @@
 module MyApp {
 
+
     export class Config {
 
         public static APP_ID: string = 'stock';
@@ -235,6 +236,7 @@ module MyApp {
     }
 
 
+
     export abstract class Base {
 
         public Id = -1;
@@ -246,9 +248,10 @@ module MyApp {
 
 
         toString() {
-            //return '[' + this.constructor.name + ', id:' + this.Id + ', name: ' + this.Name + ' ]';
-            return JSON.stringify(this);
+            return JSON.stringify(this, Helper.json_replacer);
         }
+
+
 
         public isNew(): boolean {
             return !(this.Id >= 0);
@@ -355,8 +358,13 @@ module MyApp {
         }
 
         initKV(): void {
+
             this.options.init(this._svr, Option.name, Option.fromJson, OPTIONS_JSON);
+            this.options.doSort( (a:Option, b:Option) => {
+                return a._dayToExp - b._dayToExp;
+            })
         }
+
         public clearAll(): void {
 
             this.options.clearAll();
@@ -599,7 +607,7 @@ module MyApp {
         }
 
         public static json_replacer = (key, value) => {
-            if (key.startsWith('_')) {
+            if (key.startsWith('_#')) {
                 return '_#' + key
 
             } else {
@@ -1042,34 +1050,6 @@ module MyApp {
         }
     }
 
-    export class ParseResult {
-
-        skipped: string[] = [];
-        failed: string[] = [];
-        duplicates: any [] = [];
-        msg: string = null;
-        parsed: any[] = [];
-
-        public clear() {
-            this.parsed = [];
-            this.failed = [];
-            this.skipped = [];
-        }
-
-        public copyDups(): void {
-            this.parsed.push.apply(this.parsed, this.duplicates);
-        }
-    }
-
-    export class ImportUtil {
-
-        public static onParseTemplate(svr: DbService, txt: string): ParseResult {
-
-            return Option.parseRaw(svr, txt);
-
-        }
-    }
-
 
     export class Tmp extends Base {
 
@@ -1093,7 +1073,7 @@ module MyApp {
 
     export class Option extends Base {
 
-        static str = 'Option| Name:str; StockTicker:str; DateBought:str; DateExp: str;  Premium:int; NumContract:int; NumShareExposed; P_C:str; ';
+        static str = 'Option| Name:str; Strike:num; StockTicker:str; DateBought:str; DateExp: str;  Premium:int; AmtCost:int; NumContract:int; NumShareExposed; P_C:str; ';
 
 
         // js --
@@ -1105,14 +1085,42 @@ module MyApp {
 
 
         public Name: string = '';
+        public Strike: number = 0;
         public StockTicker: string = '';
         public DateBought: string = '';
         public DateExp: string = '';
         public Premium: number = 0;
+        public AmtCost: number = 0;
         public NumContract: number = 0;
         public NumShareExposed: number = 0;
         public P_C: string = '';
+
+
         public _dirty: boolean = true;
+        public _dayToExp: number;
+
+        //
+        // toJSON(): string {
+        //     return JSON.stringify(this, Helper.json_replacer);
+        // }
+
+        init() {
+            if(this.DateExp.indexOf('-') <0){
+                let str = this.DateExp;
+                // str = '20201127'
+                this.DateExp = str.substr(0,4) + '-' + str.substr(4,2) + '-' + str.substr(6);
+            }
+            let datExp = moment(this.DateExp);
+            let today = moment();
+
+            // Helper.compareDate()
+            this._dayToExp = datExp.diff(today, 'days');
+
+
+        }
+
+
+
 
         static fromJson(svr: DbService, json): Option {
             let e = new Option();
@@ -1123,13 +1131,18 @@ module MyApp {
             e.UpdateBy = json.UpdateBy;
             e.UpdateAt = json.UpdateAt;
             e.Name = json.Name;
+            e.Strike = json.Strike;
             e.StockTicker = json.StockTicker;
             e.DateBought = json.DateBought;
             e.DateExp = json.DateExp;
             e.Premium = json.Premium;
+            e.AmtCost = json.AmtCost;
+
             e.NumContract = json.NumContract;
             e.NumShareExposed = json.NumShareExposed;
             e.P_C = json.P_C;
+
+            e.init();
             return e;
         }
 
@@ -1211,12 +1224,17 @@ module MyApp {
 
             if (num && isOption) {
 
+                // sym = 'ALB201127C240000.HK'
+
                 res = new Option();
-                res.Name = name.substr(0, 4) + name.substr(name.lastIndexOf(' '));
+                res.Name = name.substr(0, 2) ;//+ name.substr(name.lastIndexOf(' '));
                 res.DateBought = datetime;
 
                 // ALB201127C240000.HK
-                res.DateExp = '20' + sym.substr(3, 6);
+                res.Strike = parseFloat(sym.substr(10, 3));
+
+                // ALB201127C240000.HK
+                res.DateExp = '20' + sym.substr(3, 2) + '-' + sym.substr(5, 2) + '-' + sym.substr(7, 2);
 
                 res.NumContract = num;
 
@@ -1226,8 +1244,13 @@ module MyApp {
                     console.warn(' P_C ' + res.P_C);
                 }
 
-                res.Premium = parseInt(priceExecuted);
-                res.NumShareExposed = parseInt(amtExecuted) / res.Premium / Math.abs(res.NumContract);
+                res.Premium = parseFloat(priceExecuted.replace(',', ''));
+                res.AmtCost = parseFloat(amtExecuted.replace(',', ''));
+                res.NumShareExposed = Math.round( res.AmtCost / res.Premium / Math.abs(res.NumContract) );
+
+                if(res.NumShareExposed < 0) {
+                    console.warn('#shares : exe ' + parseInt(amtExecuted) + ', premium: ' + res.Premium + ', num' + Math.abs(res.NumContract) )
+                }
 
                 if (!(direction == '沽空' || direction == '買入')) {
                     console.warn(' option not buy/sell  direction : ' + direction);
@@ -1249,6 +1272,11 @@ module MyApp {
 
             return res;
 
+        }
+
+
+        isExpire() : boolean {
+            return this._dayToExp < 0;
         }
 
 

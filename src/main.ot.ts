@@ -62,7 +62,8 @@ module MyApp {
 
                 $rootScope._isDev = host == 'localhost';
 
-                svr.goTo('/option');
+                svr.goTo('/option/');
+                // svr.goTo('/option/import');
 
             }]
         );
