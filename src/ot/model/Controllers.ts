@@ -47,7 +47,9 @@ module MyApp {
 
 
         onParse(raw) : ParseResult {
-            return Option.parseRaw(this.svr, raw);
+
+            let isHK = false;
+            return Import.parseRaw(this.svr, raw, isHK);
         }
 
         getSubheaders() : NV[] {

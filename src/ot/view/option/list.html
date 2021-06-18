@@ -40,10 +40,10 @@
         </thead>
         <tbody md-body class="md-inline-form">
 
-        <tr md-row ng-repeat="e in svr.mgr.options.getAll() " ng-show="isShowExp || !e.isExpire()">
+        <tr md-row ng-repeat="e in svr.mgr.options.getAll() " ng-show="isShowExp || !e.isExpired()">
 
             <td md-cell></td>
-            <td md-cell> {{e.StockTicker}}  {{ e.Name}} - {{e.Strike}} - {{e.P_C}}</td>
+            <td md-cell> {{e.StockTicker}}  {{ e.Name}}  {{e.Strike}}-{{e.P_C}}</td>
 <!--            <td md-cell> {{ e.P_C}}</td>-->
 <!--            <td md-cell> {{ e.NumContract}}</td>-->
             <td md-cell>  {{ e.NumContract}} ${{ e.Premium}}</td>

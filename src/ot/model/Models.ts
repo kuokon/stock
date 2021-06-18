@@ -1099,6 +1099,21 @@ module MyApp {
         public _dirty: boolean = true;
         public _dayToExp: number;
 
+
+        getColor(): string {
+
+            let day = this._dayToExp;
+
+            if(this.isExpired()){
+                return 'lightgrey';
+            }
+
+            if(day < 10){
+                return 'light'
+            }
+
+        }
+
         //
         // toJSON(): string {
         //     return JSON.stringify(this, Helper.json_replacer);
@@ -1146,136 +1161,11 @@ module MyApp {
             return e;
         }
 
-        static parseRaw(svr: DbService, txt: string): ParseResult {
-
-            let res = new ParseResult();
-
-            let options: Option[] = [];
-
-            if (txt === null || txt === undefined) {
-                let msg = 'no data to import';
-                console.warn(msg);
-                txt = '';
-                alert(msg);
-                return;
-            }
-
-            let lines = txt.split('\n');
-            let warnings = [];
-
-            for (let i = 0, len = lines.length; i < len; i++) {
-
-                let line = lines[i];
-
-                if (Helper.isBlank(line)) {
-                    continue;
-                }
 
 
-                let obj = Option.fromCSV(line);
-                if (obj) {
-                    res.parsed.push(obj);
-                }
-
-            }
-
-            return res;
-        }
-
-        // 代碼	名稱	方向	訂單價格	訂單數量	交易狀態	已成交@均價	落盤時間	訂單類型	期限	盤前競價	觸發價	沽空	成交數量	成交價格	成交金額	對手經紀	落盤時間	備註
-        static fromCSV(line): Option {
-
-            let res: Option = null;
-
-            let txts = line.split('\t');
-
-            // 代碼
-            let sym = txts[0] || '';  // ALB201127C240000.HK
-            let name = txts[1] || ''; // 阿里 201127 240.00 購
-
-            // 方向
-            let direction = txts[2] || '';
 
 
-            // 交易狀態
-            let status = txts[5] || '';
-
-            // 已成交@均價
-            let executed = txts[6] || '';
-
-            // 落盤時間
-            let datetime = txts[7] || '';
-
-            // 成交數量
-            let numExecuted = txts[13] || '';
-            let priceExecuted = txts[14] || '';
-            let amtExecuted = txts[15] || '';
-
-
-            // check if it's option and got executed
-            let num = parseInt(numExecuted);
-            let isOption = numExecuted.indexOf('張') >= 0;
-            let isSkipped = status == '已撤單';
-
-            if (isSkipped) {
-                return res;
-            }
-
-
-            if (num && isOption) {
-
-                // sym = 'ALB201127C240000.HK'
-
-                res = new Option();
-                res.Name = name.substr(0, 2) ;//+ name.substr(name.lastIndexOf(' '));
-                res.DateBought = datetime;
-
-                // ALB201127C240000.HK
-                res.Strike = parseFloat(sym.substr(10, 3));
-
-                // ALB201127C240000.HK
-                res.DateExp = '20' + sym.substr(3, 2) + '-' + sym.substr(5, 2) + '-' + sym.substr(7, 2);
-
-                res.NumContract = num;
-
-                // ALB201127C240000.HK
-                res.P_C = sym.substr(9, 1);
-                if (!(res.P_C == 'P' || res.P_C == 'C')) {
-                    console.warn(' P_C ' + res.P_C);
-                }
-
-                res.Premium = parseFloat(priceExecuted.replace(',', ''));
-                res.AmtCost = parseFloat(amtExecuted.replace(',', ''));
-                res.NumShareExposed = Math.round( res.AmtCost / res.Premium / Math.abs(res.NumContract) );
-
-                if(res.NumShareExposed < 0) {
-                    console.warn('#shares : exe ' + parseInt(amtExecuted) + ', premium: ' + res.Premium + ', num' + Math.abs(res.NumContract) )
-                }
-
-                if (!(direction == '沽空' || direction == '買入')) {
-                    console.warn(' option not buy/sell  direction : ' + direction);
-
-                }
-
-                if (direction == '沽空') {
-                    res.NumContract = -res.NumContract;
-                }
-
-                // ALB201127P215000.HK
-            } else {
-                if (sym.length > 16) {
-                    console.warn(' maybe mis-parse!  line: ' + line);
-                }
-
-            }
-
-
-            return res;
-
-        }
-
-
-        isExpire() : boolean {
+        isExpired() : boolean {
             return this._dayToExp < 0;
         }
 
