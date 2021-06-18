@@ -9,13 +9,18 @@
         <thead md-head>
         <tr md-row>
 
-            <th md-column xstyle="width: 70px; ">
-                <!--                <md-input-container class="box-none" style="background: lightpink">-->
-                <!--                    <label class="fa fa-search"></label>-->
-                <!--                    <input ng-model="vm.filter" type="text"-->
-                <!--                           id="search"-->
-                <!--                           ng-model-options="{ allowInvalid: true, debounce: 500 }">-->
-                <!--                </md-input-container>-->
+            <th md-column >
+                <md-input-container class="box-none" >
+                    <md-checkbox  class="green" ng-model="isShowExp"></md-checkbox>
+                </md-input-container>
+
+
+                <!--                                <md-input-container class="box-none" style="background: lightpink">-->
+<!--                                    <label class="fa fa-search"></label>-->
+<!--                                    <input ng-model="vm.filter" type="text"-->
+<!--                                           id="search"-->
+<!--                                           ng-model-options="{ allowInvalid: true, debounce: 500 }">-->
+<!--                                </md-input-container>-->
 
             </th>
 
@@ -50,7 +55,7 @@
             <td md-cell> {{ e._dayToExp}}</td>
 
 
-            <td md-cell> {{ e.DateBought}}</td>
+            <td md-cell> <span style="min-width: 20px"> {{ e._dayBoughtTillExp}}  </span> |  {{ e.DateBought}}  </td>
             <td md-cell> {{ e.DateExp}}</td>
 
 

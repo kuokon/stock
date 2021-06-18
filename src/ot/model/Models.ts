@@ -1098,6 +1098,7 @@ module MyApp {
 
         public _dirty: boolean = true;
         public _dayToExp: number;
+        public _dayBoughtTillExp: number;
 
 
         getColor(): string {
@@ -1126,10 +1127,14 @@ module MyApp {
                 this.DateExp = str.substr(0,4) + '-' + str.substr(4,2) + '-' + str.substr(6);
             }
             let datExp = moment(this.DateExp);
+            let dayBought = moment(this.DateBought);
             let today = moment();
 
             // Helper.compareDate()
             this._dayToExp = datExp.diff(today, 'days');
+
+
+            this._dayBoughtTillExp = datExp.diff(dayBought, 'days');
 
 
         }

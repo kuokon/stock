@@ -3,7 +3,7 @@
 /typings
 /app/bower_components
 
-./dist
+#./dist
 ./node_modules
 ./bower_components
-/dist/
+#/dist/
