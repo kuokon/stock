@@ -46,6 +46,10 @@ module MyApp {
         }
 
 
+        onParse(raw) : ParseResult {
+            return Option.parseRaw(this.svr, raw);
+        }
+
     }
 
 }

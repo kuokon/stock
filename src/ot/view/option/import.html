@@ -1,5 +1,5 @@
 <div ng-init="svr.title = vm.title + '| 導入'  ;vm.prevPage ='/admin'"
-     ng-include="'src/view/header.html'"></div>
+     ng-include="'src/ot/view/part/header.html'"></div>
 
 
 <div layout="column">
@@ -22,8 +22,9 @@
             <md-input-container class="md-block">
                 <label>Excel Cut & Paste</label>
                 <textarea ng-model="rawText"
+                          rows="10"
                           ng-change="res = vm.onParse(rawText)"
-                          md-maxlength="99000" rows="10" md-select-on-focus></textarea>
+                          md-maxlength="99000"  md-select-on-focus></textarea>
             </md-input-container>
 
         </div>
@@ -37,26 +38,26 @@
                 <table md-table style="text-align: center">
                     <thead md-head>
                     <tr md-row>
-                        <th md-column>編號 : {{res.parsed.length}}</th>
-                        <th md-column>商戶</th>
-                        <th md-column>地址</th>
-                        <th md-column>聯絡人</th>
-                        <th md-column><i class="fa fa-phone"></i></th>
-                        <th md-column>Remark2</th>
+                        <th md-column># : {{res.parsed.length}}</th>
+                        <th md-column>Sym</th>
+                        <th md-column>C</th>
+                        <th md-column>Premium</th>
+                        <th md-column>DateBought</th>
+                        <th md-column>DateExp</th>
 
                     </tr>
                     </thead>
                     <tbody md-body class="md-inline-form" style="cursor: pointer">
 
-                    <tr md-row ng-repeat="outlet in (res.parsed) track by $index">
+                    <tr md-row ng-repeat="option in (res.parsed) track by $index">
 
 
-                        <td md-cell>{{outlet.OutletCode }}</td>
-                        <td md-cell>{{outlet.Name }}</td>
-                        <td md-cell>{{outlet.Address }}</td>
-                        <td md-cell>{{outlet.Contact }}</td>
-                        <td md-cell>{{outlet.Tel }}</td>
-                        <td md-cell>{{outlet.Remark2 }}</td>
+                        <td md-cell>{{option.Name }}</td>
+                        <td md-cell>{{option.StockTicker }}</td>
+                        <td md-cell>{{option.NumContract }}</td>
+                        <td md-cell>{{option.Premium }}</td>
+                        <td md-cell>{{option.DateBought }}</td>
+                        <td md-cell>{{option.DateExp }}</td>
                     </tr>
                     </tbody>
                 </table>

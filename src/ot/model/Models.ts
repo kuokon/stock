@@ -1112,28 +1112,37 @@ module MyApp {
             let txts = line.split('\t');
 
             // 代碼
-            let sym = txts[0];  // ALB201127C240000.HK
-            let name = txts[1]; // 阿里 201127 240.00 購
+            let sym = txts[0]|| '';  // ALB201127C240000.HK
+            let name = txts[1]|| ''; // 阿里 201127 240.00 購
 
             // 方向
-            let direction = txts[2];
+            let direction = txts[2] || '';
 
+
+            // 交易狀態
+            let status =  txts[5] || '';
 
             // 已成交@均價
-            let executed = txts[6];
+            let executed = txts[6] || '';
 
             // 落盤時間
-            let datetime = txts[7];
+            let datetime = txts[7] || '';
 
             // 成交數量
-            let numExecuted = txts[13];
-            let priceExecuted = txts[14];
-            let amtExecuted = txts[15];
+            let numExecuted = txts[13] || '';
+            let priceExecuted = txts[14] || '';
+            let amtExecuted = txts[15] || '';
 
 
             // check if it's option and got executed
             let num = parseInt(numExecuted);
             let isOption = numExecuted.indexOf('張') >= 0;
+            let isSkipped = status == '已撤單';
+
+            if(isSkipped) {
+                return res;
+            }
+
 
             if (num && isOption) {
 
@@ -1147,7 +1156,7 @@ module MyApp {
                 res.NumContract = num;
 
                 // ALB201127C240000.HK
-                res.P_C = sym.substr(8, 1);
+                res.P_C = sym.substr(9, 1);
                 if (!(res.P_C == 'P' || res.P_C == 'C')) {
                     console.warn(' P_C ' + res.P_C);
                 }
@@ -1155,10 +1164,13 @@ module MyApp {
                 res.Premium = parseInt(priceExecuted);
                 res.NumShareExposed = parseInt(amtExecuted) / res.Premium / Math.abs(res.NumContract);
 
+                if(!(direction == '沽空' || direction == '買入' )) {
+                    console.warn(' option not buy/sell  direction : ' + direction);
+
+                }
+
                 if (direction == '沽空') {
                     res.NumContract = -res.NumContract;
-                } else {
-                    console.warn(' option not shorted, maybe mis-parse: direction : ' + direction)
                 }
 
                 // ALB201127P215000.HK

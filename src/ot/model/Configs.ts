@@ -27,16 +27,16 @@ module MyApp {
 
 
             $routeProvider.when('/option', {
-                templateUrl: 'src/ot/view/option/list.html',
+                templateUrl: 'src/ot/view/option/import.html',
                 reloadOnSearch: false,
                 controller: 'OptionController as vm'
             });
 
 
-            $routeProvider.when('/admin/log', {
-                templateUrl: 'src/ot/view/admin/log.html',
+            $routeProvider.when('/option/import', {
+                templateUrl: 'src/ot/view/option/import.html',
                 reloadOnSearch: false,
-                controller: 'AdminController as vm'
+                controller: 'OptionController as vm'
             });
 
 

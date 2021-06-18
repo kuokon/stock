@@ -62,7 +62,7 @@ module MyApp {
 
                 $rootScope._isDev = host == 'localhost';
 
-                svr.goTo('/admin/modelgen');
+                svr.goTo('/option/import');
 
             }]
         );
