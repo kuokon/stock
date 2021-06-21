@@ -25,8 +25,35 @@ var MyApp;
             this.$mdMedia = $mdMedia;
             this.$mdBottomSheet = $mdBottomSheet;
             this.title = 'Option';
+            this.stats = new MyApp.OptionStats();
+            this.isShowExpire = false;
+            this.isShowStocks = false;
             this.svr = DbService;
         }
+        OptionController.prototype.onMakeStock = function () {
+            var stock = MyApp.Stock.fromJson(this.svr, '');
+            this.svr.mgr.stocks.add(stock);
+        };
+        OptionController.prototype.getOptions = function (filter) {
+            var tmp = this.svr.mgr.options.getAll();
+            if (!this.isShowExpire) {
+                tmp = tmp.filter(function (e) { return !e.isExpired(); });
+            }
+            var res = [];
+            if (!MyApp.Helper.isBlank(filter)) {
+                for (var _i = 0, tmp_1 = tmp; _i < tmp_1.length; _i++) {
+                    var re = tmp_1[_i];
+                    if (re.match(filter)) {
+                        res.push(re);
+                    }
+                }
+            }
+            else {
+                res = tmp;
+            }
+            this.stats.calc(res);
+            return res;
+        };
         OptionController.prototype.onParse = function (raw) {
             var isHK = false;
             return MyApp.Import.parseRaw(this.svr, raw, isHK);

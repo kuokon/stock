@@ -104,7 +104,7 @@ module MyApp {
                 }
 
                 res.Premium = parseFloat(unitPrice.replace(',', ''));
-                res.NumShareExposed  = 100;
+                res.NumShareExposed  =  res.NumContract * 100;
                 res.AmtCost = res.NumShareExposed * res.Premium;
                 //res.AmtCost = parseFloat(amtExecuted.replace(',', ''));
 

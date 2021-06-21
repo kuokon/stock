@@ -3,64 +3,103 @@
 
 <!--<div       ng-include="'src/ot/view/option/sub-header.html'"></div>-->
 
-<md-table-container ng-init="isShowExp=false">
+<div   ng-include="'src/ot/view/option/list-stock.html'"></div>
 
-    <table md-table  style="height: 800px">
+
+<md-table-container >
+
+    <table md-table style="height: 800px">
         <thead md-head>
         <tr md-row>
 
-            <th md-column >
-                <md-input-container class="box-none" >
-                    <md-checkbox  class="green" ng-model="isShowExp"></md-checkbox>
-                </md-input-container>
+            <th md-column>
+
+                #{{vm.stats.numContracts}}
 
 
                 <!--                                <md-input-container class="box-none" style="background: lightpink">-->
-<!--                                    <label class="fa fa-search"></label>-->
-<!--                                    <input ng-model="vm.filter" type="text"-->
-<!--                                           id="search"-->
-<!--                                           ng-model-options="{ allowInvalid: true, debounce: 500 }">-->
-<!--                                </md-input-container>-->
+                <!--                                    <label class="fa fa-search"></label>-->
+                <!--                                    <input ng-model="vm.filter" type="text"-->
+                <!--                                           id="search"-->
+                <!--                                           ng-model-options="{ allowInvalid: true, debounce: 500 }">-->
+                <!--                                </md-input-container>-->
 
             </th>
 
-            <th md-column xstyle="width: 10px;">名稱
+            <th md-column xstyle="width: 10px;">名稱 # {{vm.stats.numRows}}
 
             </th>
 
-<!--            <th md-column >PC</th>-->
-<!--            <th md-column >#</th>-->
-            <th md-column >$</th>
-            <th md-column >DTE</th>
+            <th md-column>$</th>
+            <th md-column>DTE                 <md-input-container class="box-none">
+                <md-checkbox class="green" ng-model="vm.isShowExpire"></md-checkbox>
+            </md-input-container>
+            </th>
 
 
+            <th md-column>
+                落盤日
+                <br/>
+                ${{vm.stats.amtDaySum.toFixed(2)}}
+            </th>
 
-            <th md-column>落盤時間</th>
-            <th md-column>Exp 時間</th>
+            <th md-column>Cost/ exposure
+                <br/>
+                {{ (vm.stats.amtCost/10000).toFixed(2)}}w / {{ (vm.stats.exposure/10000).toFixed(2)}}w |
 
-            <th md-column># exposed</th>
+                {{ vm.stats.cost_exposure_ratio.toFixed(2)}}%
+            </th>
+            <th md-column>時間</th>
 
-            <th md-column> <i class="fa fa-clipboard" ng-click="vm.onCopyDataToClipboard(svr.mgr.options.getAll()) "></i></th>
+            <th md-column><i class="fa fa-clipboard" ng-click="vm.onCopyDataToClipboard(svr.mgr.options.getAll()) "></i>
+            </th>
         </tr>
         </thead>
         <tbody md-body class="md-inline-form">
 
-        <tr md-row ng-repeat="e in svr.mgr.options.getAll() " ng-show="isShowExp || !e.isExpired()">
+        <tr md-row ng-repeat="e in vm.getOptions(vm.filter) "
+            ng-style="{background: e.getColor()}"
 
-            <td md-cell></td>
-            <td md-cell> {{e.StockTicker}}  {{ e.Name}}  {{e.Strike}}-{{e.P_C}}</td>
-<!--            <td md-cell> {{ e.P_C}}</td>-->
-<!--            <td md-cell> {{ e.NumContract}}</td>-->
-            <td md-cell>  {{ e.NumContract}} ${{ e.Premium}}</td>
-            <td md-cell> {{ e._dayToExp}}</td>
+        >
+
+            <td md-cell style="width: 10px">
+                {{ e.NumContract}}
+            </td>
+
+            <td md-cell style="width: 100px">
+                <i class="fa fa-dollar" ng-if="!e.isHK()"></i>
+                {{e.StockTicker}} {{ e.Name}} {{e.Strike}}-{{e.P_C}}
+                <br/>
+                <span style="margin-left: 30px">{{ e.getBreakEvenPrice()}}</span>
+            </td>
 
 
-            <td md-cell> <span style="min-width: 20px"> {{ e._dayBoughtTillExp}}  </span> |  {{ e.DateBought}}  </td>
-            <td md-cell> {{ e.DateExp}}</td>
+            <td md-cell style="width: 20px">  ${{ e.Premium}}
+            <br/>
+                ${{ (e.getSign() *( e.Strike - e._stock.Price)).toFixed(2)}}
+            </td>
+
+            <td md-cell style="width: 10px">
+                {{ e._dayToExp}}
+            </td>
 
 
-            <td md-cell> {{ e.NumShareExposed}}</td>
+            <td md-cell><span style="min-width: 20px"> {{ e._dayBoughtTillExp}}  </span>
+                <br/>
+                ${{ e.getAmtPerDay().toFixed(2) }}
+            </td>
 
+
+            <td md-cell>
+                {{ e.AmtCost}} | {{ (e.AmtCost/(e.NumShareExposed * e.Strike) * 100).toFixed(2)}}%
+                <br/>
+                {{ e.NumShareExposed * e.Strike}}
+            </td>
+
+            <td md-cell>
+                {{ e.DateBought}} <br/>
+                {{ e.DateExp}}
+            </td>
 
             <td md-cell>
 

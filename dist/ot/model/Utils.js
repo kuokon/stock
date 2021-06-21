@@ -32,43 +32,6 @@ var MyApp;
         return ParseResult;
     }());
     MyApp.ParseResult = ParseResult;
-    var ImportUtil = /** @class */ (function () {
-        function ImportUtil() {
-        }
-        ImportUtil.onParseTemplate = function (svr, txt) {
-            return MyApp.Option.parseRaw(svr, txt);
-        };
-        return ImportUtil;
-    }());
-    MyApp.ImportUtil = ImportUtil;
-    //
-    // export class Log extends Base {
-    //
-    //     Log: string;
-    //
-    //     UpdateBy: number;
-    //     UpdateAt : Date = Helper.getLocalTime();
-    //
-    //
-    //     static fromJson( json): Log {
-    //
-    //         let res = new Log();
-    //
-    //         res.Id = json.Id;
-    //         res.Name = json.log;
-    //         res.Log = json.log;
-    //         res.UpdateAt = new Date(json.UpdateAt);
-    //         res.UpdateBy = json.UpdateBy;
-    //
-    //         return res;
-    //     }
-    //
-    //     match(filter:string) : boolean {
-    //         let str =  this.UpdateBy + this.Log;
-    //
-    //         return str.indexOf(filter) >=0;
-    //     }
-    // }
     var Infolet = /** @class */ (function (_super) {
         __extends(Infolet, _super);
         function Infolet() {
@@ -285,6 +248,12 @@ var MyApp;
     var Attr = /** @class */ (function () {
         function Attr() {
         }
+        Attr.prototype.isNum = function () {
+            return this.type == ModelGen.TYPE_NUM;
+        };
+        Attr.prototype.isStr = function () {
+            return this.type == ModelGen.TYPE_STR;
+        };
         Attr.make = function (name, type, num) {
             var r = new Attr();
             r.name = name.trim();
@@ -444,12 +413,13 @@ var MyApp;
             }
             res.push(' public _dirty:boolean = true;');
             res.push('');
-            res.push('static fromJson(json) :  ' + this.clazz + ' {');
+            res.push('static fromJson(svr:DbService, json) :  ' + this.clazz + ' {');
             res.push('    let e = new ' + this.clazz + '() ; ');
             res.push('    e._dirty = false ;');
             for (var _b = 0, _c = this.attrs; _b < _c.length; _b++) {
                 var attr = _c[_b];
-                res.push('    e.' + attr.name + ' = json.' + attr.name + '; ');
+                var defaultVal = attr.isNum() ? '0' : 'NA';
+                res.push('    e.' + attr.name + ' = json.' + attr.name + ' ||  ' + defaultVal + '; ');
             }
             res.push('       return e;  } ');
             return res.join('\n');

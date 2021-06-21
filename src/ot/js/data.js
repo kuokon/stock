@@ -1,3 +1,11 @@
+STOCKS_JSON =
+    [
+        {"Name": "騰訊", "Symbol": "0700", "Price": 586, "OptionMultiple": 100, "IsHK": 1}
+        , {"Name": "阿里", "Symbol": "9988", "Price": 205, "OptionMultiple": 500, "IsHK": 1}
+        , {"Name": "富途", "Symbol": "FUTU", "Price": 154.3, "OptionMultiple": 100, "IsHK": 0}
+    ];
+
+
 OPTIONS_JSON =
     [
         {
@@ -1712,7 +1720,7 @@ OPTIONS_JSON =
             "DateBought": "2021/6/4 9:39",
             "DateExp": "2021-06-25",
             "Premium": 4.6,
-            "AmtCost": 459.99999999999994,
+            "AmtCost": 920,
             "NumContract": -2,
             "NumShareExposed": 100,
             "P_C": "C",
@@ -1752,5 +1760,5 @@ OPTIONS_JSON =
             "P_C": "P",
             "_dirty": true
         }
-   ]
+    ]
 ;

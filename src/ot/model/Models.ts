@@ -236,7 +236,6 @@ module MyApp {
     }
 
 
-
     export abstract class Base {
 
         public Id = -1;
@@ -250,7 +249,6 @@ module MyApp {
         toString() {
             return JSON.stringify(this, Helper.json_replacer);
         }
-
 
 
         public isNew(): boolean {
@@ -342,26 +340,30 @@ module MyApp {
         }
     }
 
-    declare var OPTIONS_JSON;
+    declare var STOCKS_JSON, OPTIONS_JSON;
 
     export class Mgr {
 
 
         public options: Cache<Option> = new Cache<Option>();
+        public stocks: Cache<Stock> = new Cache<Stock>();
         private _svr: DbService;
 
         constructor(svr: DbService) {
             this._svr = svr;
-
-
-            this.initKV();
         }
 
         initKV(): void {
 
+            this.stocks.init(this._svr, Stock.name, Stock.fromJson, STOCKS_JSON);
+
             this.options.init(this._svr, Option.name, Option.fromJson, OPTIONS_JSON);
-            this.options.doSort( (a:Option, b:Option) => {
-                return a._dayToExp - b._dayToExp;
+            this.options.doSort((a: Option, b: Option) => {
+
+                let aDay = a.isExpired() ? (-Math.round(a._dayToExp / 10) * 1000) : a._dayToExp;
+                let bDay = b.isExpired() ? (-Math.round(b._dayToExp / 10) * 1000) : b._dayToExp;
+
+                return aDay - bDay;
             })
         }
 
@@ -369,6 +371,7 @@ module MyApp {
 
             this.options.clearAll();
         }
+
         //
         //
         // init(svr: DbService, res) {
@@ -1051,133 +1054,6 @@ module MyApp {
     }
 
 
-    export class Tmp extends Base {
-
-        public static mkModel(): ModelGen {
-            let str = 'Rating| RefYear:int; Code:str;  Nickname:str; Remark:str;  Appearance:int; PresentationSkill:int; SelfIntroduction:int; DrawQuestion:int;' +
-                ' RolePlay:int; TeacherOpinion:int; Rejected:int; Att1:int; Att2:int; Att3:int; Att4:int; Att5:int; Att6:int; jasPhoto:int; hasId:int; hasCert:int; student_idNumber:str;';
-
-            let str2 = 'Student| Ficha_No : str; Name:str; Name_P:str; Gender:str; Tel_Home :str; Edu_School :str ; Edu_Major : str; ApplyPostInFo:str ; LanguageInfo:str; ' +
-                'FichaExperience:str; DsecExperience :str;Training_Class :str';
-
-
-            let str3 = 'Option| Name:str; StockTicker:str; DateBought:str; DateExp: str;  Premium:int; NumContract:int; NumShareExposed; P_C:str; ';
-
-            return ModelGen.from(str2);
-        }
-
-        getKey(): string {
-            return null;
-        }
-    }
-
-    export class Option extends Base {
-
-        static str = 'Option| Name:str; Strike:num; StockTicker:str; DateBought:str; DateExp: str;  Premium:int; AmtCost:int; NumContract:int; NumShareExposed; P_C:str; ';
-
-
-        // js --
-        public Id: number = -1;
-        public Status: number = 0;
-        public Remark: string = '';
-        public UpdateBy: number = 0;
-        public UpdateAt: Date;
-
-
-        public Name: string = '';
-        public Strike: number = 0;
-        public StockTicker: string = '';
-        public DateBought: string = '';
-        public DateExp: string = '';
-        public Premium: number = 0;
-        public AmtCost: number = 0;
-        public NumContract: number = 0;
-        public NumShareExposed: number = 0;
-        public P_C: string = '';
-
-
-        public _dirty: boolean = true;
-        public _dayToExp: number;
-        public _dayBoughtTillExp: number;
-
-
-        getColor(): string {
-
-            let day = this._dayToExp;
-
-            if(this.isExpired()){
-                return 'lightgrey';
-            }
-
-            if(day < 10){
-                return 'light'
-            }
-
-        }
-
-        //
-        // toJSON(): string {
-        //     return JSON.stringify(this, Helper.json_replacer);
-        // }
-
-        init() {
-            if(this.DateExp.indexOf('-') <0){
-                let str = this.DateExp;
-                // str = '20201127'
-                this.DateExp = str.substr(0,4) + '-' + str.substr(4,2) + '-' + str.substr(6);
-            }
-            let datExp = moment(this.DateExp);
-            let dayBought = moment(this.DateBought);
-            let today = moment();
-
-            // Helper.compareDate()
-            this._dayToExp = datExp.diff(today, 'days');
-
-
-            this._dayBoughtTillExp = datExp.diff(dayBought, 'days');
-
-
-        }
-
-
-
-
-        static fromJson(svr: DbService, json): Option {
-            let e = new Option();
-            e._dirty = false;
-            e.Id = json.Id;
-            e.Status = json.Status;
-            e.Remark = json.Remark;
-            e.UpdateBy = json.UpdateBy;
-            e.UpdateAt = json.UpdateAt;
-            e.Name = json.Name;
-            e.Strike = json.Strike;
-            e.StockTicker = json.StockTicker;
-            e.DateBought = json.DateBought;
-            e.DateExp = json.DateExp;
-            e.Premium = json.Premium;
-            e.AmtCost = json.AmtCost;
-
-            e.NumContract = json.NumContract;
-            e.NumShareExposed = json.NumShareExposed;
-            e.P_C = json.P_C;
-
-            e.init();
-            return e;
-        }
-
-
-
-
-
-        isExpired() : boolean {
-            return this._dayToExp < 0;
-        }
-
-
-    }
-
-
     export class Cache<T extends Base> {
 
         private _all: T[] = [];
@@ -1255,5 +1131,305 @@ module MyApp {
             console.info(' ' + name + ' :' + this._all.length);
         }
     }
+
+    export class OptionStats {
+        exposure: number;
+        amtCost: number;
+        amtDaySum: number;
+        numContracts: number;
+        numRows: number;
+
+        cost_exposure_ratio: number;
+
+
+        calc(options: Option[]) {
+            this.exposure = 0;
+            this.amtCost = 0;
+            this.numContracts = 0;
+            this.numRows = 0;
+            this.amtDaySum = 0;
+
+            this.cost_exposure_ratio = 0;
+
+            for (const option of options) {
+                this.exposure += option.toHKD(option.getExposure());
+                this.amtCost += option.toHKD(option.AmtCost);
+                this.numContracts += Math.abs(option.NumContract);
+                this.numRows++;
+
+                this.amtDaySum += option.toHKD(option.getAmtPerDay())
+            }
+
+            this.cost_exposure_ratio = (this.amtCost / this.exposure * 100);
+
+
+        }
+    }
+
+    export class Stock extends Base {
+        static str = 'Stock| Name:str; Symbol:str; Price:number; OptionMultiple:num; IsHK:int; ';
+
+        // js --
+        public Name: string = '';
+        public Symbol: string = '';
+        public Price: number = 0;
+        public OptionMultiple: number = 0;
+        public IsHK: number = 0;
+        public _dirty: boolean = true;
+
+        static fromJson(svr: DbService, json): Stock {
+            let e = new Stock();
+            e._dirty = false;
+
+
+            e.Name = json.Name || '';
+            e.Symbol = json.Symbol || '';
+            e.Price = json.Price || 0;
+            e.OptionMultiple = json.OptionMultiple || 0;
+            e.IsHK = json.IsHK || 0;
+            return e;
+        }
+
+        getKey(): string {
+            return this.Symbol;
+        }
+
+        isHK(): boolean {
+            return this.IsHK > 0;
+        }
+
+    }
+
+
+    export class Option extends Base {
+
+        static str = 'Option| Name:str; Strike:num; StockTicker:str; DateBought:str; DateExp: str; Price:num; PriceAtBought:num; PriceAtExp:num Premium:int; AmtCost:int; NumContract:int; NumShareExposed; P_C:str; ';
+
+
+        // js --
+        public Id: number = -1;
+        public Status: number = 0;
+        public Remark: string = '';
+        public UpdateBy: number = 0;
+        public UpdateAt: Date;
+
+
+        public Name: string = '';
+        public Strike: number = 0;
+        public StockTicker: string = '';
+        public DateBought: string = '';
+        public DateExp: string = '';
+        public Premium: number = 0;
+        public AmtCost: number = 0;
+        public NumContract: number = 0;
+        public NumShareExposed: number = 0;
+        public P_C: string = '';
+
+
+        public _dirty: boolean = true;
+        public _dayToExp: number;
+        public _dayBoughtTillExp: number;
+        public _stock: Stock;
+
+        static fromJson(svr: DbService, json): Option {
+            let e = new Option();
+            e._dirty = false;
+            e.Id = json.Id;
+            e.Status = json.Status;
+            e.Remark = json.Remark;
+            e.UpdateBy = json.UpdateBy;
+            e.UpdateAt = json.UpdateAt;
+            e.Name = json.Name;
+            e.Strike = json.Strike;
+            e.StockTicker = json.StockTicker;
+            e.DateBought = json.DateBought;
+            e.DateExp = json.DateExp;
+            e.Premium = json.Premium;
+            e.AmtCost = json.AmtCost;
+
+            e.NumContract = json.NumContract;
+            e.NumShareExposed = json.NumShareExposed;
+            e.P_C = json.P_C;
+
+
+            e._stock = svr.mgr.stocks.getByKey(e.getStockSymbol());
+
+            e.init();
+            return e;
+        }
+
+
+        getStockSymbol(): string {
+
+            if (this.Name.startsWith('騰訊')) {
+                return '0700';
+            }
+
+            if (this.Name.startsWith('阿里')) {
+                return '9988';
+            }
+            if (this.Name.startsWith('FU')) {
+                return 'FUTU';
+            }
+
+            console.warn(' cannot map to symbol, name: ' + this.Name);
+            return 'N/A'
+        }
+
+
+        getColor(): string {
+
+            let day = this._dayToExp;
+
+
+            let res = '';
+            if (this.isExpired()) {
+                res = 'lightgrey';
+            } else {
+
+                if(this.Strike == 580) {
+                    console.info('hello');
+                }
+
+                if (!this.isOutOfMoney(false)) {
+
+                    if (this.isOutOfMoney(true)) {
+                        res = 'lightyellow';
+                    } else {
+                        res = 'lightcoral'
+                    }
+
+                }
+
+            }
+            return res;
+
+            // if (day < 10) {
+            //     return 'light'
+            // }
+
+        }
+
+        getAmtPerDay(): number {
+            return (this.AmtCost) / this._dayBoughtTillExp;
+        }
+
+        getExposure(): number {
+            return Math.abs(this.NumShareExposed) * this.Strike;
+        }
+
+
+        //
+        // toJSON(): string {
+        //     return JSON.stringify(this, Helper.json_replacer);
+        // }
+
+        getShareMultiple(): number {
+            return this.getStock().OptionMultiple
+        }
+
+        getStock(): Stock {
+            return this._stock;
+        }
+
+        init() {
+
+
+            if (this.DateExp.indexOf('-') < 0) {
+                let str = this.DateExp;
+                // str = '20201127'
+                this.DateExp = str.substr(0, 4) + '-' + str.substr(4, 2) + '-' + str.substr(6);
+            }
+
+            if (this.DateBought.indexOf('/') > 0) {
+                let mm = moment(this.DateBought);
+                this.DateBought = mm.format('YYYY-MM-DD');
+            }
+
+
+            let datExp = moment(this.DateExp);
+            let dayBought = moment(this.DateBought);
+            let today = moment();
+
+            // Helper.compareDate()
+            this._dayToExp = datExp.diff(today, 'days') + 1;
+            this._dayBoughtTillExp = datExp.diff(dayBought, 'days') + 1;
+
+
+        }
+
+        isExpired(): boolean {
+            return this._dayToExp < 0;
+        }
+
+        match(filter): boolean {
+            let txt = this.Strike + '-' + this.P_C;
+
+            return (txt.indexOf(filter) >= 0);
+        }
+
+        toHKD(amtPerDay: number): number {
+            let ratio = 1;
+            if (!this.isHK()) {
+                ratio = 7.76;
+            }
+
+            return amtPerDay * ratio;
+        }
+
+        isHK(): boolean {
+
+            return this.getStock().isHK();
+
+            // return !this.Name.startsWith('FU')
+        }
+
+        isCall(): boolean {
+            return this.P_C == 'C';
+        }
+
+        getSign() : number {
+
+
+            let res = 1;
+
+            if(this.NumContract < 0) {
+                res = -res;
+            }
+
+
+            if(this.isCall()) {
+                res = -res;
+            }
+
+
+            return res;
+        }
+
+
+        isOutOfMoney(withPremium = false): boolean {
+
+
+            let breakEven = this.getBreakEvenPrice(withPremium);
+            let price =   this.getStock().Price ;
+            let delta =  this.getSign() * (price - breakEven);
+            return delta < 0;
+        }
+
+        getBreakEvenPrice(withPremium = true): number {
+
+            let delta = 0;
+            if (withPremium) {
+
+                let sign = this.getSign();
+
+                delta = (sign * this.Premium);
+            }
+
+            return this.Strike + delta;
+        }
+
+    }
+
 
 }

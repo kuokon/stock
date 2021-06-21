@@ -265,13 +265,16 @@ var MyApp;
     var Mgr = /** @class */ (function () {
         function Mgr(svr) {
             this.options = new Cache();
+            this.stocks = new Cache();
             this._svr = svr;
-            this.initKV();
         }
         Mgr.prototype.initKV = function () {
+            this.stocks.init(this._svr, Stock.name, Stock.fromJson, STOCKS_JSON);
             this.options.init(this._svr, Option.name, Option.fromJson, OPTIONS_JSON);
             this.options.doSort(function (a, b) {
-                return a._dayToExp - b._dayToExp;
+                var aDay = a.isExpired() ? (-Math.round(a._dayToExp / 10) * 1000) : a._dayToExp;
+                var bDay = b.isExpired() ? (-Math.round(b._dayToExp / 10) * 1000) : b._dayToExp;
+                return aDay - bDay;
             });
         };
         Mgr.prototype.clearAll = function () {
@@ -776,101 +779,6 @@ var MyApp;
         return TmpStore;
     }());
     MyApp.TmpStore = TmpStore;
-    var Tmp = /** @class */ (function (_super) {
-        __extends(Tmp, _super);
-        function Tmp() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        Tmp.mkModel = function () {
-            var str = 'Rating| RefYear:int; Code:str;  Nickname:str; Remark:str;  Appearance:int; PresentationSkill:int; SelfIntroduction:int; DrawQuestion:int;' +
-                ' RolePlay:int; TeacherOpinion:int; Rejected:int; Att1:int; Att2:int; Att3:int; Att4:int; Att5:int; Att6:int; jasPhoto:int; hasId:int; hasCert:int; student_idNumber:str;';
-            var str2 = 'Student| Ficha_No : str; Name:str; Name_P:str; Gender:str; Tel_Home :str; Edu_School :str ; Edu_Major : str; ApplyPostInFo:str ; LanguageInfo:str; ' +
-                'FichaExperience:str; DsecExperience :str;Training_Class :str';
-            var str3 = 'Option| Name:str; StockTicker:str; DateBought:str; DateExp: str;  Premium:int; NumContract:int; NumShareExposed; P_C:str; ';
-            return MyApp.ModelGen.from(str2);
-        };
-        Tmp.prototype.getKey = function () {
-            return null;
-        };
-        return Tmp;
-    }(Base));
-    MyApp.Tmp = Tmp;
-    var Option = /** @class */ (function (_super) {
-        __extends(Option, _super);
-        function Option() {
-            var _this = _super !== null && _super.apply(this, arguments) || this;
-            // js --
-            _this.Id = -1;
-            _this.Status = 0;
-            _this.Remark = '';
-            _this.UpdateBy = 0;
-            _this.Name = '';
-            _this.Strike = 0;
-            _this.StockTicker = '';
-            _this.DateBought = '';
-            _this.DateExp = '';
-            _this.Premium = 0;
-            _this.AmtCost = 0;
-            _this.NumContract = 0;
-            _this.NumShareExposed = 0;
-            _this.P_C = '';
-            _this._dirty = true;
-            return _this;
-        }
-        Option.prototype.getColor = function () {
-            var day = this._dayToExp;
-            if (this.isExpired()) {
-                return 'lightgrey';
-            }
-            if (day < 10) {
-                return 'light';
-            }
-        };
-        //
-        // toJSON(): string {
-        //     return JSON.stringify(this, Helper.json_replacer);
-        // }
-        Option.prototype.init = function () {
-            if (this.DateExp.indexOf('-') < 0) {
-                var str = this.DateExp;
-                // str = '20201127'
-                this.DateExp = str.substr(0, 4) + '-' + str.substr(4, 2) + '-' + str.substr(6);
-            }
-            var datExp = moment(this.DateExp);
-            var dayBought = moment(this.DateBought);
-            var today = moment();
-            // Helper.compareDate()
-            this._dayToExp = datExp.diff(today, 'days');
-            this._dayBoughtTillExp = datExp.diff(dayBought, 'days');
-        };
-        Option.fromJson = function (svr, json) {
-            var e = new Option();
-            e._dirty = false;
-            e.Id = json.Id;
-            e.Status = json.Status;
-            e.Remark = json.Remark;
-            e.UpdateBy = json.UpdateBy;
-            e.UpdateAt = json.UpdateAt;
-            e.Name = json.Name;
-            e.Strike = json.Strike;
-            e.StockTicker = json.StockTicker;
-            e.DateBought = json.DateBought;
-            e.DateExp = json.DateExp;
-            e.Premium = json.Premium;
-            e.AmtCost = json.AmtCost;
-            e.NumContract = json.NumContract;
-            e.NumShareExposed = json.NumShareExposed;
-            e.P_C = json.P_C;
-            e.init();
-            return e;
-        };
-        Option.prototype.isExpired = function () {
-            return this._dayToExp < 0;
-        };
-        Option.str = 'Option| Name:str; Strike:num; StockTicker:str; DateBought:str; DateExp: str;  Premium:int; AmtCost:int; NumContract:int; NumShareExposed; P_C:str; ';
-        return Option;
-    }(Base));
-    MyApp.Option = Option;
     var Cache = /** @class */ (function () {
         function Cache() {
             this._all = [];
@@ -935,5 +843,226 @@ var MyApp;
         return Cache;
     }());
     MyApp.Cache = Cache;
+    var OptionStats = /** @class */ (function () {
+        function OptionStats() {
+        }
+        OptionStats.prototype.calc = function (options) {
+            this.exposure = 0;
+            this.amtCost = 0;
+            this.numContracts = 0;
+            this.numRows = 0;
+            this.amtDaySum = 0;
+            this.cost_exposure_ratio = 0;
+            for (var _i = 0, options_1 = options; _i < options_1.length; _i++) {
+                var option = options_1[_i];
+                this.exposure += option.toHKD(option.getExposure());
+                this.amtCost += option.toHKD(option.AmtCost);
+                this.numContracts += Math.abs(option.NumContract);
+                this.numRows++;
+                this.amtDaySum += option.toHKD(option.getAmtPerDay());
+            }
+            this.cost_exposure_ratio = (this.amtCost / this.exposure * 100);
+        };
+        return OptionStats;
+    }());
+    MyApp.OptionStats = OptionStats;
+    var Stock = /** @class */ (function (_super) {
+        __extends(Stock, _super);
+        function Stock() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            // js --
+            _this.Name = '';
+            _this.Symbol = '';
+            _this.Price = 0;
+            _this.OptionMultiple = 0;
+            _this.IsHK = 0;
+            _this._dirty = true;
+            return _this;
+        }
+        Stock.fromJson = function (svr, json) {
+            var e = new Stock();
+            e._dirty = false;
+            e.Name = json.Name || '';
+            e.Symbol = json.Symbol || '';
+            e.Price = json.Price || 0;
+            e.OptionMultiple = json.OptionMultiple || 0;
+            e.IsHK = json.IsHK || 0;
+            return e;
+        };
+        Stock.prototype.getKey = function () {
+            return this.Symbol;
+        };
+        Stock.prototype.isHK = function () {
+            return this.IsHK > 0;
+        };
+        Stock.str = 'Stock| Name:str; Symbol:str; Price:number; OptionMultiple:num; IsHK:int; ';
+        return Stock;
+    }(Base));
+    MyApp.Stock = Stock;
+    var Option = /** @class */ (function (_super) {
+        __extends(Option, _super);
+        function Option() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            // js --
+            _this.Id = -1;
+            _this.Status = 0;
+            _this.Remark = '';
+            _this.UpdateBy = 0;
+            _this.Name = '';
+            _this.Strike = 0;
+            _this.StockTicker = '';
+            _this.DateBought = '';
+            _this.DateExp = '';
+            _this.Premium = 0;
+            _this.AmtCost = 0;
+            _this.NumContract = 0;
+            _this.NumShareExposed = 0;
+            _this.P_C = '';
+            _this._dirty = true;
+            return _this;
+        }
+        Option.fromJson = function (svr, json) {
+            var e = new Option();
+            e._dirty = false;
+            e.Id = json.Id;
+            e.Status = json.Status;
+            e.Remark = json.Remark;
+            e.UpdateBy = json.UpdateBy;
+            e.UpdateAt = json.UpdateAt;
+            e.Name = json.Name;
+            e.Strike = json.Strike;
+            e.StockTicker = json.StockTicker;
+            e.DateBought = json.DateBought;
+            e.DateExp = json.DateExp;
+            e.Premium = json.Premium;
+            e.AmtCost = json.AmtCost;
+            e.NumContract = json.NumContract;
+            e.NumShareExposed = json.NumShareExposed;
+            e.P_C = json.P_C;
+            e._stock = svr.mgr.stocks.getByKey(e.getStockSymbol());
+            e.init();
+            return e;
+        };
+        Option.prototype.getStockSymbol = function () {
+            if (this.Name.startsWith('騰訊')) {
+                return '0700';
+            }
+            if (this.Name.startsWith('阿里')) {
+                return '9988';
+            }
+            if (this.Name.startsWith('FU')) {
+                return 'FUTU';
+            }
+            console.warn(' cannot map to symbol, name: ' + this.Name);
+            return 'N/A';
+        };
+        Option.prototype.getColor = function () {
+            var day = this._dayToExp;
+            var res = '';
+            if (this.isExpired()) {
+                res = 'lightgrey';
+            }
+            else {
+                if (this.Strike == 580) {
+                    console.info('hello');
+                }
+                if (!this.isOutOfMoney(false)) {
+                    if (this.isOutOfMoney(true)) {
+                        res = 'lightyellow';
+                    }
+                    else {
+                        res = 'lightcoral';
+                    }
+                }
+            }
+            return res;
+            // if (day < 10) {
+            //     return 'light'
+            // }
+        };
+        Option.prototype.getAmtPerDay = function () {
+            return (this.AmtCost) / this._dayBoughtTillExp;
+        };
+        Option.prototype.getExposure = function () {
+            return Math.abs(this.NumShareExposed) * this.Strike;
+        };
+        //
+        // toJSON(): string {
+        //     return JSON.stringify(this, Helper.json_replacer);
+        // }
+        Option.prototype.getShareMultiple = function () {
+            return this.getStock().OptionMultiple;
+        };
+        Option.prototype.getStock = function () {
+            return this._stock;
+        };
+        Option.prototype.init = function () {
+            if (this.DateExp.indexOf('-') < 0) {
+                var str = this.DateExp;
+                // str = '20201127'
+                this.DateExp = str.substr(0, 4) + '-' + str.substr(4, 2) + '-' + str.substr(6);
+            }
+            if (this.DateBought.indexOf('/') > 0) {
+                var mm = moment(this.DateBought);
+                this.DateBought = mm.format('YYYY-MM-DD');
+            }
+            var datExp = moment(this.DateExp);
+            var dayBought = moment(this.DateBought);
+            var today = moment();
+            // Helper.compareDate()
+            this._dayToExp = datExp.diff(today, 'days') + 1;
+            this._dayBoughtTillExp = datExp.diff(dayBought, 'days') + 1;
+        };
+        Option.prototype.isExpired = function () {
+            return this._dayToExp < 0;
+        };
+        Option.prototype.match = function (filter) {
+            var txt = this.Strike + '-' + this.P_C;
+            return (txt.indexOf(filter) >= 0);
+        };
+        Option.prototype.toHKD = function (amtPerDay) {
+            var ratio = 1;
+            if (!this.isHK()) {
+                ratio = 7.76;
+            }
+            return amtPerDay * ratio;
+        };
+        Option.prototype.isHK = function () {
+            return this.getStock().isHK();
+            // return !this.Name.startsWith('FU')
+        };
+        Option.prototype.isCall = function () {
+            return this.P_C == 'C';
+        };
+        Option.prototype.getSign = function () {
+            var res = 1;
+            if (this.NumContract < 0) {
+                res = -res;
+            }
+            if (this.isCall()) {
+                res = -res;
+            }
+            return res;
+        };
+        Option.prototype.isOutOfMoney = function (withPremium) {
+            if (withPremium === void 0) { withPremium = false; }
+            var breakEven = this.getBreakEvenPrice(withPremium);
+            var price = this.getStock().Price;
+            var delta = this.getSign() * (price - breakEven);
+            return delta < 0;
+        };
+        Option.prototype.getBreakEvenPrice = function (withPremium) {
+            if (withPremium === void 0) { withPremium = true; }
+            var delta = 0;
+            if (withPremium) {
+                var sign = this.getSign();
+                delta = (sign * this.Premium);
+            }
+            return this.Strike + delta;
+        };
+        Option.str = 'Option| Name:str; Strike:num; StockTicker:str; DateBought:str; DateExp: str; Price:num; PriceAtBought:num; PriceAtExp:num Premium:int; AmtCost:int; NumContract:int; NumShareExposed; P_C:str; ';
+        return Option;
+    }(Base));
+    MyApp.Option = Option;
 })(MyApp || (MyApp = {}));
 //# sourceMappingURL=Models.js.map

@@ -35,6 +35,7 @@ module MyApp {
 
             this.config = new Config(this, window.localStorage);
             this.mgr = new Mgr(this);
+            this.mgr.initKV();
 
         }
 

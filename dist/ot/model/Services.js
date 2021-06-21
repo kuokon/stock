@@ -18,6 +18,7 @@ var MyApp;
             this.$localStorage = window.localStorage;
             this.config = new MyApp.Config(this, window.localStorage);
             this.mgr = new MyApp.Mgr(this);
+            this.mgr.initKV();
         }
         // === helper functions
         DbService.prototype.getVersion = function () {

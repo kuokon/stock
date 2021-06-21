@@ -33,6 +33,12 @@ module MyApp {
         title: string = 'Option';
         svr: DbService;
 
+        stats: OptionStats = new OptionStats();
+        isShowExpire: boolean = false;
+        isShowStocks: boolean = false;
+        filter:string;
+
+
         constructor(private DbService: DbService,
                     $routeParams: any,
                     private $mdSidenav: ng.material.ISidenavService,
@@ -42,6 +48,40 @@ module MyApp {
                     private $mdBottomSheet: ng.material.IBottomSheetService) {
 
             this.svr = DbService;
+
+        }
+
+        onMakeStock() : void {
+            let stock = Stock.fromJson(this.svr,'');
+
+            this.svr.mgr.stocks.add(stock);
+        }
+
+
+
+        getOptions(filter:string) : Option[] {
+
+            let tmp = this.svr.mgr.options.getAll();
+
+            if(!this.isShowExpire) {
+                tmp  = tmp.filter( e=> { return !e.isExpired()})
+            }
+
+            let res = [];
+
+            if(!Helper.isBlank(filter)) {
+                for (const re of tmp) {
+                    if(re.match(filter)){
+                        res.push(re);
+                    }
+                }
+
+            } else  {
+                res = tmp;
+            }
+
+            this.stats.calc(res);
+            return res;
 
         }
 

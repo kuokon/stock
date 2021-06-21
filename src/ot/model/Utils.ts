@@ -26,45 +26,6 @@ module MyApp {
         }
     }
 
-    export class ImportUtil {
-
-        public static onParseTemplate(svr: DbService, txt: string): ParseResult {
-
-            return Option.parseRaw(svr, txt);
-
-        }
-    }
-
-
-
-    //
-    // export class Log extends Base {
-    //
-    //     Log: string;
-    //
-    //     UpdateBy: number;
-    //     UpdateAt : Date = Helper.getLocalTime();
-    //
-    //
-    //     static fromJson( json): Log {
-    //
-    //         let res = new Log();
-    //
-    //         res.Id = json.Id;
-    //         res.Name = json.log;
-    //         res.Log = json.log;
-    //         res.UpdateAt = new Date(json.UpdateAt);
-    //         res.UpdateBy = json.UpdateBy;
-    //
-    //         return res;
-    //     }
-    //
-    //     match(filter:string) : boolean {
-    //         let str =  this.UpdateBy + this.Log;
-    //
-    //         return str.indexOf(filter) >=0;
-    //     }
-    // }
 
 
     export class Infolet extends Base {
@@ -360,6 +321,16 @@ module MyApp {
         type: number;
         type_num: number;
 
+
+        isNum() : boolean {
+            return this.type == ModelGen.TYPE_NUM;
+        }
+
+        isStr() : boolean {
+            return this.type == ModelGen.TYPE_STR;
+        }
+
+
         public static make(name: string, type: number, num: number): Attr {
             let r = new Attr();
             r.name = name.trim();
@@ -456,6 +427,7 @@ module MyApp {
         public static TYPE_NUM = 1;
         public static TYPE_STR = 2;
         public static TYPE_DATE = 3;
+
 
 
         public clazz = 'MyModel';
@@ -569,11 +541,13 @@ module MyApp {
 
             res.push('');
 
-            res.push('static fromJson(json) :  ' + this.clazz + ' {');
+            res.push('static fromJson(svr:DbService, json) :  ' + this.clazz + ' {');
             res.push('    let e = new ' + this.clazz + '() ; ');
             res.push('    e._dirty = false ;');
             for (const attr of this.attrs) {
-                res.push('    e.' + attr.name + ' = json.' + attr.name + '; ');
+
+                let defaultVal = attr.isNum() ? '0' : 'NA';
+                res.push('    e.' + attr.name + ' = json.' + attr.name + ' ||  ' + defaultVal +  '; ');
             }
 
             res.push('       return e;  } ');
