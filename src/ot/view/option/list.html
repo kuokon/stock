@@ -3,10 +3,10 @@
 
 <!--<div       ng-include="'src/ot/view/option/sub-header.html'"></div>-->
 
-<div   ng-include="'src/ot/view/option/list-stock.html'"></div>
+<div ng-include="'src/ot/view/option/list-stock.html'"></div>
 
 
-<md-table-container >
+<md-table-container>
 
     <table md-table style="height: 800px">
         <thead md-head>
@@ -31,9 +31,10 @@
             </th>
 
             <th md-column>$</th>
-            <th md-column>DTE                 <md-input-container class="box-none">
-                <md-checkbox class="green" ng-model="vm.isShowExpire"></md-checkbox>
-            </md-input-container>
+            <th md-column>DTE
+                <md-input-container class="box-none">
+                    <md-checkbox class="green" ng-model="vm.isShowExpire"></md-checkbox>
+                </md-input-container>
             </th>
 
 
@@ -57,10 +58,13 @@
 
                 {{ vm.stats.cost_exposure_ratio.toFixed(2)}}%
             </th>
-            <th md-column>時間</th>
+            <th md-column >時間
 
-            <th md-column><i class="fa fa-clipboard" ng-click="vm.onCopyDataToClipboard(svr.mgr.options.getAll()) "></i>
+                <i style="cursor: pointer" class="fa fa-clipboard" ng-click="vm.onCopyDataToClipboard(svr.mgr.options.getAll()) "></i>
+
             </th>
+
+
         </tr>
         </thead>
         <tbody md-body class="md-inline-form">
@@ -82,8 +86,8 @@
             </td>
 
 
-            <td md-cell style="width: 20px">  ${{ e.Premium}}
-            <br/>
+            <td md-cell style="width: 20px"> ${{ e.Premium}}
+                <br/>
                 ${{ (e.getSign() *( e.Strike - e._stock.Price)).toFixed(2)}}
             </td>
 
@@ -107,12 +111,11 @@
 
                 |    {{(e.getLost() / e.getCashIn() * 100).toFixed(2)}}%
 
-                </span>
+
                 <br/>
                 {{e.getCashIn().toFixed(2)}}
+                </span>
             </td>
-
-
 
 
             <td md-cell>
@@ -126,15 +129,6 @@
                 {{ e.DateExp}}
             </td>
 
-            <td md-cell>
-
-                <button ng-show="e._dirty "
-                        class="md-raised md-warn md-button" type="button"
-                        ng-click="svr.doUpdateOutlet(e)">
-                    保存
-                </button>
-
-            </td>
 
         </tr>
 
