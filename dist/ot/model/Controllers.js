@@ -27,7 +27,7 @@ var MyApp;
             this.title = 'Option';
             this.stats = new MyApp.OptionStats();
             this.isShowExpire = false;
-            this.isShowStocks = false;
+            this.isShowStocks = true;
             this.svr = DbService;
         }
         OptionController.prototype.onMakeStock = function () {

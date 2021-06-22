@@ -35,7 +35,7 @@ module MyApp {
 
         stats: OptionStats = new OptionStats();
         isShowExpire: boolean = false;
-        isShowStocks: boolean = false;
+        isShowStocks: boolean = true;
         filter:string;
 
 
