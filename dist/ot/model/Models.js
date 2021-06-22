@@ -884,6 +884,8 @@ var MyApp;
             _this._exposure_c = 0;
             _this._cash_in_amt = 0;
             _this._cash_lost_amt = 0;
+            _this._num_call = 0;
+            _this._num_put = 0;
             return _this;
         }
         // _change: number = 0;
@@ -982,15 +984,18 @@ var MyApp;
                 res = 'lightgrey';
             }
             else {
-                if (this.Strike == 580) {
-                    console.info('hello');
-                }
                 if (!this.isOutOfMoney(false)) {
                     if (this.isOutOfMoney(true)) {
-                        res = 'lightyellow';
+                        res = 'lightpink';
                     }
                     else {
                         res = 'lightcoral';
+                    }
+                }
+                else {
+                    var buffer = this.getPriceBufferPct();
+                    if (buffer < 5) {
+                        res = 'lightyellow';
                     }
                 }
             }
@@ -1079,6 +1084,9 @@ var MyApp;
             }
             return this.Strike + delta;
         };
+        Option.prototype.getCashIn = function () {
+            return this.Premium * this._stock.OptionMultiple;
+        };
         Option.prototype.getLost = function () {
             var res = 0;
             if (!this.isOutOfMoney(true)) {
@@ -1088,6 +1096,11 @@ var MyApp;
                 res = delta * this.getStock().OptionMultiple;
             }
             return res;
+        };
+        Option.prototype.getPriceBufferPct = function () {
+            var bep = this.getBreakEvenPrice(true);
+            var price = this.getStock().Price;
+            return (this.getSign() * (bep - price) / price * 100);
         };
         Option.str = 'Option| Name:str; Strike:num; StockTicker:str; DateBought:str; DateExp: str; Price:num; PriceAtBought:num; PriceAtExp:num Premium:int; AmtCost:int; NumContract:int; NumShareExposed; P_C:str; ';
         return Option;

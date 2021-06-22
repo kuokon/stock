@@ -88,6 +88,8 @@ module MyApp {
                 e._exposure_c = 0;
                 e._cash_in_amt = 0;
                 e._cash_lost_amt = 0;
+                e._num_call = 0;
+                e._num_put = 0;
             });
 
             res.forEach(e => {
@@ -96,11 +98,13 @@ module MyApp {
                 let stock = e.getStock();
                 if (e.isCall()) {
                     stock._exposure_c += ep;
+                    stock._num_call += e.NumContract;
                 } else {
                     stock._exposure_p += ep;
+                    stock._num_put += e.NumContract;
                 }
 
-                stock._cash_in_amt += e.Premium * e._stock.OptionMultiple;
+                stock._cash_in_amt += e.getCashIn();
                 stock._cash_lost_amt += e.getLost();
 
             });

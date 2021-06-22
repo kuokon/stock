@@ -1186,6 +1186,8 @@ module MyApp {
         _exposure_c: number = 0;
         _cash_in_amt: number = 0;
         _cash_lost_amt: number = 0;
+        _num_call = 0;
+        _num_put = 0;
         // _change: number = 0;
         // _change_pct: string = '';
 
@@ -1315,16 +1317,20 @@ module MyApp {
                 res = 'lightgrey';
             } else {
 
-                if (this.Strike == 580) {
-                    console.info('hello');
-                }
 
                 if (!this.isOutOfMoney(false)) {
 
                     if (this.isOutOfMoney(true)) {
-                        res = 'lightyellow';
+                        res = 'lightpink';
                     } else {
                         res = 'lightcoral'
+                    }
+
+                } else {
+
+                    let buffer = this.getPriceBufferPct();
+                    if(buffer < 5 ) {
+                        res = 'lightyellow'
                     }
 
                 }
@@ -1345,6 +1351,7 @@ module MyApp {
         getExposure(): number {
             return Math.abs(this.NumShareExposed) * this.Strike;
         }
+
 
 
         //
@@ -1457,6 +1464,10 @@ module MyApp {
             return this.Strike + delta;
         }
 
+        getCashIn() : number {
+            return this.Premium * this._stock.OptionMultiple;
+        }
+
         getLost(): number {
             let res = 0;
             if (!this.isOutOfMoney(true)) {
@@ -1468,6 +1479,17 @@ module MyApp {
 
             return  res;
         }
+
+        getPriceBufferPct() : number {
+
+            let bep = this.getBreakEvenPrice(true);
+            let price = this.getStock().Price;
+
+            return  ( this.getSign() * ( bep - price) / price * 100)
+        }
+
+
+
     }
 
 

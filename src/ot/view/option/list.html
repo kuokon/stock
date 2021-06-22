@@ -43,6 +43,14 @@
                 ${{vm.stats.amtDaySum.toFixed(2)}}
             </th>
 
+            <th md-column>
+                Buffer
+            </th>
+
+            <th md-column>
+                Lost
+            </th>
+
             <th md-column>Cost/ exposure
                 <br/>
                 {{ (vm.stats.amtCost/10000).toFixed(2)}}w / {{ (vm.stats.exposure/10000).toFixed(2)}}w |
@@ -88,6 +96,23 @@
                 <br/>
                 ${{ e.getAmtPerDay().toFixed(2) }}
             </td>
+
+            <td md-cell>
+                {{ e.getPriceBufferPct().toFixed(2)}}% <br/>
+            </td>
+
+            <td md-cell>
+                <span ng-if='e.getLost()'>
+                {{ e.getLost().toFixed(2)}}
+
+                |    {{(e.getLost() / e.getCashIn() * 100).toFixed(2)}}%
+
+                </span>
+                <br/>
+                {{e.getCashIn().toFixed(2)}}
+            </td>
+
+
 
 
             <td md-cell>

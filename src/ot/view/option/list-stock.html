@@ -5,30 +5,35 @@
         <tr md-row>
 
 
-            <th md-column ng-click="vm.isShowStocks = !vm.isShowStocks">
+            <th md-column ng-click="vm.isShowStocks = !vm.isShowStocks" style="width: 80px">
 
                 名稱 # {{stocks.length}}
             </th>
 
-            </th>
-            <th md-column>
+
+            <th md-column ng-click="vm.refreshStockPrice()" style="cursor: pointer; width: 80px" >
                 Price
 
-                <i style="background: lightpink" class="fa fa-refresh" ng-click="vm.refreshStockPrice()"></i>
+                <i style="color: lightskyblue" class="fa fa-2x fa-refresh" ></i>
 
 
             </th>
 
-            <th md-column>
-                Change
-            </th>
-            <th md-column>
+<!--            <th md-column>-->
+<!--                Change-->
+<!--            </th>-->
+
+            <th md-column style="width: 80px">
                 Exposure
             </th>
+            <th md-column style="width: 80px">
+                #
+            </th>
+
             <th md-column>
                 Cash In
 
-                <i class="fa fa-clipboard" ng-click="vm.onCopyDataToClipboard(stocks) "></i>
+                <i style="cursor: pointer" class="fa fa-clipboard" ng-click="vm.onCopyDataToClipboard(stocks) "></i>
             </th>
 
 
@@ -38,7 +43,7 @@
 
         <tr md-row ng-repeat="e in stocks ">
 
-            <td md-cell style="width: 30%">
+            <td md-cell >
                 <i class="fa fa-dollar" ng-if="!e.isHK()"> </i>
                 {{ e.Name}}
                 <br/>
@@ -53,13 +58,13 @@
 
                 <br/>
             </td>
-            <td md-cell ng-style="{background: e.getChange() >= 0 ? '' : 'lightpink' }">
-                <span ng-show=" e.getChange() != 0" >
-                {{ e.getChange().toFixed(2)}}
-                <br/>
-                {{ e.getChangePct().toFixed(2)}}%
-                </span>
-            </td>
+<!--            <td md-cell ng-style="{background: e.getChange() >= 0 ? '' : 'lightpink' }">-->
+<!--                <span ng-show=" e.getChange() != 0" >-->
+<!--                {{ e.getChange().toFixed(2)}}-->
+<!--                <br/>-->
+<!--                {{ e.getChangePct().toFixed(2)}}%-->
+<!--                </span>-->
+<!--            </td>-->
             <td md-cell>
                 <span ng-if="e._exposure_c">
                 {{(e._exposure_c/10000).toFixed(2)}}w
@@ -71,6 +76,15 @@
 
             </td>
 
+            <td md-cell>
+                {{e._num_call}}
+                <br/>
+
+                <span >
+                {{e._num_put}}
+                </span>
+
+            </td>
             <td md-cell>
                 {{e._cash_in_amt}}
                 <br/>
