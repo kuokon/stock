@@ -1,5 +1,33 @@
-[
-  {"Name":"騰訊","Symbol":"0700","Price":586,"OptionMultiple":100,"IsHK":1}
-  ,{"Name":"阿里","Symbol":"9988","Price":205,"OptionMultiple":500,"IsHK":1}
-  ,{"Name":"富途","Symbol":"futu","Price":586,"OptionMultiple":100,"IsHK":0}
-]
+{
+  "data": {
+    "Global Quote": {
+      "01. symbol": "GOOG",
+      "02. open": "2514.8000",
+      "03. high": "2540.7349",
+      "04. low": "2502.6850",
+      "05. price": "2529.1000",
+      "06. volume": "1312826",
+      "07. latest trading day": "2021-06-21",
+      "08. previous close": "2511.3500",
+      "09. change": "17.7500",
+      "10. change percent": "0.7068%"
+    }
+  },
+  "status": 200,
+  "config": {
+    "method": "GET",
+    "transformRequest": [
+      null
+    ],
+    "transformResponse": [
+      null
+    ],
+    "jsonpCallbackParam": "callback",
+    "url": "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=goog&apikey=4VDN7RLHYUFKHWXE",
+    "headers": {
+      "Accept": "application/json, text/plain, */*"
+    }
+  },
+  "statusText": "",
+  "xhrStatus": "complete"
+}

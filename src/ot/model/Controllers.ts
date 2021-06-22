@@ -26,7 +26,6 @@ module MyApp {
     }
 
 
-
     export class OptionController {
 
         static $inject = ['DbService', '$routeParams', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', '$mdBottomSheet'];
@@ -36,7 +35,7 @@ module MyApp {
         stats: OptionStats = new OptionStats();
         isShowExpire: boolean = false;
         isShowStocks: boolean = true;
-        filter:string;
+        filter: string;
 
 
         constructor(private DbService: DbService,
@@ -51,59 +50,136 @@ module MyApp {
 
         }
 
-        onMakeStock() : void {
-            let stock = Stock.fromJson(this.svr,'');
+        onMakeStock(): void {
+            let stock = Stock.fromJson(this.svr, '');
 
             this.svr.mgr.stocks.add(stock);
         }
 
 
-
-        getOptions(filter:string) : Option[] {
+        getOptions(filter: string): Option[] {
 
             let tmp = this.svr.mgr.options.getAll();
 
-            if(!this.isShowExpire) {
-                tmp  = tmp.filter( e=> { return !e.isExpired()})
+            if (!this.isShowExpire) {
+                tmp = tmp.filter(e => {
+                    return !e.isExpired()
+                })
             }
 
-            let res = [];
+            let res: Option[] = [];
 
-            if(!Helper.isBlank(filter)) {
+            if (!Helper.isBlank(filter)) {
                 for (const re of tmp) {
-                    if(re.match(filter)){
+                    if (re.match(filter)) {
                         res.push(re);
                     }
                 }
 
-            } else  {
+            } else {
                 res = tmp;
             }
 
             this.stats.calc(res);
+
+            let stocks = this.svr.mgr.stocks.getAll();
+            stocks.forEach(e => {
+                e._exposure_p = 0;
+                e._exposure_c = 0;
+                e._cash_in_amt = 0;
+                e._cash_lost_amt = 0;
+            });
+
+            res.forEach(e => {
+
+                let ep = e.getExposure();
+                let stock = e.getStock();
+                if (e.isCall()) {
+                    stock._exposure_c += ep;
+                } else {
+                    stock._exposure_p += ep;
+                }
+
+                stock._cash_in_amt += e.Premium * e._stock.OptionMultiple;
+                stock._cash_lost_amt += e.getLost();
+
+            });
+
             return res;
 
         }
 
 
-        onParse(raw) : ParseResult {
+        onParse(raw): ParseResult {
 
             let isHK = false;
             return Import.parseRaw(this.svr, raw, isHK);
         }
 
-        getSubheaders() : NV[] {
+        getSubheaders(): NV[] {
             return [
                 {name: 'main', value: '/'}
                 , {name: 'import', value: '/option/'}
             ]
         }
 
-        onCopyDataToClipboard(options:Option[] ) : void {
+        onCopyDataToClipboard(options: Option[]): void {
 
             //let res :Option[] = pr.parsed;
             let buf = JSON.stringify(options, Helper.json_replacer);
             Helper.copyTxtToClipboard(this.svr, buf);
+
+
+        }
+
+        refreshStockPrice(): void {
+
+            let stocks = this.svr.mgr.stocks.getAll();
+            stocks.forEach(e => {
+                this.getStockPrice(e);
+            })
+
+        }
+
+        getStockPrice(stock: Stock): number {
+
+
+            let symbol = 'goog';
+            let apikey = '4VDN7RLHYUFKHWXE';
+
+
+            symbol = stock.Symbol + (stock.isHK() ? '.HK' : '' );
+
+            //let url = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=IBM&apikey=demo';
+            let url = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=' + symbol + '&apikey=' + apikey;
+
+            // console.info(' ')
+
+            this.svr.$http.get(url).then(res => {
+                console.info(' res: ' + JSON.stringify(res));
+                console.info(' curr price for ' + symbol + ' ==> ' + res.data);
+
+                let price , last;
+
+                try {
+
+                    price = res.data['Global Quote']['05. price'];
+                    last = res.data['Global Quote']['08. previous close'];
+                    // change = res.data['Global Quote']['09. change'];
+                    // change_pct = res.data['Global Quote']['10. change percent'];
+
+                    stock.Price = parseFloat(price);
+                    stock.PriceLast = parseFloat(last);
+
+
+                    console.info(' price updated ' + stock.Symbol + ' --> ' + stock.Price);
+                } catch (e) {
+                    console.error(e);
+                }
+
+            });
+
+            return 100;
 
         }
 

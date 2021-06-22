@@ -2,10 +2,10 @@
 
     <table md-table ng-init="stocks = svr.mgr.stocks.getAll();">
         <thead md-head>
-        <tr md-row ng-click="vm.isShowStocks = !vm.isShowStocks">
+        <tr md-row>
 
 
-            <th md-column>
+            <th md-column ng-click="vm.isShowStocks = !vm.isShowStocks">
 
                 名稱 # {{stocks.length}}
             </th>
@@ -14,20 +14,31 @@
             <th md-column>
                 Price
 
-                <i class="fa fa-clipboard" ng-click="vm.onCopyDataToClipboard(stocks) "></i>
-                <i class="fa fa-plus" ng-click="vm.onMakeStock()"/>
+                <i style="background: lightpink" class="fa fa-refresh" ng-click="vm.refreshStockPrice()"></i>
+
 
             </th>
 
+            <th md-column>
+                Change
+            </th>
+            <th md-column>
+                Exposure
+            </th>
+            <th md-column>
+                Cash In
+
+                <i class="fa fa-clipboard" ng-click="vm.onCopyDataToClipboard(stocks) "></i>
+            </th>
 
 
         </tr>
         </thead>
         <tbody md-body class="md-inline-form" ng-if="vm.isShowStocks">
 
-        <tr md-row ng-repeat="e in stocks " >
+        <tr md-row ng-repeat="e in stocks ">
 
-            <td md-cell style="width: 30%" >
+            <td md-cell style="width: 30%">
                 <i class="fa fa-dollar" ng-if="!e.isHK()"> </i>
                 {{ e.Name}}
                 <br/>
@@ -39,6 +50,35 @@
                            ng-model="e.Price"
                     >
                 </md-input-container>
+
+                <br/>
+            </td>
+            <td md-cell ng-style="{background: e.getChange() >= 0 ? '' : 'lightpink' }">
+                <span ng-show=" e.getChange() != 0" >
+                {{ e.getChange().toFixed(2)}}
+                <br/>
+                {{ e.getChangePct().toFixed(2)}}%
+                </span>
+            </td>
+            <td md-cell>
+                <span ng-if="e._exposure_c">
+                {{(e._exposure_c/10000).toFixed(2)}}w
+                </span>
+                <br/>
+                <span ng-if="e._exposure_p">
+                {{(e._exposure_p/10000).toFixed(2)}}w
+                </span>
+
+            </td>
+
+            <td md-cell>
+                {{e._cash_in_amt}}
+                <br/>
+
+                <span ng-if="e._cash_lost_amt>0" style="background: lightpink">
+                -{{e._cash_lost_amt.toFixed(2)}}
+                </span>
+
             </td>
 
         </tr>

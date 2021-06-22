@@ -852,6 +852,7 @@ var MyApp;
             this.numContracts = 0;
             this.numRows = 0;
             this.amtDaySum = 0;
+            this.amtCashIn = 0;
             this.cost_exposure_ratio = 0;
             for (var _i = 0, options_1 = options; _i < options_1.length; _i++) {
                 var option = options_1[_i];
@@ -859,6 +860,7 @@ var MyApp;
                 this.amtCost += option.toHKD(option.AmtCost);
                 this.numContracts += Math.abs(option.NumContract);
                 this.numRows++;
+                this.amtDaySum += option.toHKD(option.Premium * option.getStock().OptionMultiple);
                 this.amtDaySum += option.toHKD(option.getAmtPerDay());
             }
             this.cost_exposure_ratio = (this.amtCost / this.exposure * 100);
@@ -876,9 +878,16 @@ var MyApp;
             _this.Price = 0;
             _this.OptionMultiple = 0;
             _this.IsHK = 0;
+            _this.PriceLast = 0;
             _this._dirty = true;
+            _this._exposure_p = 0;
+            _this._exposure_c = 0;
+            _this._cash_in_amt = 0;
+            _this._cash_lost_amt = 0;
             return _this;
         }
+        // _change: number = 0;
+        // _change_pct: string = '';
         Stock.fromJson = function (svr, json) {
             var e = new Stock();
             e._dirty = false;
@@ -887,6 +896,10 @@ var MyApp;
             e.Price = json.Price || 0;
             e.OptionMultiple = json.OptionMultiple || 0;
             e.IsHK = json.IsHK || 0;
+            e.PriceLast = json.PriceLast || 0;
+            if (!e.PriceLast) {
+                e.PriceLast = e.Price;
+            }
             return e;
         };
         Stock.prototype.getKey = function () {
@@ -894,6 +907,12 @@ var MyApp;
         };
         Stock.prototype.isHK = function () {
             return this.IsHK > 0;
+        };
+        Stock.prototype.getChange = function () {
+            return this.Price - this.PriceLast;
+        };
+        Stock.prototype.getChangePct = function () {
+            return (this.getChange() / this.PriceLast * 100);
         };
         Stock.str = 'Stock| Name:str; Symbol:str; Price:number; OptionMultiple:num; IsHK:int; ';
         return Stock;
@@ -947,7 +966,7 @@ var MyApp;
             if (this.Name.startsWith('騰訊')) {
                 return '0700';
             }
-            if (this.Name.startsWith('阿里')) {
+            if (this.Name.startsWith('阿里') || this.Name.startsWith('BA')) {
                 return '9988';
             }
             if (this.Name.startsWith('FU')) {
@@ -1059,6 +1078,16 @@ var MyApp;
                 delta = (sign * this.Premium);
             }
             return this.Strike + delta;
+        };
+        Option.prototype.getLost = function () {
+            var res = 0;
+            if (!this.isOutOfMoney(true)) {
+                var breakEven = this.getBreakEvenPrice(true);
+                var price = this.getStock().Price;
+                var delta = this.getSign() * (price - breakEven);
+                res = delta * this.getStock().OptionMultiple;
+            }
+            return res;
         };
         Option.str = 'Option| Name:str; Strike:num; StockTicker:str; DateBought:str; DateExp: str; Price:num; PriceAtBought:num; PriceAtExp:num Premium:int; AmtCost:int; NumContract:int; NumShareExposed; P_C:str; ';
         return Option;

@@ -1138,6 +1138,7 @@ module MyApp {
         amtDaySum: number;
         numContracts: number;
         numRows: number;
+        amtCashIn: number;
 
         cost_exposure_ratio: number;
 
@@ -1148,6 +1149,7 @@ module MyApp {
             this.numContracts = 0;
             this.numRows = 0;
             this.amtDaySum = 0;
+            this.amtCashIn = 0;
 
             this.cost_exposure_ratio = 0;
 
@@ -1156,6 +1158,7 @@ module MyApp {
                 this.amtCost += option.toHKD(option.AmtCost);
                 this.numContracts += Math.abs(option.NumContract);
                 this.numRows++;
+                this.amtDaySum += option.toHKD(option.Premium * option.getStock().OptionMultiple);
 
                 this.amtDaySum += option.toHKD(option.getAmtPerDay())
             }
@@ -1175,7 +1178,17 @@ module MyApp {
         public Price: number = 0;
         public OptionMultiple: number = 0;
         public IsHK: number = 0;
+        public PriceLast: number =0;
+
         public _dirty: boolean = true;
+
+        _exposure_p: number = 0;
+        _exposure_c: number = 0;
+        _cash_in_amt: number = 0;
+        _cash_lost_amt: number = 0;
+        // _change: number = 0;
+        // _change_pct: string = '';
+
 
         static fromJson(svr: DbService, json): Stock {
             let e = new Stock();
@@ -1187,6 +1200,12 @@ module MyApp {
             e.Price = json.Price || 0;
             e.OptionMultiple = json.OptionMultiple || 0;
             e.IsHK = json.IsHK || 0;
+            e.PriceLast = json.PriceLast || 0;
+
+            if(!e.PriceLast) {
+                e.PriceLast = e.Price;
+            }
+
             return e;
         }
 
@@ -1197,6 +1216,15 @@ module MyApp {
         isHK(): boolean {
             return this.IsHK > 0;
         }
+
+        getChange() : number {
+            return this.Price -this.PriceLast;
+        }
+
+        getChangePct() : number {
+            return (this.getChange()/this.PriceLast * 100);
+        }
+
 
     }
 
@@ -1265,7 +1293,7 @@ module MyApp {
                 return '0700';
             }
 
-            if (this.Name.startsWith('阿里')) {
+            if (this.Name.startsWith('阿里') || this.Name.startsWith('BA')) {
                 return '9988';
             }
             if (this.Name.startsWith('FU')) {
@@ -1287,7 +1315,7 @@ module MyApp {
                 res = 'lightgrey';
             } else {
 
-                if(this.Strike == 580) {
+                if (this.Strike == 580) {
                     console.info('hello');
                 }
 
@@ -1388,17 +1416,17 @@ module MyApp {
             return this.P_C == 'C';
         }
 
-        getSign() : number {
+        getSign(): number {
 
 
             let res = 1;
 
-            if(this.NumContract < 0) {
+            if (this.NumContract < 0) {
                 res = -res;
             }
 
 
-            if(this.isCall()) {
+            if (this.isCall()) {
                 res = -res;
             }
 
@@ -1411,8 +1439,8 @@ module MyApp {
 
 
             let breakEven = this.getBreakEvenPrice(withPremium);
-            let price =   this.getStock().Price ;
-            let delta =  this.getSign() * (price - breakEven);
+            let price = this.getStock().Price;
+            let delta = this.getSign() * (price - breakEven);
             return delta < 0;
         }
 
@@ -1429,6 +1457,17 @@ module MyApp {
             return this.Strike + delta;
         }
 
+        getLost(): number {
+            let res = 0;
+            if (!this.isOutOfMoney(true)) {
+                let breakEven = this.getBreakEvenPrice(true);
+                let price = this.getStock().Price;
+                let delta = this.getSign() * (price - breakEven);
+                res = delta * this.getStock().OptionMultiple;
+            }
+
+            return  res;
+        }
     }
 
 

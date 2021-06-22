@@ -5,3 +5,8 @@
     min-height:0;
     min-width:0;
 }
+
+
+md-input-container:not(.md-input-invalid) .md-errors-spacer {
+    display: none;
+}

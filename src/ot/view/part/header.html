@@ -37,6 +37,8 @@
 
         <span flex></span>
 
+        <i class="fa fa-flag" ng-click="vm.isShowExpire = !vm.isShowExpire"></i>
+
 
         <md-button class="md-fab md-mini  md-primary md-hue-1" ng-if="svr.getCurrUser().isAdmin()" ng-click="svr.goTo('/admin/')" >
             <i class="fa fa-superpowers"></i>
