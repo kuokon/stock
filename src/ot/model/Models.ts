@@ -1155,10 +1155,9 @@ module MyApp {
 
             for (const option of options) {
                 this.exposure += option.toHKD(option.getExposure());
-                this.amtCost += option.toHKD(option.AmtCost);
+                this.amtCost += option.toHKD(option.getCashIn());
                 this.numContracts += Math.abs(option.NumContract);
                 this.numRows++;
-                this.amtDaySum += option.toHKD(option.Premium * option.getStock().OptionMultiple);
 
                 this.amtDaySum += option.toHKD(option.getAmtPerDay())
             }
@@ -1250,9 +1249,9 @@ module MyApp {
         public DateBought: string = '';
         public DateExp: string = '';
         public Premium: number = 0;
-        public AmtCost: number = 0;
+        // public AmtCost: number = 0;
         public NumContract: number = 0;
-        public NumShareExposed: number = 0;
+        // public NumShareExposed: number = 0;
         public P_C: string = '';
 
 
@@ -1275,10 +1274,10 @@ module MyApp {
             e.DateBought = json.DateBought;
             e.DateExp = json.DateExp;
             e.Premium = json.Premium;
-            e.AmtCost = json.AmtCost;
+            // e.AmtCost = json.AmtCost;
 
             e.NumContract = json.NumContract;
-            e.NumShareExposed = json.NumShareExposed;
+            // e.NumShareExposed = json.NumShareExposed;
             e.P_C = json.P_C;
 
 
@@ -1321,7 +1320,7 @@ module MyApp {
                 if (!this.isOutOfMoney(false)) {
 
                     if (this.isOutOfMoney(true)) {
-                        res = 'lightpink';
+                        res = 'pink';
                     } else {
                         res = 'lightcoral'
                     }
@@ -1345,23 +1344,18 @@ module MyApp {
         }
 
         getAmtPerDay(): number {
-            return (this.AmtCost) / this._dayBoughtTillExp;
+            return (this.getCashIn()) / this._dayBoughtTillExp;
         }
 
         getExposure(): number {
-            return Math.abs(this.NumShareExposed) * this.Strike;
+            return this.getNumShares() * this.Strike;
+        }
+
+        getNumShares() : number {
+            return Math.abs( this.getStock().OptionMultiple * this.NumContract);
         }
 
 
-
-        //
-        // toJSON(): string {
-        //     return JSON.stringify(this, Helper.json_replacer);
-        // }
-
-        getShareMultiple(): number {
-            return this.getStock().OptionMultiple
-        }
 
         getStock(): Stock {
             return this._stock;
@@ -1397,7 +1391,7 @@ module MyApp {
             return this._dayToExp < 0;
         }
 
-        match(filter): boolean {
+        match(filter:string): boolean {
             let txt = this.Strike + '-' + this.P_C;
 
             return (txt.indexOf(filter) >= 0);
@@ -1465,7 +1459,23 @@ module MyApp {
         }
 
         getCashIn() : number {
-            return this.Premium * this._stock.OptionMultiple;
+            return - this.getNumShares() * this.Premium;
+        }
+
+
+
+        getRisk() : number {
+
+            let price = this.getStock().Price;
+
+            return   price / (price - this.Strike)    * ( this._dayToExp / 365 ) ;
+
+        }
+
+        getReturn() : number{
+
+            return -this.getCashIn() / this.getExposure() * (this._dayToExp/365);
+
         }
 
         getLost(): number {
@@ -1474,7 +1484,7 @@ module MyApp {
                 let breakEven = this.getBreakEvenPrice(true);
                 let price = this.getStock().Price;
                 let delta = this.getSign() * (price - breakEven);
-                res = delta * this.getStock().OptionMultiple;
+                res = delta * this.getNumShares();
             }
 
             return  res;

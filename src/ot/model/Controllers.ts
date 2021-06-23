@@ -25,6 +25,12 @@ module MyApp {
 
     }
 
+    export class OptionFilter {
+        public txt:string='';
+        public dte:number=0;
+        public isShowExpire:boolean=false;
+    }
+
 
     export class OptionController {
 
@@ -35,7 +41,8 @@ module MyApp {
         stats: OptionStats = new OptionStats();
         isShowExpire: boolean = false;
         isShowStocks: boolean = true;
-        filter: string;
+        filter: OptionFilter = new OptionFilter();
+
 
 
         constructor(private DbService: DbService,
@@ -48,6 +55,7 @@ module MyApp {
 
             this.svr = DbService;
 
+
         }
 
         onMakeStock(): void {
@@ -57,7 +65,7 @@ module MyApp {
         }
 
 
-        getOptions(filter: string): Option[] {
+        getOptions(filter: OptionFilter): Option[] {
 
             let tmp = this.svr.mgr.options.getAll();
 
@@ -69,15 +77,21 @@ module MyApp {
 
             let res: Option[] = [];
 
-            if (!Helper.isBlank(filter)) {
+            if (!Helper.isBlank(filter.txt)) {
                 for (const re of tmp) {
-                    if (re.match(filter)) {
+                    if (re.match(filter.txt)) {
                         res.push(re);
                     }
                 }
 
             } else {
                 res = tmp;
+            }
+
+            if(filter.dte>0){
+                res = res.filter( e=> {
+                    return e._dayToExp <= filter.dte;
+                })
             }
 
             this.stats.calc(res);

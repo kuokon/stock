@@ -26,14 +26,21 @@
             <i class="fa fa-arrow-up"></i>
         </md-button>
 
-        <h3 style="min-width: 50%;"  onclick="window.scrollTo(0,0);">
+        <h3 xstyle="min-width: 50%;"  onclick="window.scrollTo(0,0);">
             {{svr.title}}
         </h3>
 
-        <span>
+        <md-input-container class="box-none" style="background: lightgrey; margin-left: 10px">
+            <label class="fa fa-search"></label>
+            <input ng-model="vm.filter.txt" type="text"
+                   ng-model-options="{ allowInvalid: true, debounce: 500 }">
+        </md-input-container>
 
-        </span>
+        <md-input-container class="box-none" style="background: lightgrey; margin-left: 10px; width: 20px">
 
+            <input ng-model="vm.filter.dte" type="number"
+                   ng-model-options="{ allowInvalid: true, debounce: 500 }">
+        </md-input-container>
 
         <span flex></span>
 

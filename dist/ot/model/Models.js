@@ -857,10 +857,9 @@ var MyApp;
             for (var _i = 0, options_1 = options; _i < options_1.length; _i++) {
                 var option = options_1[_i];
                 this.exposure += option.toHKD(option.getExposure());
-                this.amtCost += option.toHKD(option.AmtCost);
+                this.amtCost += option.toHKD(option.getCashIn());
                 this.numContracts += Math.abs(option.NumContract);
                 this.numRows++;
-                this.amtDaySum += option.toHKD(option.Premium * option.getStock().OptionMultiple);
                 this.amtDaySum += option.toHKD(option.getAmtPerDay());
             }
             this.cost_exposure_ratio = (this.amtCost / this.exposure * 100);
@@ -935,9 +934,9 @@ var MyApp;
             _this.DateBought = '';
             _this.DateExp = '';
             _this.Premium = 0;
-            _this.AmtCost = 0;
+            // public AmtCost: number = 0;
             _this.NumContract = 0;
-            _this.NumShareExposed = 0;
+            // public NumShareExposed: number = 0;
             _this.P_C = '';
             _this._dirty = true;
             return _this;
@@ -956,9 +955,9 @@ var MyApp;
             e.DateBought = json.DateBought;
             e.DateExp = json.DateExp;
             e.Premium = json.Premium;
-            e.AmtCost = json.AmtCost;
+            // e.AmtCost = json.AmtCost;
             e.NumContract = json.NumContract;
-            e.NumShareExposed = json.NumShareExposed;
+            // e.NumShareExposed = json.NumShareExposed;
             e.P_C = json.P_C;
             e._stock = svr.mgr.stocks.getByKey(e.getStockSymbol());
             e.init();
@@ -986,7 +985,7 @@ var MyApp;
             else {
                 if (!this.isOutOfMoney(false)) {
                     if (this.isOutOfMoney(true)) {
-                        res = 'lightpink';
+                        res = 'pink';
                     }
                     else {
                         res = 'lightcoral';
@@ -1005,17 +1004,13 @@ var MyApp;
             // }
         };
         Option.prototype.getAmtPerDay = function () {
-            return (this.AmtCost) / this._dayBoughtTillExp;
+            return (this.getCashIn()) / this._dayBoughtTillExp;
         };
         Option.prototype.getExposure = function () {
-            return Math.abs(this.NumShareExposed) * this.Strike;
+            return this.getNumShares() * this.Strike;
         };
-        //
-        // toJSON(): string {
-        //     return JSON.stringify(this, Helper.json_replacer);
-        // }
-        Option.prototype.getShareMultiple = function () {
-            return this.getStock().OptionMultiple;
+        Option.prototype.getNumShares = function () {
+            return Math.abs(this.getStock().OptionMultiple * this.NumContract);
         };
         Option.prototype.getStock = function () {
             return this._stock;
@@ -1085,7 +1080,14 @@ var MyApp;
             return this.Strike + delta;
         };
         Option.prototype.getCashIn = function () {
-            return this.Premium * this._stock.OptionMultiple;
+            return -this.getNumShares() * this.Premium;
+        };
+        Option.prototype.getRisk = function () {
+            var price = this.getStock().Price;
+            return price / (price - this.Strike) * (this._dayToExp / 365);
+        };
+        Option.prototype.getReturn = function () {
+            return -this.getCashIn() / this.getExposure() * (this._dayToExp / 365);
         };
         Option.prototype.getLost = function () {
             var res = 0;
@@ -1093,7 +1095,7 @@ var MyApp;
                 var breakEven = this.getBreakEvenPrice(true);
                 var price = this.getStock().Price;
                 var delta = this.getSign() * (price - breakEven);
-                res = delta * this.getStock().OptionMultiple;
+                res = delta * this.getNumShares();
             }
             return res;
         };

@@ -16,6 +16,15 @@ var MyApp;
         return AdminController;
     }());
     MyApp.AdminController = AdminController;
+    var OptionFilter = /** @class */ (function () {
+        function OptionFilter() {
+            this.txt = '';
+            this.dte = 0;
+            this.isShowExpire = false;
+        }
+        return OptionFilter;
+    }());
+    MyApp.OptionFilter = OptionFilter;
     var OptionController = /** @class */ (function () {
         function OptionController(DbService, $routeParams, $mdSidenav, $mdToast, $mdDialog, $mdMedia, $mdBottomSheet) {
             this.DbService = DbService;
@@ -28,6 +37,7 @@ var MyApp;
             this.stats = new MyApp.OptionStats();
             this.isShowExpire = false;
             this.isShowStocks = true;
+            this.filter = new OptionFilter();
             this.svr = DbService;
         }
         OptionController.prototype.onMakeStock = function () {
@@ -42,16 +52,21 @@ var MyApp;
                 });
             }
             var res = [];
-            if (!MyApp.Helper.isBlank(filter)) {
+            if (!MyApp.Helper.isBlank(filter.txt)) {
                 for (var _i = 0, tmp_1 = tmp; _i < tmp_1.length; _i++) {
                     var re = tmp_1[_i];
-                    if (re.match(filter)) {
+                    if (re.match(filter.txt)) {
                         res.push(re);
                     }
                 }
             }
             else {
                 res = tmp;
+            }
+            if (filter.dte > 0) {
+                res = res.filter(function (e) {
+                    return e._dayToExp <= filter.dte;
+                });
             }
             this.stats.calc(res);
             var stocks = this.svr.mgr.stocks.getAll();

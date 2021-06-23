@@ -8,7 +8,7 @@
 
 <md-table-container>
 
-    <table md-table style="height: 800px">
+    <table md-table>
         <thead md-head>
         <tr md-row>
 
@@ -30,40 +30,47 @@
 
             </th>
 
-            <th md-column>$</th>
-            <th md-column>DTE
-                <md-input-container class="box-none">
-                    <md-checkbox class="green" ng-model="vm.isShowExpire"></md-checkbox>
-                </md-input-container>
+            <th md-column style="width: 20px">
+                Buffer
             </th>
 
 
-            <th md-column>
+            <th md-column style="width: 10px">
+                <span ng-click="vm.filter.dte=0">
+                DTE
+                </span>
+            </th>
+
+
+            <th md-column style="width: 20px">
                 落盤日
                 <br/>
                 ${{vm.stats.amtDaySum.toFixed(2)}}
             </th>
 
-            <th md-column>
-                Buffer
-            </th>
 
-            <th md-column>
+            <th md-column style="width: 20px">
                 Lost
             </th>
 
-            <th md-column>Cost/ exposure
+            <th md-column style="width: 20px">
+                Cash / Exposure
                 <br/>
                 {{ (vm.stats.amtCost/10000).toFixed(2)}}w / {{ (vm.stats.exposure/10000).toFixed(2)}}w |
 
                 {{ vm.stats.cost_exposure_ratio.toFixed(2)}}%
             </th>
-            <th md-column >時間
+            <th md-column style="width: 100px">時間
 
-                <i style="cursor: pointer" class="fa fa-clipboard" ng-click="vm.onCopyDataToClipboard(svr.mgr.options.getAll()) "></i>
+                <i style="cursor: pointer" class="fa fa-clipboard"
+                   ng-click="vm.onCopyDataToClipboard(svr.mgr.options.getAll()) "></i>
 
             </th>
 
+            <th md-column style="width: 20px">
+                Risk/Return
+            </th>
+            <th/>
 
         </tr>
         </thead>
@@ -71,7 +78,6 @@
 
         <tr md-row ng-repeat="e in vm.getOptions(vm.filter) "
             ng-style="{background: e.getColor()}"
-
         >
 
             <td md-cell style="width: 10px">
@@ -82,16 +88,18 @@
                 <i class="fa fa-dollar" ng-if="!e.isHK()"></i>
                 {{e.StockTicker}} {{ e.Name}} {{e.Strike}}-{{e.P_C}}
                 <br/>
-                <span style="margin-left: 30px">{{ e.getBreakEvenPrice()}}</span>
+
+                <span> ${{ e.Premium}}</span>
             </td>
 
-
-            <td md-cell style="width: 20px"> ${{ e.Premium}}
-                <br/>
+            <td md-cell>
                 ${{ (e.getSign() *( e.Strike - e._stock.Price)).toFixed(2)}}
+                <br/>
+                {{ e.getPriceBufferPct().toFixed(2)}}% <br/>
             </td>
 
-            <td md-cell style="width: 10px">
+
+            <td md-cell style="width: 10px" ng-click="vm.filter.dte=e._dayToExp">
                 {{ e._dayToExp}}
             </td>
 
@@ -101,27 +109,22 @@
                 ${{ e.getAmtPerDay().toFixed(2) }}
             </td>
 
-            <td md-cell>
-                {{ e.getPriceBufferPct().toFixed(2)}}% <br/>
-            </td>
 
             <td md-cell>
                 <span ng-if='e.getLost()'>
                 {{ e.getLost().toFixed(2)}}
-
-                |    {{(e.getLost() / e.getCashIn() * 100).toFixed(2)}}%
-
-
                 <br/>
-                {{e.getCashIn().toFixed(2)}}
+                    {{(e.getLost() / e.getCashIn() * 100).toFixed(2)}}%
+
                 </span>
+
             </td>
 
 
             <td md-cell>
-                {{ e.AmtCost}} | {{ (e.AmtCost/(e.NumShareExposed * e.Strike) * 100).toFixed(2)}}%
+                {{ e.getCashIn().toFixed(2)}} | {{ (e.getCashIn()/(e.getNumShares() * e.Strike) * 100).toFixed(2)}}%
                 <br/>
-                {{ e.NumShareExposed * e.Strike}}
+                {{ e.getNumShares() * e.Strike}}
             </td>
 
             <td md-cell>
@@ -129,6 +132,12 @@
                 {{ e.DateExp}}
             </td>
 
+            <td md-cell>
+                {{ e.getRisk().toFixed(5)}} <br/>
+                {{ e.getReturn().toFixed(5)}}
+            </td>
+
+            <td></td>
 
         </tr>
 

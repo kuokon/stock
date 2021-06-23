@@ -73,7 +73,7 @@ var MyApp;
                 }
                 res.Premium = parseFloat(unitPrice.replace(',', ''));
                 res.NumShareExposed = res.NumContract * 100;
-                res.AmtCost = res.NumShareExposed * res.Premium;
+                // res.AmtCost = res.NumShareExposed * res.Premium;
                 //res.AmtCost = parseFloat(amtExecuted.replace(',', ''));
                 //res.NumShareExposed = Math.round( res.AmtCost / res.Premium / Math.abs(res.NumContract) );
                 //
@@ -137,8 +137,15 @@ var MyApp;
                     console.warn(' P_C ' + res.P_C);
                 }
                 res.Premium = parseFloat(priceExecuted.replace(',', ''));
-                res.AmtCost = parseFloat(amtExecuted.replace(',', ''));
-                res.NumShareExposed = Math.round(res.AmtCost / res.Premium / Math.abs(res.NumContract));
+                var amtCost = parseFloat(amtExecuted.replace(',', ''));
+                res.NumShareExposed = Math.round(amtCost / res.Premium / Math.abs(res.NumContract));
+                var stock = res.getStock();
+                if (stock.OptionMultiple != res.NumShareExposed) {
+                    console.warn(' numShare not equal! NumShareExposed : ' + res.NumShareExposed + '\n ' + line);
+                }
+                if (amtCost != (res.NumShareExposed * res.Premium)) {
+                    console.warn('something fishy about ! ');
+                }
                 if (res.NumShareExposed < 0) {
                     console.warn('#shares : exe ' + parseInt(amtExecuted) + ', premium: ' + res.Premium + ', num' + Math.abs(res.NumContract));
                 }
