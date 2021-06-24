@@ -46,6 +46,8 @@ module MyApp {
         isShowMonths: boolean = true;
         filter: OptionFilter = new OptionFilter();
 
+        mock:Option = null;
+
 
 
         constructor(private DbService: DbService,
@@ -140,14 +142,23 @@ module MyApp {
 
             });
 
+            if(this.mock) {
+                res.unshift(this.mock);
+            }
+
             return res;
+        }
+
+        makeMock(option)  : void {
+            let json = JSON.parse(JSON.stringify(option) );
+            this.mock = Option.fromJson(this.svr, json);
 
         }
 
 
         onParse(raw): ParseResult {
 
-            let isHK = false;
+            let isHK = true;
             return Import.parseRaw(this.svr, raw, isHK);
         }
 

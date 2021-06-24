@@ -40,6 +40,7 @@ var MyApp;
             this.isShowStocks = true;
             this.isShowMonths = true;
             this.filter = new OptionFilter();
+            this.mock = null;
             this.svr = DbService;
         }
         OptionController.prototype.onMakeStock = function () {
@@ -102,10 +103,17 @@ var MyApp;
                 stock._cash_in_amt += e.getCashIn();
                 stock._cash_lost_amt += e.getLost();
             });
+            if (this.mock) {
+                res.unshift(this.mock);
+            }
             return res;
         };
+        OptionController.prototype.makeMock = function (option) {
+            var json = JSON.parse(JSON.stringify(option));
+            this.mock = MyApp.Option.fromJson(this.svr, json);
+        };
         OptionController.prototype.onParse = function (raw) {
-            var isHK = false;
+            var isHK = true;
             return MyApp.Import.parseRaw(this.svr, raw, isHK);
         };
         OptionController.prototype.getSubheaders = function () {

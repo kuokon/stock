@@ -182,6 +182,17 @@ var MyApp;
         Base.prototype.getKey = function () {
             return null;
         };
+        Base.prototype.toJSON = function () {
+            var _this = this;
+            var json = {};
+            var ignore = ['db', 'svr', '$$hashKey'];
+            Object.getOwnPropertyNames(this).filter(function (name) {
+                return (ignore.indexOf(name) < 0 && !name.startsWith('_'));
+            }).forEach(function (name) {
+                json[name] = _this[name];
+            });
+            return json;
+        };
         Base.prototype.toString = function () {
             return JSON.stringify(this, Helper.json_replacer);
         };
@@ -924,17 +935,22 @@ var MyApp;
             var num = option.NumContract;
             var cell = this._month_contracts[month];
             if (!cell) {
-                cell = [0, 0];
+                cell = { num_call: 0, num_put: 0, cash_in_daily: 0 };
                 this._month_contracts[month] = cell;
             }
-            var idx = isCall ? 0 : 1;
+            var idx = isCall ? 'num_call' : 'num_put';
             cell[idx] += num;
+            cell.cash_in_daily += option.getAmtPerDay();
+        };
+        Stock.prototype.getCashIn = function (month) {
+            var cell = this._month_contracts[month];
+            return cell.cash_in_daily;
         };
         Stock.prototype.getContractNum = function (month, isCall) {
             var cell = this._month_contracts[month];
             var res = 0;
             if (cell) {
-                var idx = isCall ? 0 : 1;
+                var idx = isCall ? 'num_call' : 'num_put';
                 res = cell[idx];
             }
             return res;

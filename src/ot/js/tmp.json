@@ -1,33 +1,57 @@
-{
-  "data": {
-    "Global Quote": {
-      "01. symbol": "GOOG",
-      "02. open": "2514.8000",
-      "03. high": "2540.7349",
-      "04. low": "2502.6850",
-      "05. price": "2529.1000",
-      "06. volume": "1312826",
-      "07. latest trading day": "2021-06-21",
-      "08. previous close": "2511.3500",
-      "09. change": "17.7500",
-      "10. change percent": "0.7068%"
-    }
+
+  {
+    "Id": -1,
+    "Status": 0,
+    "Remark": "",
+    "UpdateBy": 0,
+    "Name": "阿里",
+    "Strike": 180,
+    "StockTicker": "",
+    "DateBought": "2021/6/24 10:53",
+    "DateExp": "2021-08-30",
+    "Premium": 1.2,
+    "NumContract": -2,
+    "P_C": "P"
   },
-  "status": 200,
-  "config": {
-    "method": "GET",
-    "transformRequest": [
-      null
-    ],
-    "transformResponse": [
-      null
-    ],
-    "jsonpCallbackParam": "callback",
-    "url": "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=goog&apikey=4VDN7RLHYUFKHWXE",
-    "headers": {
-      "Accept": "application/json, text/plain, */*"
-    }
+  {
+    "Id": -1,
+    "Status": 0,
+    "Remark": "",
+    "UpdateBy": 0,
+    "Name": "騰訊",
+    "Strike": 530,
+    "StockTicker": "",
+    "DateBought": "2021/6/24 10:52",
+    "DateExp": "2021-08-30",
+    "Premium": 6.34,
+    "NumContract": -1,
+    "P_C": "P"
   },
-  "statusText": "",
-  "xhrStatus": "complete"
-}
+  {
+    "Id": -1,
+    "Status": 0,
+    "Remark": "",
+    "UpdateBy": 0,
+    "Name": "騰訊",
+    "Strike": 530,
+    "StockTicker": "",
+    "DateBought": "2021/6/24 10:49",
+    "DateExp": "2021-07-29",
+    "Premium": 2.27,
+    "NumContract": -1,
+    "P_C": "P"
+  },
+  {
+    "Id": -1,
+    "Status": 0,
+    "Remark": "",
+    "UpdateBy": 0,
+    "Name": "阿里",
+    "Strike": 185,
+    "StockTicker": "",
+    "DateBought": "2021/6/24 10:49",
+    "DateExp": "2021-07-29",
+    "Premium": 0.51,
+    "NumContract": -2,
+    "P_C": "P"
+  }

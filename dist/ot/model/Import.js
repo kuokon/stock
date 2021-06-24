@@ -22,7 +22,7 @@ var MyApp;
                 if (MyApp.Helper.isBlank(line)) {
                     continue;
                 }
-                var obj = isHK ? Import.parseHKCSV(line) : Import.parseUScsv(line);
+                var obj = isHK ? Import.parseHKCSV(svr, line) : Import.parseUScsv(line);
                 if (obj) {
                     res.parsed.push(obj);
                 }
@@ -72,7 +72,7 @@ var MyApp;
                     console.warn(' P_C ' + res.P_C);
                 }
                 res.Premium = parseFloat(unitPrice.replace(',', ''));
-                res.NumShareExposed = res.NumContract * 100;
+                // res.NumShareExposed  =  res.NumContract * 100;
                 // res.AmtCost = res.NumShareExposed * res.Premium;
                 //res.AmtCost = parseFloat(amtExecuted.replace(',', ''));
                 //res.NumShareExposed = Math.round( res.AmtCost / res.Premium / Math.abs(res.NumContract) );
@@ -96,31 +96,29 @@ var MyApp;
             return res;
         };
         // 代碼	名稱	方向	訂單價格	訂單數量	交易狀態	已成交@均價	落盤時間	訂單類型	期限	盤前競價	觸發價	沽空	成交數量	成交價格	成交金額	對手經紀	落盤時間	備註
-        Import.parseHKCSV = function (line) {
+        // 代碼	名稱	方向	成交數量	成交價格	成交金額	對手經紀	成交時間
+        Import.parseHKCSV = function (svr, line) {
             var res = null;
             var txts = line.split('\t');
             // 代碼
-            var sym = txts[0] || ''; // ALB201127C240000.HK
-            var name = txts[1] || ''; // 阿里 201127 240.00 購
+            var sym = (txts[0] || '').trim(); // ALB201127C240000.HK
+            var name = (txts[1] || '').trim(); // 阿里 201127 240.00 購
             // 方向
-            var direction = txts[2] || '';
-            // 交易狀態
-            var status = txts[5] || '';
-            // 已成交@均價
-            var executed = txts[6] || '';
-            // 落盤時間
-            var datetime = txts[7] || '';
+            var direction = (txts[2] || '').trim();
             // 成交數量
-            var numExecuted = txts[13] || '';
-            var priceExecuted = txts[14] || '';
-            var amtExecuted = txts[15] || '';
+            var numExecuted = (txts[3] || '').trim();
+            var priceExecuted = (txts[4] || '').trim();
+            var amtExecuted = (txts[5] || '').trim();
+            // 成交時間
+            var datetime = (txts[7] || '').trim();
             // check if it's option and got executed
             var num = parseInt(numExecuted);
             var isOption = numExecuted.indexOf('張') >= 0;
-            var isSkipped = status == '已撤單';
-            if (isSkipped) {
-                return res;
-            }
+            // let isSkipped = status == '已撤單';
+            //
+            // if (isSkipped) {
+            //     return res;
+            // }
             if (num && isOption) {
                 // sym = 'ALB201127C240000.HK'
                 res = new MyApp.Option();
@@ -138,16 +136,12 @@ var MyApp;
                 }
                 res.Premium = parseFloat(priceExecuted.replace(',', ''));
                 var amtCost = parseFloat(amtExecuted.replace(',', ''));
-                res.NumShareExposed = Math.round(amtCost / res.Premium / Math.abs(res.NumContract));
-                var stock = res.getStock();
-                if (stock.OptionMultiple != res.NumShareExposed) {
-                    console.warn(' numShare not equal! NumShareExposed : ' + res.NumShareExposed + '\n ' + line);
-                }
-                if (amtCost != (res.NumShareExposed * res.Premium)) {
-                    console.warn('something fishy about ! ');
-                }
-                if (res.NumShareExposed < 0) {
-                    console.warn('#shares : exe ' + parseInt(amtExecuted) + ', premium: ' + res.Premium + ', num' + Math.abs(res.NumContract));
+                //res.NumShareExposed = Math.round( amtCost / res.Premium / Math.abs(res.NumContract) );
+                var stock = svr.mgr.stocks.getByKey(res.getStockSymbol());
+                res._stock = stock;
+                var calcCost = res.Premium * res.getNumShares();
+                if (amtCost != (calcCost)) {
+                    console.warn('something fishy about ! amtCost: ' + amtCost + ', calc: ' + calcCost);
                 }
                 if (!(direction == '沽空' || direction == '買入')) {
                     console.warn(' option not buy/sell  direction : ' + direction);

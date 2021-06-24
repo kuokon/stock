@@ -86,11 +86,16 @@
             </td>
 
             <td md-cell style="width: 100px">
+
                 <i class="fa fa-dollar" ng-if="!e.isHK()"></i>
+
                 {{e.StockTicker}} {{ e.Name}} {{e.Strike}}-{{e.P_C}}
                 <br/>
 
-                <span> ${{ e.Premium}}</span>
+                <i style="cursor: pointer; color: lightgrey" ng-click="vm.makeMock(e)" class="fa fa-copy"></i>
+
+                <span style="margin-left: 10px"> ${{ e.Premium}}</span>
+
             </td>
 
             <td md-cell>

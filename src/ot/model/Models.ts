@@ -245,6 +245,20 @@ module MyApp {
             return null;
         }
 
+        toJSON(): { [name: string]: any } {
+
+            let json = {};
+            let ignore = ['db', 'svr', '$$hashKey'];
+
+            Object.getOwnPropertyNames(this).filter(name => {
+                return (ignore.indexOf(name) < 0 && !name.startsWith('_'));
+            }).forEach(name => {
+                json[name] = this[name];
+            });
+
+            return json;
+        }
+
 
         toString() {
             return JSON.stringify(this, Helper.json_replacer);
@@ -1191,6 +1205,7 @@ module MyApp {
         }
     }
 
+
     export class Stock extends Base {
         static str = 'Stock| Name:str; Symbol:str; Price:number; OptionMultiple:num; IsHK:int; ';
 
@@ -1244,12 +1259,20 @@ module MyApp {
 
             let cell = this._month_contracts[month];
             if (!cell) {
-                cell = [0, 0];
+
+                cell = {num_call: 0, num_put: 0, cash_in_daily: 0};
                 this._month_contracts[month] = cell;
             }
 
-            let idx = isCall ? 0 : 1;
+            let idx = isCall ? 'num_call' : 'num_put';
             cell[idx] += num;
+
+            cell.cash_in_daily += option.getAmtPerDay();
+        }
+
+        getCashIn(month: number): number {
+            let cell = this._month_contracts[month];
+            return cell.cash_in_daily;
         }
 
         getContractNum(month: number, isCall: boolean): number {
@@ -1257,7 +1280,7 @@ module MyApp {
 
             let res = 0;
             if (cell) {
-                let idx = isCall ? 0 : 1;
+                let idx = isCall ? 'num_call' : 'num_put';
                 res = cell[idx];
             }
             return res;
@@ -1364,10 +1387,10 @@ module MyApp {
             let res = m.month() + 1;
 
             // hack()  if it's next year's this month, put it to previous month so that it won't overlap with this year's this month;
-            if(this._dayToExp > 365) {
+            if (this._dayToExp > 365) {
                 res--;
 
-                if(res < 1) {
+                if (res < 1) {
                     res = 12;
                 }
             }

@@ -2,9 +2,9 @@ STOCKS_JSON =
     [
 
 
-        {"Name": "騰訊", "Symbol": "0700", "Price": 573, "OptionMultiple": 100, "IsHK": 1}
-        , {"Name": "阿里", "Symbol": "9988", "Price": 203, "OptionMultiple": 500, "IsHK": 1}
-        , {"Name": "富途", "Symbol": "FUTU", "Price": 148.3, "OptionMultiple": 100, "IsHK": 0}
+        {"Name": "騰訊", "Symbol": "0700", "Price": 584, "OptionMultiple": 100, "IsHK": 1}
+        , {"Name": "阿里", "Symbol": "9988", "Price": 211, "OptionMultiple": 500, "IsHK": 1}
+        , {"Name": "富途", "Symbol": "FUTU", "Price": 169.65, "OptionMultiple": 100, "IsHK": 0}
     ];
 
 
@@ -1761,6 +1761,66 @@ OPTIONS_JSON =
             "NumShareExposed": 100,
             "P_C": "P",
             "_dirty": true
+        },
+
+
+
+        {
+            "Id": -1,
+            "Status": 0,
+            "Remark": "",
+            "UpdateBy": 0,
+            "Name": "阿里",
+            "Strike": 180,
+            "StockTicker": "",
+            "DateBought": "2021/6/24 10:53",
+            "DateExp": "2021-08-30",
+            "Premium": 1.2,
+            "NumContract": -2,
+            "P_C": "P"
+        },
+        {
+            "Id": -1,
+            "Status": 0,
+            "Remark": "",
+            "UpdateBy": 0,
+            "Name": "騰訊",
+            "Strike": 530,
+            "StockTicker": "",
+            "DateBought": "2021/6/24 10:52",
+            "DateExp": "2021-08-30",
+            "Premium": 6.34,
+            "NumContract": -1,
+            "P_C": "P"
+        },
+        {
+            "Id": -1,
+            "Status": 0,
+            "Remark": "",
+            "UpdateBy": 0,
+            "Name": "騰訊",
+            "Strike": 530,
+            "StockTicker": "",
+            "DateBought": "2021/6/24 10:49",
+            "DateExp": "2021-07-29",
+            "Premium": 2.27,
+            "NumContract": -1,
+            "P_C": "P"
+        },
+        {
+            "Id": -1,
+            "Status": 0,
+            "Remark": "",
+            "UpdateBy": 0,
+            "Name": "阿里",
+            "Strike": 185,
+            "StockTicker": "",
+            "DateBought": "2021/6/24 10:49",
+            "DateExp": "2021-07-29",
+            "Premium": 0.51,
+            "NumContract": -2,
+            "P_C": "P"
         }
+
     ]
 ;
