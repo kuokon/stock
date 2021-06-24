@@ -1764,7 +1764,6 @@ OPTIONS_JSON =
         },
 
 
-
         {
             "Id": -1,
             "Status": 0,
@@ -1819,6 +1818,35 @@ OPTIONS_JSON =
             "DateExp": "2021-07-29",
             "Premium": 0.51,
             "NumContract": -2,
+            "P_C": "P"
+        },
+        {
+            "Id": -1,
+            "Status": 0,
+            "Remark": "",
+            "UpdateBy": 0,
+            "Name": "騰訊",
+            "Strike": 460,
+            "StockTicker": "",
+            "DateBought": "2021/6/24 15:29",
+            "DateExp": "2022-06-29",
+            "Premium": 15.76,
+            "NumContract": -1,
+            "P_C": "P"
+        }
+        ,
+        {
+            "Id": -1,
+            "Status": 0,
+            "Remark": "",
+            "UpdateBy": 0,
+            "Name": "阿里",
+            "Strike": 160,
+            "StockTicker": "",
+            "DateBought": "2021/6/24 15:45",
+            "DateExp": "2022-06-29",
+            "Premium": 7.42,
+            "NumContract": -1,
             "P_C": "P"
         }
 

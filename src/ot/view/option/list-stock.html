@@ -26,6 +26,9 @@
 
             <th md-column style="width: 80px">
                 Cash In
+                <br/>
+                {{ (vm.stats.amtCashIn/10000).toFixed(2)}}w |
+                {{ (vm.stats.cost_exposure_ratio.toFixed(2))}}%
 
                 <i style="cursor: pointer" class="fa fa-clipboard" ng-click="vm.onCopyDataToClipboard(stocks) "></i>
 
@@ -37,9 +40,7 @@
                 Exposure
                 <br/>
                 {{(vm.stats.exposure_c/10000).toFixed(2)}}w
-
                 /
-
                 {{(vm.stats.exposure_p/10000).toFixed(2)}}w
 
             </th>

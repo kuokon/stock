@@ -115,6 +115,7 @@ var MyApp;
         OptionController.prototype.makeMock = function (option) {
             var json = JSON.parse(JSON.stringify(option));
             this.mock = MyApp.Option.fromJson(this.svr, json);
+            this.mock._isMock = true;
         };
         OptionController.prototype.onParse = function (raw) {
             var isHK = true;
@@ -137,6 +138,13 @@ var MyApp;
             stocks.forEach(function (e) {
                 _this.getStockPrice(e);
             });
+        };
+        OptionController.prototype.onReset = function () {
+            this.filter.reset();
+            this.isShowExpire = false;
+            this.isShowMonths = true;
+            this.isShowStocks = true;
+            this.mock = null;
         };
         OptionController.prototype.getStockPrice = function (stock) {
             var symbol = 'goog';

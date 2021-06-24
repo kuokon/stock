@@ -864,10 +864,9 @@ var MyApp;
         function OptionStats() {
         }
         OptionStats.prototype.calc = function (options) {
-            this.exposure = 0;
             this.exposure_p = 0;
             this.exposure_c = 0;
-            this.amtCost = 0;
+            // this.amtCost = 0;
             this.numContracts = 0;
             this.numRows = 0;
             this.amtDaySum = 0;
@@ -882,12 +881,12 @@ var MyApp;
                 else {
                     this.exposure_p += option.toHKD(option.getExposure());
                 }
-                this.amtCost += option.toHKD(option.getCashIn());
+                this.amtCashIn += option.toHKD(option.getCashIn());
                 this.numContracts += Math.abs(option.NumContract);
                 this.numRows++;
                 this.amtDaySum += option.toHKD(option.getAmtPerDay());
             }
-            this.cost_exposure_ratio = (this.amtCost / this.exposure * 100);
+            this.cost_exposure_ratio = (this.amtCashIn / (this.exposure_c + this.exposure_p) * 100);
         };
         return OptionStats;
     }());
@@ -991,6 +990,7 @@ var MyApp;
             // public NumShareExposed: number = 0;
             _this.P_C = '';
             _this._dirty = true;
+            _this._isMock = false;
             return _this;
         }
         Option.fromJson = function (svr, json) {
@@ -1043,7 +1043,10 @@ var MyApp;
         Option.prototype.getColor = function () {
             var day = this._dayToExp;
             var res = '';
-            if (this.isExpired()) {
+            if (this._isMock) {
+                res = 'lightblue';
+            }
+            else if (this.isExpired()) {
                 res = 'lightgrey';
             }
             else {
@@ -1086,7 +1089,7 @@ var MyApp;
                 this.DateExp = str.substr(0, 4) + '-' + str.substr(4, 2) + '-' + str.substr(6);
             }
             if (this.DateBought.indexOf('/') > 0) {
-                var mm = moment(this.DateBought);
+                var mm = moment(this.DateBought, 'YYYY/MM/DD');
                 this.DateBought = mm.format('YYYY-MM-DD');
             }
             var datExp = moment(this.DateExp);
@@ -1148,10 +1151,10 @@ var MyApp;
         };
         Option.prototype.getRisk = function () {
             var price = this.getStock().Price;
-            return price / (price - this.Strike) * (this._dayToExp / 365);
+            return (price / (price - this.Strike) * (this._dayToExp / 365) * this.getNumShares());
         };
         Option.prototype.getReturn = function () {
-            return -this.getCashIn() / this.getExposure() * (this._dayToExp / 365);
+            return -this.getCashIn() / this._dayToExp;
         };
         Option.prototype.getLost = function () {
             var res = 0;

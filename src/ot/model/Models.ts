@@ -1160,7 +1160,7 @@ module MyApp {
         exposure: number;
         exposure_c: number;
         exposure_p: number;
-        amtCost: number;
+        // amtCost: number;
         amtDaySum: number;
         numContracts: number;
         numRows: number;
@@ -1170,10 +1170,10 @@ module MyApp {
 
 
         calc(options: Option[]) {
-            this.exposure = 0;
+
             this.exposure_p = 0;
             this.exposure_c = 0;
-            this.amtCost = 0;
+            // this.amtCost = 0;
             this.numContracts = 0;
             this.numRows = 0;
             this.amtDaySum = 0;
@@ -1191,7 +1191,7 @@ module MyApp {
                     this.exposure_p += option.toHKD(option.getExposure());
                 }
 
-                this.amtCost += option.toHKD(option.getCashIn());
+                this.amtCashIn += option.toHKD(option.getCashIn());
                 this.numContracts += Math.abs(option.NumContract);
                 this.numRows++;
 
@@ -1199,7 +1199,7 @@ module MyApp {
                 this.amtDaySum += option.toHKD(option.getAmtPerDay())
             }
 
-            this.cost_exposure_ratio = (this.amtCost / this.exposure * 100);
+            this.cost_exposure_ratio = (this.amtCashIn / (this.exposure_c +this.exposure_p) * 100);
 
 
         }
@@ -1332,6 +1332,7 @@ module MyApp {
 
 
         public _dirty: boolean = true;
+        public _isMock:boolean = false;
         public _dayToExp: number;
         public _dayBoughtTillExp: number;
         public _stock: Stock;
@@ -1404,7 +1405,11 @@ module MyApp {
 
 
             let res = '';
-            if (this.isExpired()) {
+
+            if(this._isMock) {
+                res = 'lightblue'
+            }
+            else if (this.isExpired()) {
                 res = 'lightgrey';
             } else {
 
@@ -1462,7 +1467,7 @@ module MyApp {
             }
 
             if (this.DateBought.indexOf('/') > 0) {
-                let mm = moment(this.DateBought);
+                let mm = moment(this.DateBought, 'YYYY/MM/DD');
                 this.DateBought = mm.format('YYYY-MM-DD');
             }
 
@@ -1558,13 +1563,12 @@ module MyApp {
 
             let price = this.getStock().Price;
 
-            return price / (price - this.Strike) * (this._dayToExp / 365);
+            return  (price / (price - this.Strike) * (this._dayToExp / 365) * this.getNumShares());
 
         }
 
         getReturn(): number {
-
-            return -this.getCashIn() / this.getExposure() * (this._dayToExp / 365);
+            return -this.getCashIn()   / this._dayToExp;
 
         }
 

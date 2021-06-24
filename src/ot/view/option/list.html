@@ -44,7 +44,7 @@
 
 
             <th md-column style="width: 20px">
-                落盤日
+                Daily Cash
                 <br/>
                 ${{vm.stats.amtDaySum.toFixed(2)}}
             </th>
@@ -56,10 +56,6 @@
 
             <th md-column style="width: 20px">
                 Cash / Exposure
-                <br/>
-                {{ (vm.stats.amtCost/10000).toFixed(2)}}w / {{ (vm.stats.exposure/10000).toFixed(2)}}w |
-
-                {{ vm.stats.cost_exposure_ratio.toFixed(2)}}%
             </th>
             <th md-column style="width: 100px">時間
 
@@ -71,7 +67,9 @@
             <th md-column style="width: 20px">
                 Risk/Return
             </th>
-            <th/>
+            <th md-column style="width: 20px">
+                Return / Buffer%
+            </th>
 
         </tr>
         </thead>
@@ -89,10 +87,14 @@
 
                 <i class="fa fa-dollar" ng-if="!e.isHK()"></i>
 
-                {{e.StockTicker}} {{ e.Name}} {{e.Strike}}-{{e.P_C}}
+                {{e.StockTicker}}
+                <span ng-click="vm.makeMock(e)" style="cursor: pointer">
+                    {{ e.Name}}
+                </span>
+                {{e.Strike}}-{{e.P_C}}
                 <br/>
 
-<!--                <i style="cursor: pointer; color: lightgrey" ng-click="vm.makeMock(e)" class="fa fa-copy"></i>-->
+                <!--                <i style="cursor: pointer; color: lightgrey" ng-click="vm.makeMock(e)" class="fa fa-copy"></i>-->
 
                 <span style="margin-left: 10px"> ${{ e.Premium}}</span>
 
@@ -107,11 +109,13 @@
 
             <td md-cell style="width: 10px" ng-click="vm.filter.dte=e._dayToExp">
                 {{ e._dayToExp}}
+                <br/>
+                {{ e._dayBoughtTillExp}}
             </td>
 
 
-            <td md-cell><span style="min-width: 20px"> {{ e._dayBoughtTillExp}}  </span>
-                <br/>
+            <td md-cell><span style="min-width: 20px"></span>
+
                 ${{ e.getAmtPerDay().toFixed(2) }}
             </td>
 
@@ -141,9 +145,11 @@
             <td md-cell>
                 {{ e.getRisk().toFixed(5)}} <br/>
                 {{ e.getReturn().toFixed(5)}}
-            </td>
 
-            <td></td>
+
+
+
+            <td md-cell> {{ (e.getReturn() / e.getRisk() * 100).toFixed(2) }}%</td>
 
         </tr>
 

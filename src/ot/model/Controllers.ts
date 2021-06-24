@@ -26,14 +26,13 @@ module MyApp {
     }
 
     export class OptionFilter {
-        public txt:string='';
-        public dte:number=0;
+        public txt: string = '';
+        public dte: number = 0;
 
-        public month:number=0;
+        public month: number = 0;
 
 
-
-        public reset() : void {
+        public reset(): void {
             this.txt = '';
             this.dte = 0;
             this.month = 0;
@@ -53,8 +52,7 @@ module MyApp {
         isShowMonths: boolean = true;
         filter: OptionFilter = new OptionFilter();
 
-        mock:Option = null;
-
+        mock: Option = null;
 
 
         constructor(private DbService: DbService,
@@ -72,6 +70,7 @@ module MyApp {
 
         onMakeStock(): void {
             let stock = Stock.fromJson(this.svr, '');
+
 
             this.svr.mgr.stocks.add(stock);
         }
@@ -100,18 +99,19 @@ module MyApp {
                 res = tmp;
             }
 
-            if(filter.dte>0 && filter.month>0) {
-                console.warn('both dte and month filter on... dte: ' + filter.dte + ', month: ' + filter.month );
+            if (filter.dte > 0 && filter.month > 0) {
+                console.warn('both dte and month filter on... dte: ' + filter.dte + ', month: ' + filter.month);
             }
 
-            if(filter.dte>0){
-                res = res.filter( e=> {
+
+            if (filter.dte > 0) {
+                res = res.filter(e => {
                     return e._dayToExp <= filter.dte;
                 })
             }
 
-            if(filter.month>0) {
-                res = res.filter(e=> {
+            if (filter.month > 0) {
+                res = res.filter(e => {
                     return e.getMonth() == filter.month;
                 })
             }
@@ -149,16 +149,17 @@ module MyApp {
 
             });
 
-            if(this.mock) {
+            if (this.mock) {
                 res.unshift(this.mock);
             }
 
             return res;
         }
 
-        makeMock(option)  : void {
-            let json = JSON.parse(JSON.stringify(option) );
+        makeMock(option): void {
+            let json = JSON.parse(JSON.stringify(option));
             this.mock = Option.fromJson(this.svr, json);
+            this.mock._isMock = true;
 
         }
 
@@ -191,7 +192,15 @@ module MyApp {
             stocks.forEach(e => {
                 this.getStockPrice(e);
             })
+        }
 
+        onReset(): void {
+
+            this.filter.reset();
+            this.isShowExpire = false;
+            this.isShowMonths = true;
+            this.isShowStocks = true;
+            this.mock = null;
         }
 
         getStockPrice(stock: Stock): number {
@@ -201,7 +210,7 @@ module MyApp {
             let apikey = '4VDN7RLHYUFKHWXE';
 
 
-            symbol = stock.Symbol + (stock.isHK() ? '.HK' : '' );
+            symbol = stock.Symbol + (stock.isHK() ? '.HK' : '');
 
             //let url = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=IBM&apikey=demo';
             let url = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=' + symbol + '&apikey=' + apikey;
@@ -212,7 +221,7 @@ module MyApp {
                 console.info(' res: ' + JSON.stringify(res));
                 console.info(' curr price for ' + symbol + ' ==> ' + res.data);
 
-                let price , last;
+                let price, last;
 
                 try {
 

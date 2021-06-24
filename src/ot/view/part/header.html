@@ -52,7 +52,7 @@
 
         <i style="margin-left: 10px"
            class="fa fa-refresh"
-           ng-click="vm.filter.reset(); vm.isShowMonths = true; vm.isShowExpire = false; vm.isShowStocks=true"> </i>
+           ng-click="vm.onReset()"> </i>
 
 
         <md-button class="md-fab md-mini  md-primary md-hue-1" ng-if="svr.getCurrUser().isAdmin()"
