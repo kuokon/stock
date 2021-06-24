@@ -30,7 +30,14 @@ module MyApp {
         public dte:number=0;
 
         public month:number=0;
-        public isShowExpire:boolean=false;
+
+
+
+        public reset() : void {
+            this.txt = '';
+            this.dte = 0;
+            this.month = 0;
+        }
     }
 
 

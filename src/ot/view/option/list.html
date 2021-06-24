@@ -37,7 +37,7 @@
 
 
             <th md-column style="width: 10px">
-                <span ng-click="vm.filter.dte=0">
+                <span ng-click="vm.isShowExpire = !vm.isShowExpire">
                 DTE
                 </span>
             </th>
@@ -92,7 +92,7 @@
                 {{e.StockTicker}} {{ e.Name}} {{e.Strike}}-{{e.P_C}}
                 <br/>
 
-                <i style="cursor: pointer; color: lightgrey" ng-click="vm.makeMock(e)" class="fa fa-copy"></i>
+<!--                <i style="cursor: pointer; color: lightgrey" ng-click="vm.makeMock(e)" class="fa fa-copy"></i>-->
 
                 <span style="margin-left: 10px"> ${{ e.Premium}}</span>
 

@@ -21,8 +21,12 @@ var MyApp;
             this.txt = '';
             this.dte = 0;
             this.month = 0;
-            this.isShowExpire = false;
         }
+        OptionFilter.prototype.reset = function () {
+            this.txt = '';
+            this.dte = 0;
+            this.month = 0;
+        };
         return OptionFilter;
     }());
     MyApp.OptionFilter = OptionFilter;
