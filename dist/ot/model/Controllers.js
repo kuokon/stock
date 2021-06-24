@@ -107,9 +107,9 @@ var MyApp;
                 stock._cash_in_amt += e.getCashIn();
                 stock._cash_lost_amt += e.getLost();
             });
-            if (this.mock) {
-                res.unshift(this.mock);
-            }
+            // if (this.mock) {
+            //     res.unshift(this.mock);
+            // }
             return res;
         };
         OptionController.prototype.makeMock = function (option) {

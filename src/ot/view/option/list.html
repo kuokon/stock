@@ -6,6 +6,7 @@
 <div ng-include="'src/ot/view/option/list-stock.html'"></div>
 <div ng-include="'src/ot/view/option/list-month.html'"></div>
 
+<div  ng-show="vm.mock" ng-include="'src/ot/view/option/risk-calc.html'"></div>
 
 <md-table-container>
 
@@ -18,12 +19,6 @@
                 #{{vm.stats.numContracts}}
 
 
-                <!--                                <md-input-container class="box-none" style="background: lightpink">-->
-                <!--                                    <label class="fa fa-search"></label>-->
-                <!--                                    <input ng-model="vm.filter" type="text"-->
-                <!--                                           id="search"-->
-                <!--                                           ng-model-options="{ allowInvalid: true, debounce: 500 }">-->
-                <!--                                </md-input-container>-->
 
             </th>
 

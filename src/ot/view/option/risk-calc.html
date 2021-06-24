@@ -1,0 +1,82 @@
+<md-table-container x="{{e = vm.mock}}">
+
+    <table md-table>
+        <thead md-head>
+        <tr md-row style="background: lightgrey" >
+
+
+            <th md-column>名稱
+
+            <th md-column>#C</th>
+            <th md-column>Premium</th>
+
+
+            <th md-column>Buffer</th>
+
+            <th md-column>DTE</th>
+            <th md-column>Daily Cash</th>
+            <th md-column>Cash / Exposure</th>
+            <th md-column></th>
+
+        </tr>
+        </thead>
+        <tbody md-body class="md-inline-form" >
+
+        <tr ng-style="{background: e.getColor()}">
+
+            <td md-cell>
+                {{e.StockTicker}}
+
+                {{ e.Name}}
+
+                {{e.Strike}}-{{e.P_C}}
+
+            </td>
+
+            <td md-cell>
+                <md-input-container style="width: 50px">
+
+                    <input ng-model="e.NumContract"  type="number"></input>
+                </md-input-container>
+            </td>
+
+
+            <td md-cell>
+
+                <md-input-container style="width: 50px">
+                    <input ng-model="e.Premium"  type="number"></input>
+                </md-input-container>
+
+            </td>
+            <td md-cell>
+                ${{ (e.getSign() *( e.Strike - e._stock.Price)).toFixed(2)}}
+                <br/>
+                {{ e.getPriceBufferPct().toFixed(2)}}% <br/>
+
+            </td>
+            <td md-cell>
+                {{ e._dayToExp}}
+                <br/>
+                {{ e._dayBoughtTillExp}}
+            </td>
+            <td md-cell>
+                ${{ e.getAmtPerDay().toFixed(2) }}
+            </td>
+            <td md-cell>
+                {{ e.getCashIn().toFixed(2)}} | {{ (e.getCashIn()/(e.getNumShares() * e.Strike) * 100).toFixed(2)}}%
+                <br/>
+                {{ e.getNumShares() * e.Strike}}
+
+
+            </td>
+            <td md-cell>
+            </td>
+        </tr>
+
+
+        </tbody>
+
+
+    </table>
+</md-table-container>
+

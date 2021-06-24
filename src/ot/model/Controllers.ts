@@ -149,9 +149,9 @@ module MyApp {
 
             });
 
-            if (this.mock) {
-                res.unshift(this.mock);
-            }
+            // if (this.mock) {
+            //     res.unshift(this.mock);
+            // }
 
             return res;
         }
