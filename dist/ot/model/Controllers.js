@@ -20,6 +20,7 @@ var MyApp;
         function OptionFilter() {
             this.txt = '';
             this.dte = 0;
+            this.month = 0;
             this.isShowExpire = false;
         }
         return OptionFilter;
@@ -37,6 +38,7 @@ var MyApp;
             this.stats = new MyApp.OptionStats();
             this.isShowExpire = false;
             this.isShowStocks = true;
+            this.isShowMonths = true;
             this.filter = new OptionFilter();
             this.svr = DbService;
         }
@@ -63,9 +65,17 @@ var MyApp;
             else {
                 res = tmp;
             }
+            if (filter.dte > 0 && filter.month > 0) {
+                console.warn('both dte and month filter on... dte: ' + filter.dte + ', month: ' + filter.month);
+            }
             if (filter.dte > 0) {
                 res = res.filter(function (e) {
                     return e._dayToExp <= filter.dte;
+                });
+            }
+            if (filter.month > 0) {
+                res = res.filter(function (e) {
+                    return e.getMonth() == filter.month;
                 });
             }
             this.stats.calc(res);

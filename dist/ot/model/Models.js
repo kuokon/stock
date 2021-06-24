@@ -276,6 +276,12 @@ var MyApp;
                 var bDay = b.isExpired() ? (-Math.round(b._dayToExp / 10) * 1000) : b._dayToExp;
                 return aDay - bDay;
             });
+            var options = this.options.getAll().filter(function (e) {
+                return !e.isExpired();
+            });
+            options.forEach(function (e) {
+                e.getStock().addContract(e);
+            });
         };
         Mgr.prototype.clearAll = function () {
             this.options.clearAll();
@@ -848,6 +854,8 @@ var MyApp;
         }
         OptionStats.prototype.calc = function (options) {
             this.exposure = 0;
+            this.exposure_p = 0;
+            this.exposure_c = 0;
             this.amtCost = 0;
             this.numContracts = 0;
             this.numRows = 0;
@@ -857,6 +865,12 @@ var MyApp;
             for (var _i = 0, options_1 = options; _i < options_1.length; _i++) {
                 var option = options_1[_i];
                 this.exposure += option.toHKD(option.getExposure());
+                if (option.isCall()) {
+                    this.exposure_c += option.toHKD(option.getExposure());
+                }
+                else {
+                    this.exposure_p += option.toHKD(option.getExposure());
+                }
                 this.amtCost += option.toHKD(option.getCashIn());
                 this.numContracts += Math.abs(option.NumContract);
                 this.numRows++;
@@ -885,6 +899,7 @@ var MyApp;
             _this._cash_lost_amt = 0;
             _this._num_call = 0;
             _this._num_put = 0;
+            _this._month_contracts = {};
             return _this;
         }
         // _change: number = 0;
@@ -902,6 +917,27 @@ var MyApp;
                 e.PriceLast = e.Price;
             }
             return e;
+        };
+        Stock.prototype.addContract = function (option) {
+            var month = option.getMonth();
+            var isCall = option.isCall();
+            var num = option.NumContract;
+            var cell = this._month_contracts[month];
+            if (!cell) {
+                cell = [0, 0];
+                this._month_contracts[month] = cell;
+            }
+            var idx = isCall ? 0 : 1;
+            cell[idx] += num;
+        };
+        Stock.prototype.getContractNum = function (month, isCall) {
+            var cell = this._month_contracts[month];
+            var res = 0;
+            if (cell) {
+                var idx = isCall ? 0 : 1;
+                res = cell[idx];
+            }
+            return res;
         };
         Stock.prototype.getKey = function () {
             return this.Symbol;
@@ -975,6 +1011,18 @@ var MyApp;
             }
             console.warn(' cannot map to symbol, name: ' + this.Name);
             return 'N/A';
+        };
+        Option.prototype.getMonth = function () {
+            var m = moment(this.DateExp);
+            var res = m.month() + 1;
+            // hack()  if it's next year's this month, put it to previous month so that it won't overlap with this year's this month;
+            if (this._dayToExp > 365) {
+                res--;
+                if (res < 1) {
+                    res = 12;
+                }
+            }
+            return res;
         };
         Option.prototype.getColor = function () {
             var day = this._dayToExp;

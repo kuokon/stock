@@ -19,26 +19,33 @@
 
             </th>
 
-<!--            <th md-column>-->
-<!--                Change-->
-<!--            </th>-->
-
             <th md-column style="width: 80px">
-                Exposure
-            </th>
-            <th md-column style="width: 80px">
-                #
+                #c
             </th>
 
-            <th md-column>
+
+            <th md-column style="width: 80px">
                 Cash In
 
                 <i style="cursor: pointer" class="fa fa-clipboard" ng-click="vm.onCopyDataToClipboard(stocks) "></i>
 
-                <span style="background: lightgoldenrodyellow; color: lightcoral; font-size: large"> . ROI/ IRR ! .</span>
+
             </th>
 
 
+            <th md-column style="width: 80px">
+                Exposure
+                <br/>
+                {{(vm.stats.exposure_c/10000).toFixed(2)}}w
+
+                /
+
+                {{(vm.stats.exposure_p/10000).toFixed(2)}}w
+
+            </th>
+            <th md-column>
+                <span style="background: lightgoldenrodyellow; color: lightcoral; font-size: large"> . ROI/ IRR ! .</span>
+            </th>
         </tr>
         </thead>
         <tbody md-body class="md-inline-form" ng-if="vm.isShowStocks">
@@ -67,6 +74,29 @@
 <!--                {{ e.getChangePct().toFixed(2)}}%-->
 <!--                </span>-->
 <!--            </td>-->
+
+            <td md-cell>
+                {{e._num_call}}
+                <br/>
+
+                <span >
+                {{e._num_put}}
+                </span>
+
+            </td>
+
+
+
+            <td md-cell>
+                {{e._cash_in_amt}}
+                <br/>
+
+                <span ng-if="e._cash_lost_amt>0" style="background: lightpink">
+                -{{e._cash_lost_amt.toFixed(2)}}
+                </span>
+
+            </td>
+
             <td md-cell>
                 <span ng-if="e._exposure_c">
                 {{(e._exposure_c/10000).toFixed(2)}}w
@@ -78,23 +108,8 @@
 
             </td>
 
+
             <td md-cell>
-                {{e._num_call}}
-                <br/>
-
-                <span >
-                {{e._num_put}}
-                </span>
-
-            </td>
-            <td md-cell>
-                {{e._cash_in_amt}}
-                <br/>
-
-                <span ng-if="e._cash_lost_amt>0" style="background: lightpink">
-                -{{e._cash_lost_amt.toFixed(2)}}
-                </span>
-
             </td>
 
         </tr>

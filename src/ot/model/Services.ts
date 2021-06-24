@@ -42,6 +42,13 @@ module MyApp {
 
         // === helper functions
 
+        public getMonthOptions(): number[] {
+            return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+        }
+
+        public getYearOptions(): number[] {
+            return [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022]
+        }
 
         getVersion(): number {
             return this.config.version;

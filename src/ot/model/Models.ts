@@ -364,7 +364,17 @@ module MyApp {
                 let bDay = b.isExpired() ? (-Math.round(b._dayToExp / 10) * 1000) : b._dayToExp;
 
                 return aDay - bDay;
-            })
+            });
+
+
+            let options = this.options.getAll().filter(e => {
+                return !e.isExpired()
+            });
+
+            options.forEach(e => {
+                e.getStock().addContract(e);
+            });
+
         }
 
         public clearAll(): void {
@@ -1134,6 +1144,8 @@ module MyApp {
 
     export class OptionStats {
         exposure: number;
+        exposure_c: number;
+        exposure_p: number;
         amtCost: number;
         amtDaySum: number;
         numContracts: number;
@@ -1145,19 +1157,30 @@ module MyApp {
 
         calc(options: Option[]) {
             this.exposure = 0;
+            this.exposure_p = 0;
+            this.exposure_c = 0;
             this.amtCost = 0;
             this.numContracts = 0;
             this.numRows = 0;
             this.amtDaySum = 0;
             this.amtCashIn = 0;
 
+
             this.cost_exposure_ratio = 0;
 
             for (const option of options) {
                 this.exposure += option.toHKD(option.getExposure());
+
+                if (option.isCall()) {
+                    this.exposure_c += option.toHKD(option.getExposure());
+                } else {
+                    this.exposure_p += option.toHKD(option.getExposure());
+                }
+
                 this.amtCost += option.toHKD(option.getCashIn());
                 this.numContracts += Math.abs(option.NumContract);
                 this.numRows++;
+
 
                 this.amtDaySum += option.toHKD(option.getAmtPerDay())
             }
@@ -1177,7 +1200,7 @@ module MyApp {
         public Price: number = 0;
         public OptionMultiple: number = 0;
         public IsHK: number = 0;
-        public PriceLast: number =0;
+        public PriceLast: number = 0;
 
         public _dirty: boolean = true;
 
@@ -1187,6 +1210,9 @@ module MyApp {
         _cash_lost_amt: number = 0;
         _num_call = 0;
         _num_put = 0;
+
+        _month_contracts = {};
+
         // _change: number = 0;
         // _change_pct: string = '';
 
@@ -1203,11 +1229,38 @@ module MyApp {
             e.IsHK = json.IsHK || 0;
             e.PriceLast = json.PriceLast || 0;
 
-            if(!e.PriceLast) {
+            if (!e.PriceLast) {
                 e.PriceLast = e.Price;
             }
 
             return e;
+        }
+
+        addContract(option: Option): void {
+
+            let month = option.getMonth();
+            let isCall = option.isCall();
+            let num = option.NumContract;
+
+            let cell = this._month_contracts[month];
+            if (!cell) {
+                cell = [0, 0];
+                this._month_contracts[month] = cell;
+            }
+
+            let idx = isCall ? 0 : 1;
+            cell[idx] += num;
+        }
+
+        getContractNum(month: number, isCall: boolean): number {
+            let cell = this._month_contracts[month];
+
+            let res = 0;
+            if (cell) {
+                let idx = isCall ? 0 : 1;
+                res = cell[idx];
+            }
+            return res;
         }
 
         getKey(): string {
@@ -1218,12 +1271,12 @@ module MyApp {
             return this.IsHK > 0;
         }
 
-        getChange() : number {
-            return this.Price -this.PriceLast;
+        getChange(): number {
+            return this.Price - this.PriceLast;
         }
 
-        getChangePct() : number {
-            return (this.getChange()/this.PriceLast * 100);
+        getChangePct(): number {
+            return (this.getChange() / this.PriceLast * 100);
         }
 
 
@@ -1305,6 +1358,22 @@ module MyApp {
             return 'N/A'
         }
 
+        getMonth(): number {
+
+            let m = moment(this.DateExp);
+            let res = m.month() + 1;
+
+            // hack()  if it's next year's this month, put it to previous month so that it won't overlap with this year's this month;
+            if(this._dayToExp > 365) {
+                res--;
+
+                if(res < 1) {
+                    res = 12;
+                }
+            }
+
+            return res;
+        }
 
         getColor(): string {
 
@@ -1328,7 +1397,7 @@ module MyApp {
                 } else {
 
                     let buffer = this.getPriceBufferPct();
-                    if(buffer < 5 ) {
+                    if (buffer < 5) {
                         res = 'lightyellow'
                     }
 
@@ -1351,10 +1420,9 @@ module MyApp {
             return this.getNumShares() * this.Strike;
         }
 
-        getNumShares() : number {
-            return Math.abs( this.getStock().OptionMultiple * this.NumContract);
+        getNumShares(): number {
+            return Math.abs(this.getStock().OptionMultiple * this.NumContract);
         }
-
 
 
         getStock(): Stock {
@@ -1391,7 +1459,7 @@ module MyApp {
             return this._dayToExp < 0;
         }
 
-        match(filter:string): boolean {
+        match(filter: string): boolean {
             let txt = this.Strike + '-' + this.P_C;
 
             return (txt.indexOf(filter) >= 0);
@@ -1458,23 +1526,22 @@ module MyApp {
             return this.Strike + delta;
         }
 
-        getCashIn() : number {
-            return - this.getNumShares() * this.Premium;
+        getCashIn(): number {
+            return -this.getNumShares() * this.Premium;
         }
 
 
-
-        getRisk() : number {
+        getRisk(): number {
 
             let price = this.getStock().Price;
 
-            return   price / (price - this.Strike)    * ( this._dayToExp / 365 ) ;
+            return price / (price - this.Strike) * (this._dayToExp / 365);
 
         }
 
-        getReturn() : number{
+        getReturn(): number {
 
-            return -this.getCashIn() / this.getExposure() * (this._dayToExp/365);
+            return -this.getCashIn() / this.getExposure() * (this._dayToExp / 365);
 
         }
 
@@ -1487,17 +1554,16 @@ module MyApp {
                 res = delta * this.getNumShares();
             }
 
-            return  res;
+            return res;
         }
 
-        getPriceBufferPct() : number {
+        getPriceBufferPct(): number {
 
             let bep = this.getBreakEvenPrice(true);
             let price = this.getStock().Price;
 
-            return  ( this.getSign() * ( bep - price) / price * 100)
+            return (this.getSign() * (bep - price) / price * 100)
         }
-
 
 
     }

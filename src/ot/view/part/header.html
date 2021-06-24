@@ -36,7 +36,7 @@
                    ng-model-options="{ allowInvalid: true, debounce: 500 }">
         </md-input-container>
 
-        <md-input-container class="box-none" style="background: lightgrey; margin-left: 10px; width: 20px">
+        <md-input-container class="box-none" style="background: lightgrey; margin-left: 10px; width: 30px">
 
             <input ng-model="vm.filter.dte" type="number"
                    ng-model-options="{ allowInvalid: true, debounce: 500 }">
@@ -44,7 +44,13 @@
 
         <span flex></span>
 
-        <i class="fa fa-flag" ng-click="vm.isShowExpire = !vm.isShowExpire"></i>
+
+        <i style="margin-left: 10px"  class="fa fa-flag" ng-click="vm.isShowExpire = !vm.isShowExpire">Exp</i>
+        <i style="margin-left: 10px" class="fa fa-refresh" ng-click="vm.isShowMonths = !vm.isShowMonths">
+            <span > {{vm.filter.month}}</span>
+            月
+        </i>
+
 
 
         <md-button class="md-fab md-mini  md-primary md-hue-1" ng-if="svr.getCurrUser().isAdmin()" ng-click="svr.goTo('/admin/')" >

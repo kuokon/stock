@@ -28,6 +28,8 @@ module MyApp {
     export class OptionFilter {
         public txt:string='';
         public dte:number=0;
+
+        public month:number=0;
         public isShowExpire:boolean=false;
     }
 
@@ -41,6 +43,7 @@ module MyApp {
         stats: OptionStats = new OptionStats();
         isShowExpire: boolean = false;
         isShowStocks: boolean = true;
+        isShowMonths: boolean = true;
         filter: OptionFilter = new OptionFilter();
 
 
@@ -88,15 +91,28 @@ module MyApp {
                 res = tmp;
             }
 
+            if(filter.dte>0 && filter.month>0) {
+                console.warn('both dte and month filter on... dte: ' + filter.dte + ', month: ' + filter.month );
+            }
+
             if(filter.dte>0){
                 res = res.filter( e=> {
                     return e._dayToExp <= filter.dte;
                 })
             }
 
+            if(filter.month>0) {
+                res = res.filter(e=> {
+                    return e.getMonth() == filter.month;
+                })
+            }
+
+
             this.stats.calc(res);
 
             let stocks = this.svr.mgr.stocks.getAll();
+
+
             stocks.forEach(e => {
                 e._exposure_p = 0;
                 e._exposure_c = 0;
@@ -104,6 +120,7 @@ module MyApp {
                 e._cash_lost_amt = 0;
                 e._num_call = 0;
                 e._num_put = 0;
+
             });
 
             res.forEach(e => {
