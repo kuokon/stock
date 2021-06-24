@@ -36,20 +36,23 @@
                    ng-model-options="{ allowInvalid: true, debounce: 500 }">
         </md-input-container>
 
-        <md-input-container class="box-none" style="background: lightgrey; margin-left: 10px; width: 30px">
+<!--        <md-input-container class="box-none" style="background: lightgrey; margin-left: 10px; width: 30px">-->
 
-            <input ng-model="vm.filter.dte" type="number"
-                   ng-model-options="{ allowInvalid: true, debounce: 500 }">
-        </md-input-container>
+<!--            <input ng-model="vm.filter.dte" type="number"-->
+<!--                   ng-model-options="{ allowInvalid: true, debounce: 500 }">-->
+<!--        </md-input-container>-->
 
         <span flex></span>
 
 
-        <i style="margin-left: 10px"  class="fa fa-flag" ng-click="vm.isShowExpire = !vm.isShowExpire">Exp</i>
-        <i style="margin-left: 10px" class="fa fa-refresh" ng-click="vm.isShowMonths = !vm.isShowMonths">
+        <i style="margin-left: 10px"  ng-click="vm.isShowStocks = !vm.isShowStocks" >Stock</i>
+
+        <i style="margin-left: 10px"  ng-click="vm.isShowMonths = !vm.isShowMonths">
             <span > {{vm.filter.month}}</span>
             月
         </i>
+
+        <i style="margin-left: 10px"  ng-click="vm.isShowExpire = !vm.isShowExpire">Exp</i>
 
 
 
