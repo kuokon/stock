@@ -1,10 +1,8 @@
 STOCKS_JSON =
     [
-
-
-        {"Name": "騰訊", "Symbol": "0700", "Price": 584, "OptionMultiple": 100, "IsHK": 1}
-        , {"Name": "阿里", "Symbol": "9988", "Price": 211, "OptionMultiple": 500, "IsHK": 1}
-        , {"Name": "富途", "Symbol": "FUTU", "Price": 169.65, "OptionMultiple": 100, "IsHK": 0}
+        {"Name": "騰訊", "Symbol": "0700", "Price": 588, "OptionMultiple": 100, "IsHK": 1}
+        , {"Name": "阿里", "Symbol": "9988", "Price": 213.2, "OptionMultiple": 500, "IsHK": 1}
+        , {"Name": "富途", "Symbol": "FUTU", "Price": 168.11, "OptionMultiple": 100, "IsHK": 0}
     ];
 
 
@@ -1685,14 +1683,29 @@ OPTIONS_JSON =
             "Name": "FU",
             "Strike": 146,
             "StockTicker": "",
-            "DateBought": "2021/6/9 9:56",
+            "DateBought": "2021-06-09",
             "DateExp": "2021-06-25",
             "Premium": 8.4,
-            "AmtCost": 840,
             "NumContract": -1,
-            "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
+            "PriceAtBought": 145.69
+        },
+
+
+        {
+            "Id": -1,
+            "Status": 0,
+            "Remark": "",
+            "UpdateBy": 0,
+            "Name": "FU",
+            "Strike": 165,
+            "StockTicker": "",
+            "DateBought": "2021-06-04",
+            "DateExp": "2021-06-25",
+            "Premium": 4.6,
+            "NumContract": -2,
+            "P_C": "C",
+            "PriceAtBought": 154.7
         },
         {
             "Id": -1,
@@ -1702,31 +1715,13 @@ OPTIONS_JSON =
             "Name": "FU",
             "Strike": 150,
             "StockTicker": "",
-            "DateBought": "2021/6/8 9:38",
+            "DateBought": "2021-06-08",
             "DateExp": "2021-06-18",
             "Premium": 6.5,
-            "AmtCost": 650,
             "NumContract": -1,
-            "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
-        },
-        {
-            "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
-            "Name": "FU",
-            "Strike": 165,
-            "StockTicker": "",
-            "DateBought": "2021/6/4 9:39",
-            "DateExp": "2021-06-25",
-            "Premium": 4.6,
-            "AmtCost": 920,
-            "NumContract": -2,
-            "NumShareExposed": 100,
-            "P_C": "C",
-            "_dirty": true
+            "PriceAtBought": 154.1,
+            "PriceAtExp": 154.34
         },
         {
             "Id": -1,
@@ -1849,6 +1844,40 @@ OPTIONS_JSON =
             "NumContract": -1,
             "P_C": "P"
         }
+        , {
+        "Id": -1,
+        "Status": 0,
+        "Remark": "",
+        "UpdateBy": 0,
+        "Name": "阿里",
+        "Strike": 250,
+        "StockTicker": "",
+        "DateBought": "2021/6/25 11:40",
+        "DateExp": "2021-09-29",
+        "Premium": 3.12,
+        "NumContract": -1,
+        "P_C": "C",
+        "PriceAtBought": 213.2
+    }
+
+
+        , {
+        "Id": -1,
+        "Status": 0,
+        "Remark": "",
+        "UpdateBy": 0,
+        "Name": "阿里",
+        "Strike": 170,
+        "StockTicker": "",
+        "DateBought": "2021/6/25 11:56",
+        "DateExp": "2021-12-30",
+        "Premium": 3.24,
+        "NumContract": -2,
+        "P_C": "P",
+        "PriceAtBought": 213.2
+    }
+
 
     ]
+
 ;

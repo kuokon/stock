@@ -6,7 +6,7 @@
 <div ng-include="'src/ot/view/option/list-stock.html'"></div>
 <div ng-include="'src/ot/view/option/list-month.html'"></div>
 
-<div  ng-show="vm.mock" ng-include="'src/ot/view/option/risk-calc.html'"></div>
+<div ng-show="vm.mock" ng-include="'src/ot/view/option/risk-calc.html'"></div>
 
 <md-table-container>
 
@@ -17,7 +17,6 @@
             <th md-column>
 
                 #{{vm.stats.numContracts}}
-
 
 
             </th>
@@ -63,7 +62,7 @@
                 Risk/Return
             </th>
             <th md-column style="width: 20px">
-                Return / Buffer%
+                Price
             </th>
 
         </tr>
@@ -91,7 +90,11 @@
 
                 <!--                <i style="cursor: pointer; color: lightgrey" ng-click="vm.makeMock(e)" class="fa fa-copy"></i>-->
 
-                <span style="margin-left: 10px"> ${{ e.Premium}}</span>
+                <span style="margin-left: 10px">
+                    ${{ e.Premium}}
+                    <small>( {{(e.Premium/e.Strike*100).toFixed(2)}}%) </small>
+
+                </span>
 
             </td>
 
@@ -142,9 +145,20 @@
                 {{ e.getReturn().toFixed(5)}}
 
 
+            <td md-cell>
+                <span ng-if="e.PriceAtBought">
+                    {{ e.PriceAtBought }}
+                    <small> ({{((e.PriceAtBought-e.Strike) / e.Strike * 100).toFixed(2) }}%) </small>
+                </span>
 
-
-            <td md-cell> {{ (e.getReturn() / e.getRisk() * 100).toFixed(2) }}%</td>
+                <br/>
+                <span ng-if="e.PriceAtExp">
+                    {{ e.PriceAtExp }}
+                    <small>
+                    ({{( (e.PriceAtExp-e.Strike) / e.Strike * 100).toFixed(2) }}%)
+                    </small>
+                </span>
+            </td>
 
         </tr>
 

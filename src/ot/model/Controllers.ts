@@ -19,7 +19,6 @@ module MyApp {
                     private $mdBottomSheet: ng.material.IBottomSheetService) {
 
             this.svr = DbService;
-
         }
 
 
@@ -99,6 +98,10 @@ module MyApp {
                 res = tmp;
             }
 
+            res = res.filter(e => {
+                return e.getStock()._isShow;
+            });
+
             if (filter.dte > 0 && filter.month > 0) {
                 console.warn('both dte and month filter on... dte: ' + filter.dte + ', month: ' + filter.month);
             }
@@ -149,9 +152,9 @@ module MyApp {
 
             });
 
-            // if (this.mock) {
-            //     res.unshift(this.mock);
-            // }
+            if (this.mock) {
+                res.unshift(this.mock);
+            }
 
             return res;
         }
@@ -160,6 +163,33 @@ module MyApp {
             let json = JSON.parse(JSON.stringify(option));
             this.mock = Option.fromJson(this.svr, json);
             this.mock._isMock = true;
+            this.mock.DateBought = moment().format('YYYY-MM-DD');
+
+            this.mock.PriceAtBought = option.getStock().Price;
+            this.mock.init();
+        }
+
+        onUpdateMock(stock: Stock, month: number, isCall: boolean): void {
+
+
+            if (!this.mock) {
+                this.mock = Option.fromJson(this.svr, {});
+            }
+            let mock = this.mock;
+            mock.P_C = isCall ? 'C' : 'P';
+            mock._stock = stock;
+            mock.StockTicker = stock.Symbol;
+
+            let m = moment();
+            let currMonth = m.month() + 1;
+            let currYear = m.year();
+            if (currMonth < month) {
+                currYear++;
+            }
+
+            mock.DateExp = moment(currYear + '-' + month + '-' + 29, 'YYYY-MM-DD');
+            mock.DateBought = m.format('YYYY-MM-DD');
+            mock.init();
 
         }
 
@@ -194,26 +224,67 @@ module MyApp {
             })
         }
 
+
         onReset(): void {
 
             this.filter.reset();
             this.isShowExpire = false;
             this.isShowMonths = true;
             this.isShowStocks = true;
-            this.mock = null;
+            // this.mock = null;
         }
 
-        getStockPrice(stock: Stock): number {
+        updateStockPriceHistory(stock: Stock): void {
+            console.info('updating price history....');
+
+            let symbol = stock.Symbol + (stock.isHK() ? '.HK' : '');
+            let apikey = '4VDN7RLHYUFKHWXE';
+            let url = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=' + symbol + '&apikey=4VDN7RLHYUFKHWXE&outputsize=full';
+
+            let options = this.svr.mgr.options.getAll().filter(e => {
+                return e.getStock() == stock
+            });
+            options = options.filter(e => {
+                return !e.PriceAtBought || (e.isExpired() && !e.PriceAtExp)
+            });
 
 
-            let symbol = 'goog';
+            this.svr.$http.get(url).then(res => {
+
+
+                let price, last;
+                let data = res.data['Time Series (Daily)'];
+
+                for (const option of options) {
+                    if (data[option.DateBought]) {
+
+                        price = data[option.DateBought]['4. close'];
+                        option.PriceAtBought = parseFloat(price);
+
+                        if (option.isExpired()) {
+                            price = data[option.DateExp]['4. close'];
+                            option.PriceAtExp = parseFloat(price);
+                        }
+
+                        console.info('option price history updated: bought: ' + option.PriceAtBought + ', exp: ' + option.PriceAtExp);
+                    }
+                }
+            });
+
+
+        }
+
+        getStockPrice(stock: Stock): void {
+
+
+            let symbol = stock.Symbol + (stock.isHK() ? '.HK' : '');
             let apikey = '4VDN7RLHYUFKHWXE';
 
 
-            symbol = stock.Symbol + (stock.isHK() ? '.HK' : '');
-
             //let url = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=IBM&apikey=demo';
             let url = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=' + symbol + '&apikey=' + apikey;
+
+            let url_date = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=IBM&apikey=4VDN7RLHYUFKHWXE&date=2020-02-01&outputsize=compact';
 
             // console.info(' ')
 
@@ -241,7 +312,6 @@ module MyApp {
 
             });
 
-            return 100;
 
         }
 

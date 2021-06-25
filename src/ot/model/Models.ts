@@ -1199,7 +1199,7 @@ module MyApp {
                 this.amtDaySum += option.toHKD(option.getAmtPerDay())
             }
 
-            this.cost_exposure_ratio = (this.amtCashIn / (this.exposure_c +this.exposure_p) * 100);
+            this.cost_exposure_ratio = (this.amtCashIn / (this.exposure_c + this.exposure_p) * 100);
 
 
         }
@@ -1225,6 +1225,8 @@ module MyApp {
         _cash_lost_amt: number = 0;
         _num_call = 0;
         _num_put = 0;
+
+        _isShow: boolean = true;
 
         _month_contracts = {};
 
@@ -1291,6 +1293,7 @@ module MyApp {
         }
 
         isHK(): boolean {
+
             return this.IsHK > 0;
         }
 
@@ -1325,14 +1328,15 @@ module MyApp {
         public DateBought: string = '';
         public DateExp: string = '';
         public Premium: number = 0;
-        // public AmtCost: number = 0;
         public NumContract: number = 0;
-        // public NumShareExposed: number = 0;
         public P_C: string = '';
+
+        public PriceAtBought: number;
+        public PriceAtExp: number;
 
 
         public _dirty: boolean = true;
-        public _isMock:boolean = false;
+        public _isMock: boolean = false;
         public _dayToExp: number;
         public _dayBoughtTillExp: number;
         public _stock: Stock;
@@ -1351,10 +1355,11 @@ module MyApp {
             e.DateBought = json.DateBought;
             e.DateExp = json.DateExp;
             e.Premium = json.Premium;
-            // e.AmtCost = json.AmtCost;
+
+            e.PriceAtBought = json.PriceAtBought;
+            e.PriceAtExp = json.PriceAtExp;
 
             e.NumContract = json.NumContract;
-            // e.NumShareExposed = json.NumShareExposed;
             e.P_C = json.P_C;
 
 
@@ -1406,10 +1411,9 @@ module MyApp {
 
             let res = '';
 
-            if(this._isMock) {
+            if (this._isMock) {
                 res = 'lightblue'
-            }
-            else if (this.isExpired()) {
+            } else if (this.isExpired()) {
                 res = 'lightgrey';
             } else {
 
@@ -1563,12 +1567,12 @@ module MyApp {
 
             let price = this.getStock().Price;
 
-            return  (price / (price - this.Strike) * (this._dayToExp / 365) * this.getNumShares());
+            return (price / (price - this.Strike) * (this._dayToExp / 365) * this.getNumShares());
 
         }
 
         getReturn(): number {
-            return -this.getCashIn()   / this._dayToExp;
+            return -this.getCashIn() / this._dayToExp;
 
         }
 

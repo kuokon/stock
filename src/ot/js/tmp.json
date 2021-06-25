@@ -1,15 +1,53 @@
+[
 
   {
     "Id": -1,
     "Status": 0,
     "Remark": "",
     "UpdateBy": 0,
-    "Name": "阿里",
-    "Strike": 160,
+    "Name": "FU",
+    "Strike": 146,
     "StockTicker": "",
-    "DateBought": "2021/6/24 15:45",
-    "DateExp": "2022-06-29",
-    "Premium": 7.42,
+    "DateBought": "2021-06-09",
+    "DateExp": "2021-06-25",
+    "Premium": 8.4,
     "NumContract": -1,
-    "P_C": "P"
-  }
+    "P_C": "P",
+    "PriceAtBought": 145.69
+  },
+
+
+  {
+    "Id": -1,
+    "Status": 0,
+    "Remark": "",
+    "UpdateBy": 0,
+    "Name": "FU",
+    "Strike": 165,
+    "StockTicker": "",
+    "DateBought": "2021-06-04",
+    "DateExp": "2021-06-25",
+    "Premium": 4.6,
+    "NumContract": -2,
+    "P_C": "C",
+    "PriceAtBought": 154.7
+  },
+  {
+    "Id": -1,
+    "Status": 0,
+    "Remark": "",
+    "UpdateBy": 0,
+    "Name": "FU",
+    "Strike": 150,
+    "StockTicker": "",
+    "DateBought": "2021-06-08",
+    "DateExp": "2021-06-18",
+    "Premium": 6.5,
+    "NumContract": -1,
+    "P_C": "P",
+    "PriceAtBought": 154.1,
+    "PriceAtExp": 154.34
+  },
+
+
+]

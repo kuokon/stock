@@ -149,6 +149,7 @@ var MyApp;
                 if (direction == '沽空') {
                     res.NumContract = -res.NumContract;
                 }
+                res.PriceAtBought = stock.Price;
                 // ALB201127P215000.HK
             }
             else {

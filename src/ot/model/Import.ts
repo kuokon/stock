@@ -222,6 +222,8 @@ module MyApp {
                     res.NumContract = -res.NumContract;
                 }
 
+                res.PriceAtBought = stock.Price;
+
                 // ALB201127P215000.HK
             } else {
                 if (sym.length > 16) {

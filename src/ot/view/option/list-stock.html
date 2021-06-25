@@ -4,6 +4,7 @@
         <thead md-head>
         <tr md-row>
 
+            <th md-column style="width: 20px"></th>
 
             <th md-column ng-click="vm.isShowStocks = !vm.isShowStocks" style="width: 80px">
 
@@ -11,10 +12,10 @@
             </th>
 
 
-            <th md-column ng-click="vm.refreshStockPrice()" style="cursor: pointer; width: 80px" >
+            <th md-column ng-click="vm.refreshStockPrice()" style="cursor: pointer; width: 80px">
                 Price
 
-                <i style="color: lightskyblue" class="fa fa-2x fa-refresh" ></i>
+                <i style="color: lightskyblue" class="fa fa-2x fa-refresh"></i>
 
 
             </th>
@@ -52,12 +53,21 @@
         <tbody md-body class="md-inline-form" ng-if="vm.isShowStocks">
 
         <tr md-row ng-repeat="e in stocks ">
+            <td md-cell>
 
-            <td md-cell >
-                <i class="fa fa-dollar" ng-if="!e.isHK()"> </i>
-                {{ e.Name}}
-                <br/>
-                <small>{{ e.Symbol}} </small>
+                <md-input-container>
+                    <md-checkbox ng-model="e._isShow"></md-checkbox>
+                </md-input-container>
+
+            </td>
+            <td md-cell>
+                <span ng-click="vm.updateStockPriceHistory(e)" style="cursor: pointer">
+                    <i class="fa fa-dollar" ng-if="!e.isHK()"> </i>
+                    {{ e.Name}}
+                    <br/>
+                    <small>{{ e.Symbol}} </small>
+
+                </span>
             </td>
             <td md-cell>
                 <md-input-container class="box-none">
@@ -68,24 +78,23 @@
 
                 <br/>
             </td>
-<!--            <td md-cell ng-style="{background: e.getChange() >= 0 ? '' : 'lightpink' }">-->
-<!--                <span ng-show=" e.getChange() != 0" >-->
-<!--                {{ e.getChange().toFixed(2)}}-->
-<!--                <br/>-->
-<!--                {{ e.getChangePct().toFixed(2)}}%-->
-<!--                </span>-->
-<!--            </td>-->
+            <!--            <td md-cell ng-style="{background: e.getChange() >= 0 ? '' : 'lightpink' }">-->
+            <!--                <span ng-show=" e.getChange() != 0" >-->
+            <!--                {{ e.getChange().toFixed(2)}}-->
+            <!--                <br/>-->
+            <!--                {{ e.getChangePct().toFixed(2)}}%-->
+            <!--                </span>-->
+            <!--            </td>-->
 
             <td md-cell>
                 {{e._num_call}}
                 <br/>
 
-                <span >
+                <span>
                 {{e._num_put}}
                 </span>
 
             </td>
-
 
 
             <td md-cell>

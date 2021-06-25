@@ -70,6 +70,9 @@ var MyApp;
             else {
                 res = tmp;
             }
+            res = res.filter(function (e) {
+                return e.getStock()._isShow;
+            });
             if (filter.dte > 0 && filter.month > 0) {
                 console.warn('both dte and month filter on... dte: ' + filter.dte + ', month: ' + filter.month);
             }
@@ -107,15 +110,36 @@ var MyApp;
                 stock._cash_in_amt += e.getCashIn();
                 stock._cash_lost_amt += e.getLost();
             });
-            // if (this.mock) {
-            //     res.unshift(this.mock);
-            // }
+            if (this.mock) {
+                res.unshift(this.mock);
+            }
             return res;
         };
         OptionController.prototype.makeMock = function (option) {
             var json = JSON.parse(JSON.stringify(option));
             this.mock = MyApp.Option.fromJson(this.svr, json);
             this.mock._isMock = true;
+            this.mock.DateBought = moment().format('YYYY-MM-DD');
+            this.mock.PriceAtBought = option.getStock().Price;
+            this.mock.init();
+        };
+        OptionController.prototype.onUpdateMock = function (stock, month, isCall) {
+            if (!this.mock) {
+                this.mock = MyApp.Option.fromJson(this.svr, {});
+            }
+            var mock = this.mock;
+            mock.P_C = isCall ? 'C' : 'P';
+            mock._stock = stock;
+            mock.StockTicker = stock.Symbol;
+            var m = moment();
+            var currMonth = m.month() + 1;
+            var currYear = m.year();
+            if (currMonth < month) {
+                currYear++;
+            }
+            mock.DateExp = moment(currYear + '-' + month + '-' + 29, 'YYYY-MM-DD');
+            mock.DateBought = m.format('YYYY-MM-DD');
+            mock.init();
         };
         OptionController.prototype.onParse = function (raw) {
             var isHK = true;
@@ -144,14 +168,42 @@ var MyApp;
             this.isShowExpire = false;
             this.isShowMonths = true;
             this.isShowStocks = true;
-            this.mock = null;
+            // this.mock = null;
+        };
+        OptionController.prototype.updateStockPriceHistory = function (stock) {
+            console.info('updating price history....');
+            var symbol = stock.Symbol + (stock.isHK() ? '.HK' : '');
+            var apikey = '4VDN7RLHYUFKHWXE';
+            var url = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=' + symbol + '&apikey=4VDN7RLHYUFKHWXE&outputsize=full';
+            var options = this.svr.mgr.options.getAll().filter(function (e) {
+                return e.getStock() == stock;
+            });
+            options = options.filter(function (e) {
+                return !e.PriceAtBought || (e.isExpired() && !e.PriceAtExp);
+            });
+            this.svr.$http.get(url).then(function (res) {
+                var price, last;
+                var data = res.data['Time Series (Daily)'];
+                for (var _i = 0, options_1 = options; _i < options_1.length; _i++) {
+                    var option = options_1[_i];
+                    if (data[option.DateBought]) {
+                        price = data[option.DateBought]['4. close'];
+                        option.PriceAtBought = parseFloat(price);
+                        if (option.isExpired()) {
+                            price = data[option.DateExp]['4. close'];
+                            option.PriceAtExp = parseFloat(price);
+                        }
+                        console.info('option price history updated: bought: ' + option.PriceAtBought + ', exp: ' + option.PriceAtExp);
+                    }
+                }
+            });
         };
         OptionController.prototype.getStockPrice = function (stock) {
-            var symbol = 'goog';
+            var symbol = stock.Symbol + (stock.isHK() ? '.HK' : '');
             var apikey = '4VDN7RLHYUFKHWXE';
-            symbol = stock.Symbol + (stock.isHK() ? '.HK' : '');
             //let url = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=IBM&apikey=demo';
             var url = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=' + symbol + '&apikey=' + apikey;
+            var url_date = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=IBM&apikey=4VDN7RLHYUFKHWXE&date=2020-02-01&outputsize=compact';
             // console.info(' ')
             this.svr.$http.get(url).then(function (res) {
                 console.info(' res: ' + JSON.stringify(res));
@@ -170,7 +222,6 @@ var MyApp;
                     console.error(e);
                 }
             });
-            return 100;
         };
         OptionController.$inject = ['DbService', '$routeParams', '$mdSidenav', '$mdToast', '$mdDialog', '$mdMedia', '$mdBottomSheet'];
         return OptionController;
