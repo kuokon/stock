@@ -1569,7 +1569,7 @@ module MyApp {
 
 
         getAmtPerDay(): number {
-            return   this.getCashIn() / this._dayBoughtTillExp;
+            return this.getCashIn() / this._dayBoughtTillExp;
         }
 
 
@@ -1603,7 +1603,6 @@ module MyApp {
 
             let bep = this.getBreakEvenPrice(true);
             let price = this.getStock().Price;
-
             return (this.getSign() * (bep - price) / price * 100)
         }
 

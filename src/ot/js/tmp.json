@@ -2,11 +2,11 @@
   {
     "Id": -1,
     "Name": "騰訊",
-    "Strike": 550,
+    "Strike": 580,
     "StockTicker": "",
-    "DateBought": "2021/6/25 13:00",
-    "DateExp": "2021-12-30",
-    "Premium": 23.93,
+    "DateBought": "2021/6/25 15:50",
+    "DateExp": "2021-07-29",
+    "Premium": 10.36,
     "NumContract": -1,
     "P_C": "P",
     "PriceAtBought": 599.5

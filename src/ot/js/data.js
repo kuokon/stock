@@ -1479,6 +1479,19 @@ OPTIONS_JSON =
             "PriceAtBought": 599.5
         }
 
+        ,
+        {
+            "Id": -1,
+            "Name": "騰訊",
+            "Strike": 580,
+            "StockTicker": "",
+            "DateBought": "2021/6/25 15:50",
+            "DateExp": "2021-07-29",
+            "Premium": 10.36,
+            "NumContract": -1,
+            "P_C": "P",
+            "PriceAtBought": 599.5
+        }
 
     ]
 
