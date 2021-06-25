@@ -285,7 +285,13 @@ var MyApp;
             this.options.doSort(function (a, b) {
                 var aDay = a.isExpired() ? (-Math.round(a._dayToExp / 10) * 1000) : a._dayToExp;
                 var bDay = b.isExpired() ? (-Math.round(b._dayToExp / 10) * 1000) : b._dayToExp;
-                return aDay - bDay;
+                var res = aDay - bDay;
+                if (aDay == bDay) {
+                    var aName = a.Name + a.P_C + '-' + a.Strike + a.DateBought;
+                    var bName = b.Name + b.P_C + '-' + b.Strike + b.DateBought;
+                    res = -aName.localeCompare(bName);
+                }
+                return res;
             });
             var options = this.options.getAll().filter(function (e) {
                 return !e.isExpired();
@@ -977,9 +983,10 @@ var MyApp;
             var _this = _super !== null && _super.apply(this, arguments) || this;
             // js --
             _this.Id = -1;
-            _this.Status = 0;
-            _this.Remark = '';
-            _this.UpdateBy = 0;
+            // public Status: number = 0;
+            // public Remark: string = '';
+            // public UpdateBy: number = 0;
+            // public UpdateAt: Date;
             _this.Name = '';
             _this.Strike = 0;
             _this.StockTicker = '';
@@ -996,10 +1003,10 @@ var MyApp;
             var e = new Option();
             e._dirty = false;
             e.Id = json.Id;
-            e.Status = json.Status;
-            e.Remark = json.Remark;
-            e.UpdateBy = json.UpdateBy;
-            e.UpdateAt = json.UpdateAt;
+            // e.Status = json.Status;
+            // e.Remark = json.Remark;
+            // e.UpdateBy = json.UpdateBy;
+            // e.UpdateAt = json.UpdateAt;
             e.Name = json.Name;
             e.Strike = json.Strike;
             e.StockTicker = json.StockTicker;
@@ -1102,7 +1109,7 @@ var MyApp;
             return this._dayToExp < 0;
         };
         Option.prototype.match = function (filter) {
-            var txt = this.Strike + '-' + this.P_C;
+            var txt = this.Strike + '-' + this.P_C + '-' + this.DateBought;
             return (txt.indexOf(filter) >= 0);
         };
         Option.prototype.toHKD = function (amtPerDay) {

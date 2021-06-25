@@ -231,6 +231,10 @@ module MyApp {
             this.isShowExpire = false;
             this.isShowMonths = true;
             this.isShowStocks = true;
+
+            this.svr.mgr.stocks.getAll().forEach(e => {
+                e._isShow = true
+            })
             // this.mock = null;
         }
 

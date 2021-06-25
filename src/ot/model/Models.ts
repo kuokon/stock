@@ -377,7 +377,14 @@ module MyApp {
                 let aDay = a.isExpired() ? (-Math.round(a._dayToExp / 10) * 1000) : a._dayToExp;
                 let bDay = b.isExpired() ? (-Math.round(b._dayToExp / 10) * 1000) : b._dayToExp;
 
-                return aDay - bDay;
+                let res = aDay - bDay;
+                if(aDay == bDay) {
+                    let aName = a.Name + a.P_C + '-' + a.Strike + a.DateBought;
+                    let bName = b.Name + b.P_C + '-' + b.Strike + b.DateBought;
+                    res = -  aName.localeCompare(bName);
+                }
+
+                return res;
             });
 
 
@@ -1316,10 +1323,10 @@ module MyApp {
 
         // js --
         public Id: number = -1;
-        public Status: number = 0;
-        public Remark: string = '';
-        public UpdateBy: number = 0;
-        public UpdateAt: Date;
+        // public Status: number = 0;
+        // public Remark: string = '';
+        // public UpdateBy: number = 0;
+        // public UpdateAt: Date;
 
 
         public Name: string = '';
@@ -1345,10 +1352,10 @@ module MyApp {
             let e = new Option();
             e._dirty = false;
             e.Id = json.Id;
-            e.Status = json.Status;
-            e.Remark = json.Remark;
-            e.UpdateBy = json.UpdateBy;
-            e.UpdateAt = json.UpdateAt;
+            // e.Status = json.Status;
+            // e.Remark = json.Remark;
+            // e.UpdateBy = json.UpdateBy;
+            // e.UpdateAt = json.UpdateAt;
             e.Name = json.Name;
             e.Strike = json.Strike;
             e.StockTicker = json.StockTicker;
@@ -1492,7 +1499,8 @@ module MyApp {
         }
 
         match(filter: string): boolean {
-            let txt = this.Strike + '-' + this.P_C;
+
+            let txt = this.Strike + '-' + this.P_C + '-' + this.DateBought;
 
             return (txt.indexOf(filter) >= 0);
         }

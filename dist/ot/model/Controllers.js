@@ -168,6 +168,9 @@ var MyApp;
             this.isShowExpire = false;
             this.isShowMonths = true;
             this.isShowStocks = true;
+            this.svr.mgr.stocks.getAll().forEach(function (e) {
+                e._isShow = true;
+            });
             // this.mock = null;
         };
         OptionController.prototype.updateStockPriceHistory = function (stock) {

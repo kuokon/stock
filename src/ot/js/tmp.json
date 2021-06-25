@@ -1,53 +1,14 @@
 [
-
   {
     "Id": -1,
-    "Status": 0,
-    "Remark": "",
-    "UpdateBy": 0,
-    "Name": "FU",
-    "Strike": 146,
+    "Name": "騰訊",
+    "Strike": 550,
     "StockTicker": "",
-    "DateBought": "2021-06-09",
-    "DateExp": "2021-06-25",
-    "Premium": 8.4,
+    "DateBought": "2021/6/25 13:00",
+    "DateExp": "2021-12-30",
+    "Premium": 23.93,
     "NumContract": -1,
     "P_C": "P",
-    "PriceAtBought": 145.69
-  },
-
-
-  {
-    "Id": -1,
-    "Status": 0,
-    "Remark": "",
-    "UpdateBy": 0,
-    "Name": "FU",
-    "Strike": 165,
-    "StockTicker": "",
-    "DateBought": "2021-06-04",
-    "DateExp": "2021-06-25",
-    "Premium": 4.6,
-    "NumContract": -2,
-    "P_C": "C",
-    "PriceAtBought": 154.7
-  },
-  {
-    "Id": -1,
-    "Status": 0,
-    "Remark": "",
-    "UpdateBy": 0,
-    "Name": "FU",
-    "Strike": 150,
-    "StockTicker": "",
-    "DateBought": "2021-06-08",
-    "DateExp": "2021-06-18",
-    "Premium": 6.5,
-    "NumContract": -1,
-    "P_C": "P",
-    "PriceAtBought": 154.1,
-    "PriceAtExp": 154.34
-  },
-
-
+    "PriceAtBought": 599.5
+  }
 ]
