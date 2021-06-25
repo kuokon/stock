@@ -10,9 +10,6 @@ OPTIONS_JSON =
     [
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 240,
             "StockTicker": "",
@@ -23,13 +20,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "C",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 205,
             "StockTicker": "",
@@ -40,13 +33,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 240,
             "StockTicker": "",
@@ -57,13 +46,9 @@ OPTIONS_JSON =
             "NumContract": 1,
             "NumShareExposed": 100,
             "P_C": "C",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 195,
             "StockTicker": "",
@@ -74,13 +59,9 @@ OPTIONS_JSON =
             "NumContract": -3,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 620,
             "StockTicker": "",
@@ -91,13 +72,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "C",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 200,
             "StockTicker": "",
@@ -108,13 +85,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 215,
             "StockTicker": "",
@@ -125,13 +98,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 480,
             "StockTicker": "",
@@ -142,13 +111,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 180,
             "StockTicker": "",
@@ -159,13 +124,9 @@ OPTIONS_JSON =
             "NumContract": -2,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 180,
             "StockTicker": "",
@@ -176,13 +137,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 410,
             "StockTicker": "",
@@ -193,13 +150,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 490,
             "StockTicker": "",
@@ -210,13 +163,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 400,
             "StockTicker": "",
@@ -227,13 +176,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 400,
             "StockTicker": "",
@@ -244,13 +189,9 @@ OPTIONS_JSON =
             "NumContract": -4,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 220,
             "StockTicker": "",
@@ -261,13 +202,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 220,
             "StockTicker": "",
@@ -278,13 +215,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 220,
             "StockTicker": "",
@@ -295,13 +228,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 220,
             "StockTicker": "",
@@ -312,13 +241,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 180,
             "StockTicker": "",
@@ -329,13 +254,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 200,
             "StockTicker": "",
@@ -346,13 +267,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 600,
             "StockTicker": "",
@@ -363,13 +280,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "C",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 600,
             "StockTicker": "",
@@ -380,13 +293,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "C",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 410,
             "StockTicker": "",
@@ -397,13 +306,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 410,
             "StockTicker": "",
@@ -414,13 +319,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 200,
             "StockTicker": "",
@@ -431,13 +332,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 200,
             "StockTicker": "",
@@ -448,13 +345,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 180,
             "StockTicker": "",
@@ -465,13 +358,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 380,
             "StockTicker": "",
@@ -482,13 +371,9 @@ OPTIONS_JSON =
             "NumContract": -2,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 192,
             "StockTicker": "",
@@ -499,13 +384,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 192,
             "StockTicker": "",
@@ -516,13 +397,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 380,
             "StockTicker": "",
@@ -533,13 +410,9 @@ OPTIONS_JSON =
             "NumContract": -2,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 480,
             "StockTicker": "",
@@ -550,13 +423,9 @@ OPTIONS_JSON =
             "NumContract": -2,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 440,
             "StockTicker": "",
@@ -567,13 +436,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 440,
             "StockTicker": "",
@@ -584,13 +449,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 400,
             "StockTicker": "",
@@ -601,13 +462,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 430,
             "StockTicker": "",
@@ -618,13 +475,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 430,
             "StockTicker": "",
@@ -635,13 +488,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 430,
             "StockTicker": "",
@@ -652,13 +501,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 270,
             "StockTicker": "",
@@ -669,13 +514,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "C",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 265,
             "StockTicker": "",
@@ -686,13 +527,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "C",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 265,
             "StockTicker": "",
@@ -703,13 +540,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "C",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 400,
             "StockTicker": "",
@@ -720,13 +553,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 400,
             "StockTicker": "",
@@ -737,13 +566,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 600,
             "StockTicker": "",
@@ -754,13 +579,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "C",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 600,
             "StockTicker": "",
@@ -771,13 +592,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "C",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 610,
             "StockTicker": "",
@@ -788,13 +605,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "C",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 560,
             "StockTicker": "",
@@ -805,13 +618,9 @@ OPTIONS_JSON =
             "NumContract": -2,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 570,
             "StockTicker": "",
@@ -822,13 +631,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 570,
             "StockTicker": "",
@@ -839,13 +644,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "C",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 590,
             "StockTicker": "",
@@ -856,13 +657,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "C",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 560,
             "StockTicker": "",
@@ -873,13 +670,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 440,
             "StockTicker": "",
@@ -890,13 +683,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 440,
             "StockTicker": "",
@@ -907,13 +696,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 430,
             "StockTicker": "",
@@ -924,13 +709,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 430,
             "StockTicker": "",
@@ -941,13 +722,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 440,
             "StockTicker": "",
@@ -958,13 +735,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 200,
             "StockTicker": "",
@@ -975,13 +748,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 180,
             "StockTicker": "",
@@ -992,13 +761,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 500,
             "StockTicker": "",
@@ -1009,13 +774,9 @@ OPTIONS_JSON =
             "NumContract": -2,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 500,
             "StockTicker": "",
@@ -1026,13 +787,9 @@ OPTIONS_JSON =
             "NumContract": -2,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 500,
             "StockTicker": "",
@@ -1043,13 +800,9 @@ OPTIONS_JSON =
             "NumContract": -2,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 500,
             "StockTicker": "",
@@ -1060,13 +813,9 @@ OPTIONS_JSON =
             "NumContract": -2,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 610,
             "StockTicker": "",
@@ -1077,13 +826,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "C",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 610,
             "StockTicker": "",
@@ -1094,13 +839,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "C",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 245,
             "StockTicker": "",
@@ -1111,13 +852,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "C",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 225,
             "StockTicker": "",
@@ -1128,13 +865,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "C",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 580,
             "StockTicker": "",
@@ -1145,13 +878,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 560,
             "StockTicker": "",
@@ -1162,13 +891,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 600,
             "StockTicker": "",
@@ -1179,13 +904,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 600,
             "StockTicker": "",
@@ -1196,13 +917,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 590,
             "StockTicker": "",
@@ -1213,13 +930,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 550,
             "StockTicker": "",
@@ -1230,13 +943,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 540,
             "StockTicker": "",
@@ -1247,13 +956,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 590,
             "StockTicker": "",
@@ -1264,13 +969,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 540,
             "StockTicker": "",
@@ -1281,13 +982,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 550,
             "StockTicker": "",
@@ -1298,13 +995,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 570,
             "StockTicker": "",
@@ -1315,13 +1008,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 560,
             "StockTicker": "",
@@ -1332,13 +1021,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 550,
             "StockTicker": "",
@@ -1349,13 +1034,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 550,
             "StockTicker": "",
@@ -1366,13 +1047,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 180,
             "StockTicker": "",
@@ -1383,13 +1060,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 500,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 580,
             "StockTicker": "",
@@ -1400,13 +1073,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 560,
             "StockTicker": "",
@@ -1417,13 +1086,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 630,
             "StockTicker": "",
@@ -1434,13 +1099,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "C",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 640,
             "StockTicker": "",
@@ -1451,13 +1112,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "C",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 660,
             "StockTicker": "",
@@ -1468,13 +1125,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "C",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 630,
             "StockTicker": "",
@@ -1485,13 +1138,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "C",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 480,
             "StockTicker": "",
@@ -1502,13 +1151,9 @@ OPTIONS_JSON =
             "NumContract": -3,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 480,
             "StockTicker": "",
@@ -1519,13 +1164,9 @@ OPTIONS_JSON =
             "NumContract": -3,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 480,
             "StockTicker": "",
@@ -1536,13 +1177,9 @@ OPTIONS_JSON =
             "NumContract": -3,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 470,
             "StockTicker": "",
@@ -1553,13 +1190,9 @@ OPTIONS_JSON =
             "NumContract": -2,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 162,
             "StockTicker": "",
@@ -1570,13 +1203,9 @@ OPTIONS_JSON =
             "NumContract": -2,
             "NumShareExposed": 500,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 162,
             "StockTicker": "",
@@ -1587,13 +1216,9 @@ OPTIONS_JSON =
             "NumContract": -2,
             "NumShareExposed": 500,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 170,
             "StockTicker": "",
@@ -1604,13 +1229,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 500,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 170,
             "StockTicker": "",
@@ -1621,13 +1242,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 500,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 170,
             "StockTicker": "",
@@ -1638,13 +1255,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 500,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 180,
             "StockTicker": "",
@@ -1655,13 +1268,9 @@ OPTIONS_JSON =
             "NumContract": -2,
             "NumShareExposed": 500,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 620,
             "StockTicker": "",
@@ -1672,14 +1281,10 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "C",
-            "_dirty": true
         },
 
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "FU",
             "Strike": 146,
             "StockTicker": "",
@@ -1694,9 +1299,6 @@ OPTIONS_JSON =
 
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "FU",
             "Strike": 165,
             "StockTicker": "",
@@ -1709,9 +1311,6 @@ OPTIONS_JSON =
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "FU",
             "Strike": 150,
             "StockTicker": "",
@@ -1725,9 +1324,6 @@ OPTIONS_JSON =
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "BA",
             "Strike": 205,
             "StockTicker": "",
@@ -1738,13 +1334,9 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "BA",
             "Strike": 220,
             "StockTicker": "",
@@ -1755,15 +1347,11 @@ OPTIONS_JSON =
             "NumContract": -1,
             "NumShareExposed": 100,
             "P_C": "P",
-            "_dirty": true
         },
 
 
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 180,
             "StockTicker": "",
@@ -1775,9 +1363,6 @@ OPTIONS_JSON =
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 530,
             "StockTicker": "",
@@ -1789,9 +1374,6 @@ OPTIONS_JSON =
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 530,
             "StockTicker": "",
@@ -1803,9 +1385,6 @@ OPTIONS_JSON =
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 185,
             "StockTicker": "",
@@ -1817,9 +1396,6 @@ OPTIONS_JSON =
         },
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "騰訊",
             "Strike": 460,
             "StockTicker": "",
@@ -1832,9 +1408,6 @@ OPTIONS_JSON =
         ,
         {
             "Id": -1,
-            "Status": 0,
-            "Remark": "",
-            "UpdateBy": 0,
             "Name": "阿里",
             "Strike": 160,
             "StockTicker": "",
@@ -1844,38 +1417,23 @@ OPTIONS_JSON =
             "NumContract": -1,
             "P_C": "P"
         }
-        , {
-        "Id": -1,
-        "Status": 0,
-        "Remark": "",
-        "UpdateBy": 0,
-        "Name": "阿里",
-        "Strike": 250,
-        "StockTicker": "",
-        "DateBought": "2021/6/25 11:40",
-        "DateExp": "2021-09-29",
-        "Premium": 3.12,
-        "NumContract": -1,
-        "P_C": "C",
-        "PriceAtBought": 213.2
-    }
+        ,
+        {
+            "Id": -1,
+            "Status": 0,
+            "Remark": "",
+            "UpdateBy": 0,
+            "Name": "阿里",
+            "Strike": 250,
+            "StockTicker": "",
+            "DateBought": "2021/6/25 11:40",
+            "DateExp": "2021-09-29",
+            "Premium": 3.12,
+            "NumContract": -1,
+            "P_C": "C",
+            "PriceAtBought": 213.2
+        }
 
-
-        , {
-        "Id": -1,
-        "Status": 0,
-        "Remark": "",
-        "UpdateBy": 0,
-        "Name": "阿里",
-        "Strike": 170,
-        "StockTicker": "",
-        "DateBought": "2021/6/25 11:56",
-        "DateExp": "2021-12-30",
-        "Premium": 3.24,
-        "NumContract": -2,
-        "P_C": "P",
-        "PriceAtBought": 213.2
-    }
 
         ,
         {
@@ -1883,6 +1441,20 @@ OPTIONS_JSON =
             "Status": 0,
             "Remark": "",
             "UpdateBy": 0,
+            "Name": "阿里",
+            "Strike": 170,
+            "StockTicker": "",
+            "DateBought": "2021/6/25 11:56",
+            "DateExp": "2021-12-30",
+            "Premium": 3.24,
+            "NumContract": -2,
+            "P_C": "P",
+            "PriceAtBought": 213.2
+        }
+
+        ,
+        {
+            "Id": -1,
             "Name": "阿里",
             "Strike": 187,
             "StockTicker": "",

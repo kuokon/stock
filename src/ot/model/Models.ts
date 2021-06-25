@@ -1451,9 +1451,6 @@ module MyApp {
 
         }
 
-        getAmtPerDay(): number {
-            return (this.getCashIn()) / this._dayBoughtTillExp;
-        }
 
         getExposure(): number {
             return this.getNumShares() * this.Strike;
@@ -1567,22 +1564,28 @@ module MyApp {
         }
 
         getCashIn(): number {
-            return -this.getNumShares() * this.Premium;
+            return  this.getNumShares() * this.Premium;
         }
 
+
+        getAmtPerDay(): number {
+            return   this.getCashIn() / this._dayBoughtTillExp;
+        }
+
+
+        getReturn(): number {
+
+            return  this.getCashIn() / this._dayBoughtTillExp;
+
+        }
 
         getRisk(): number {
 
+
             let price = this.getStock().Price;
-
             return (price / (price - this.Strike) * (this._dayToExp / 365) * this.getNumShares());
-
         }
 
-        getReturn(): number {
-            return -this.getCashIn() / this._dayToExp;
-
-        }
 
         getLost(): number {
             let res = 0;

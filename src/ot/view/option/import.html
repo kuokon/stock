@@ -1,4 +1,4 @@
-<div ng-init="svr.title = vm.title + '| 導入'  ;vm.prevPage ='/option/'"
+<div ng-init="svr.title =  '| 導入'  ;vm.prevPage ='/option/'"
      ng-include="'src/ot/view/part/header.html'"></div>
 
 
@@ -7,17 +7,16 @@
     <div layout="row" layout-align="center ">
 
         <div style="width: 40%">
-        <span ng-init="headers = ['編號','商戶','地址']" style="margin-left: 30px">
+        <span ng-init="headers = ['編號']" style="margin-left: 30px">
             <span ng-repeat="h in headers  track by $index">   {{h}} | </span>
         </span>
 
             <md-button class="md-raised  md-hue-1" ng-click="rawText = ''">清除</md-button>
             <md-button class="md-raised  md-hue-1" ng-click="res = vm.onParse(rawText)">doIt</md-button>
-<!--            <md-button class="md-raised  md-primary md-hue-3" ng-click="vm.onSaveImport(res)">保存</md-button>-->
 
-            <md-input-container >
-                Use Comma
-                <md-checkbox ng-model="vm.isUseComma"></md-checkbox>
+            <md-input-container ng-init="isHK=true">
+                HK
+                <md-checkbox ng-model="isHK"></md-checkbox>
             </md-input-container>
 
             <md-input-container class="md-block">
@@ -35,12 +34,12 @@
 
 
                 <h3 > {{res.msg}} </h3>
-                <i class="fa fa-clipboard" ng-click="vm.onCopyDataToClipboard(res.parsed) "></i>
+
 
                 <table md-table style="text-align: center">
                     <thead md-head>
                     <tr md-row>
-                        <th md-column># : {{res.parsed.length}}</th>
+                        <th md-column># : {{res.parsed.length}} <i class="fa fa-clipboard" ng-click="vm.onCopyDataToClipboard(res.parsed) "></i></th>
 
                         <th md-column>Strike</th>
                         <th md-column>C</th>

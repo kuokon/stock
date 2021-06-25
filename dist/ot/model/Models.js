@@ -1076,9 +1076,6 @@ var MyApp;
             //     return 'light'
             // }
         };
-        Option.prototype.getAmtPerDay = function () {
-            return (this.getCashIn()) / this._dayBoughtTillExp;
-        };
         Option.prototype.getExposure = function () {
             return this.getNumShares() * this.Strike;
         };
@@ -1153,14 +1150,17 @@ var MyApp;
             return this.Strike + delta;
         };
         Option.prototype.getCashIn = function () {
-            return -this.getNumShares() * this.Premium;
+            return this.getNumShares() * this.Premium;
+        };
+        Option.prototype.getAmtPerDay = function () {
+            return this.getCashIn() / this._dayBoughtTillExp;
+        };
+        Option.prototype.getReturn = function () {
+            return this.getCashIn() / this._dayBoughtTillExp;
         };
         Option.prototype.getRisk = function () {
             var price = this.getStock().Price;
             return (price / (price - this.Strike) * (this._dayToExp / 365) * this.getNumShares());
-        };
-        Option.prototype.getReturn = function () {
-            return -this.getCashIn() / this._dayToExp;
         };
         Option.prototype.getLost = function () {
             var res = 0;
