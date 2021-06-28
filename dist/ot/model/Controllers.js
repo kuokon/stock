@@ -21,11 +21,13 @@ var MyApp;
             this.txt = '';
             this.dte = 0;
             this.month = 0;
+            this.sort_order = 0;
         }
         OptionFilter.prototype.reset = function () {
             this.txt = '';
             this.dte = 0;
             this.month = 0;
+            this.sort_order = 0;
         };
         return OptionFilter;
     }());
@@ -88,28 +90,36 @@ var MyApp;
             }
             this.stats.calc(res);
             var stocks = this.svr.mgr.stocks.getAll();
-            stocks.forEach(function (e) {
-                e._exposure_p = 0;
-                e._exposure_c = 0;
-                e._cash_in_amt = 0;
-                e._cash_lost_amt = 0;
-                e._num_call = 0;
-                e._num_put = 0;
+            stocks.forEach(function (stock) {
+                var options = res.filter(function (option) {
+                    return option._stock == stock;
+                });
+                stock._stats.calc(options);
             });
-            res.forEach(function (e) {
-                var ep = e.getExposure();
-                var stock = e.getStock();
-                if (e.isCall()) {
-                    stock._exposure_c += ep;
-                    stock._num_call += e.NumContract;
-                }
-                else {
-                    stock._exposure_p += ep;
-                    stock._num_put += e.NumContract;
-                }
-                stock._cash_in_amt += e.getCashIn();
-                stock._cash_lost_amt += e.getLost();
-            });
+            // res.forEach(e => {
+            //
+            //     let ep = e.getExposure();
+            //     let stock = e.getStock();
+            //     if (e.isCall()) {
+            //         stock._exposure_c += ep;
+            //         stock._num_call += e.NumContract;
+            //     } else {
+            //         stock._exposure_p += ep;
+            //         stock._num_put += e.NumContract;
+            //     }
+            //
+            //     stock._cash_in_amt += e.getCashIn();
+            //     stock._cash_lost_amt += e.getLost();
+            //
+            // });
+            // sort by name-strike
+            if (this.filter.sort_order == 1) {
+                res = res.sort((function (a, b) {
+                    var aName = a.Name + a.P_C + '-' + a.Strike + a.DateBought;
+                    var bName = b.Name + b.P_C + '-' + b.Strike + b.DateBought;
+                    return -aName.localeCompare(bName);
+                }));
+            }
             if (this.mock) {
                 res.unshift(this.mock);
             }
@@ -122,6 +132,7 @@ var MyApp;
             this.mock.DateBought = moment().format('YYYY-MM-DD');
             this.mock.PriceAtBought = option.getStock().Price;
             this.mock.init();
+            this.mock._dirty = true;
         };
         OptionController.prototype.onUpdateMock = function (stock, month, isCall) {
             if (!this.mock) {
@@ -152,8 +163,10 @@ var MyApp;
             ];
         };
         OptionController.prototype.onCopyDataToClipboard = function (options) {
-            //let res :Option[] = pr.parsed;
-            var buf = JSON.stringify(options, MyApp.Helper.json_replacer);
+            var list = options.filter(function (e) {
+                return e._dirty;
+            });
+            var buf = JSON.stringify(list, MyApp.Helper.json_replacer);
             MyApp.Helper.copyTxtToClipboard(this.svr, buf);
         };
         OptionController.prototype.refreshStockPrice = function () {
@@ -174,6 +187,7 @@ var MyApp;
             // this.mock = null;
         };
         OptionController.prototype.updateStockPriceHistory = function (stock) {
+            var _this = this;
             console.info('updating price history....');
             var symbol = stock.Symbol + (stock.isHK() ? '.HK' : '');
             var apikey = '4VDN7RLHYUFKHWXE';
@@ -187,6 +201,8 @@ var MyApp;
             this.svr.$http.get(url).then(function (res) {
                 var price, last;
                 var data = res.data['Time Series (Daily)'];
+                var errMsg = res.data['Error Message'];
+                errMsg && _this.svr.UiError(errMsg);
                 for (var _i = 0, options_1 = options; _i < options_1.length; _i++) {
                     var option = options_1[_i];
                     if (data[option.DateBought]) {

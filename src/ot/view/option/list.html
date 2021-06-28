@@ -21,8 +21,10 @@
 
             </th>
 
-            <th md-column xstyle="width: 10px;">名稱 # {{vm.stats.numRows}}
-
+            <th md-column>
+                <span ng-click="vm.filter.sort_order=1" style="cursor: pointer">
+                名稱 # {{vm.stats.numRows}}
+                </span>
             </th>
 
             <th md-column style="width: 20px">
@@ -64,7 +66,6 @@
             <th md-column style="width: 20px">
                 Price
             </th>
-
         </tr>
         </thead>
         <tbody md-body class="md-inline-form">
@@ -78,14 +79,15 @@
             </td>
 
             <td md-cell style="width: 100px">
+                <span ng-style="{color:  e._dirty ? 'red' : '' }">
+                    <i class="fa fa-dollar" ng-if="!e.isHK()"></i>
 
-                <i class="fa fa-dollar" ng-if="!e.isHK()"></i>
-
-                {{e.StockTicker}}
-                <span ng-click="vm.makeMock(e)" style="cursor: pointer">
-                    {{ e.Name}}
+                    {{e.StockTicker}}
+                    <span ng-click="vm.makeMock(e)" style="cursor: pointer">
+                        {{ e.Name}}
+                    </span>
+                    {{e.Strike}}-{{e.P_C}}
                 </span>
-                {{e.Strike}}-{{e.P_C}}
                 <br/>
 
                 <!--                <i style="cursor: pointer; color: lightgrey" ng-click="vm.makeMock(e)" class="fa fa-copy"></i>-->
@@ -147,18 +149,37 @@
 
             <td md-cell>
                 <span ng-if="e.PriceAtBought">
-                    {{ e.PriceAtBought }}
+
+                    <md-input-container class="box-none" style="width: 50px">
+                        <input ng-model="e.PriceAtBought" ng-change="e.onUpdate()" type="number"/>
+                    </md-input-container>
+
                     <small> ({{((e.PriceAtBought-e.Strike) / e.Strike * 100).toFixed(2) }}%) </small>
                 </span>
 
                 <br/>
                 <span ng-if="e.PriceAtExp">
+                    <md-input-container class="box-none" style="width: 50px">
+                        <label>Exp</label>
+                        <input ng-model="e.PriceAtExp" ng-change="e.onUpdate()" type="number"/>
+                    </md-input-container>
+
                     {{ e.PriceAtExp }}
                     <small>
                     ({{( (e.PriceAtExp-e.Strike) / e.Strike * 100).toFixed(2) }}%)
                     </small>
                 </span>
             </td>
+
+
+            <!--            <td md-cell>-->
+            <!--                <md-input-container class="box-none" style="width: 50px">-->
+            <!--                    <input ng-model="e.PriceAtClose" type="number"/>-->
+            <!--                </md-input-container>-->
+
+            <!--&lt;!&ndash;                <md-checkbox >Close</md-checkbox>&ndash;&gt;-->
+            <!--            </td>-->
+
 
         </tr>
 

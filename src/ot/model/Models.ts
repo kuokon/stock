@@ -378,10 +378,10 @@ module MyApp {
                 let bDay = b.isExpired() ? (-Math.round(b._dayToExp / 10) * 1000) : b._dayToExp;
 
                 let res = aDay - bDay;
-                if(aDay == bDay) {
+                if (aDay == bDay) {
                     let aName = a.Name + a.P_C + '-' + a.Strike + a.DateBought;
                     let bName = b.Name + b.P_C + '-' + b.Strike + b.DateBought;
-                    res = -  aName.localeCompare(bName);
+                    res = -aName.localeCompare(bName);
                 }
 
                 return res;
@@ -1164,41 +1164,52 @@ module MyApp {
     }
 
     export class OptionStats {
-        exposure: number;
-        exposure_c: number;
-        exposure_p: number;
-        // amtCost: number;
-        amtDaySum: number;
-        numContracts: number;
-        numRows: number;
-        amtCashIn: number;
 
-        cost_exposure_ratio: number;
+        exposure_c: number = 0;
+        exposure_p: number = 0;
+
+        numCall = 0;
+        numPut = 0;
+
+        numContracts: number = 0;
+        numRows: number = 0;
+        amtCashIn: number = 0;
+        amtDaySum: number = 0;
+        amtLost: number = 0;
+
+        cost_exposure_ratio: number = 0;
 
 
         calc(options: Option[]) {
 
             this.exposure_p = 0;
             this.exposure_c = 0;
-            // this.amtCost = 0;
+
+
+            this.numCall = 0;
+            this.numPut = 0;
             this.numContracts = 0;
             this.numRows = 0;
+
             this.amtDaySum = 0;
             this.amtCashIn = 0;
+            this.amtLost = 0;
 
 
             this.cost_exposure_ratio = 0;
 
             for (const option of options) {
-                this.exposure += option.toHKD(option.getExposure());
 
                 if (option.isCall()) {
                     this.exposure_c += option.toHKD(option.getExposure());
+                    this.numCall++;
                 } else {
                     this.exposure_p += option.toHKD(option.getExposure());
+                    this.numPut++;
                 }
 
                 this.amtCashIn += option.toHKD(option.getCashIn());
+                this.amtLost += option.toHKD(option.getLost());
                 this.numContracts += Math.abs(option.NumContract);
                 this.numRows++;
 
@@ -1226,14 +1237,16 @@ module MyApp {
 
         public _dirty: boolean = true;
 
-        _exposure_p: number = 0;
-        _exposure_c: number = 0;
-        _cash_in_amt: number = 0;
-        _cash_lost_amt: number = 0;
-        _num_call = 0;
-        _num_put = 0;
+        // _exposure_p: number = 0;
+        // _exposure_c: number = 0;
+        // _cash_in_amt: number = 0;
+        // _cash_lost_amt: number = 0;
+        // _num_call = 0;
+        // _num_put = 0;
 
         _isShow: boolean = true;
+
+        _stats: OptionStats = new OptionStats();
 
         _month_contracts = {};
 
@@ -1277,6 +1290,12 @@ module MyApp {
             cell[idx] += num;
 
             cell.cash_in_daily += option.getAmtPerDay();
+
+
+            this._stats.amtCashIn += option.getCashIn();
+            this._stats.amtDaySum += option.getAmtPerDay();
+            this._stats.amtLost += option.getLost();
+
         }
 
         getCashIn(month: number): number {
@@ -1340,6 +1359,7 @@ module MyApp {
 
         public PriceAtBought: number;
         public PriceAtExp: number;
+        public PriceAtClose: number;
 
 
         public _dirty: boolean = true;
@@ -1365,6 +1385,8 @@ module MyApp {
 
             e.PriceAtBought = json.PriceAtBought;
             e.PriceAtExp = json.PriceAtExp;
+            e.PriceAtClose = json.PriceAtClose;
+
 
             e.NumContract = json.NumContract;
             e.P_C = json.P_C;
@@ -1376,6 +1398,9 @@ module MyApp {
             return e;
         }
 
+        onUpdate(): void {
+            this._dirty = true;
+        }
 
         getStockSymbol(): string {
 
@@ -1466,7 +1491,6 @@ module MyApp {
         }
 
         init() {
-
 
             if (this.DateExp.indexOf('-') < 0) {
                 let str = this.DateExp;
@@ -1564,7 +1588,7 @@ module MyApp {
         }
 
         getCashIn(): number {
-            return  this.getNumShares() * this.Premium;
+            return this.getNumShares() * this.Premium;
         }
 
 
@@ -1575,7 +1599,7 @@ module MyApp {
 
         getReturn(): number {
 
-            return  this.getCashIn() / this._dayBoughtTillExp;
+            return this.getCashIn() / this._dayBoughtTillExp;
 
         }
 

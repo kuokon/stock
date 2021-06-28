@@ -868,26 +868,40 @@ var MyApp;
     MyApp.Cache = Cache;
     var OptionStats = /** @class */ (function () {
         function OptionStats() {
+            this.exposure_c = 0;
+            this.exposure_p = 0;
+            this.numCall = 0;
+            this.numPut = 0;
+            this.numContracts = 0;
+            this.numRows = 0;
+            this.amtCashIn = 0;
+            this.amtDaySum = 0;
+            this.amtLost = 0;
+            this.cost_exposure_ratio = 0;
         }
         OptionStats.prototype.calc = function (options) {
             this.exposure_p = 0;
             this.exposure_c = 0;
-            // this.amtCost = 0;
+            this.numCall = 0;
+            this.numPut = 0;
             this.numContracts = 0;
             this.numRows = 0;
             this.amtDaySum = 0;
             this.amtCashIn = 0;
+            this.amtLost = 0;
             this.cost_exposure_ratio = 0;
             for (var _i = 0, options_1 = options; _i < options_1.length; _i++) {
                 var option = options_1[_i];
-                this.exposure += option.toHKD(option.getExposure());
                 if (option.isCall()) {
                     this.exposure_c += option.toHKD(option.getExposure());
+                    this.numCall++;
                 }
                 else {
                     this.exposure_p += option.toHKD(option.getExposure());
+                    this.numPut++;
                 }
                 this.amtCashIn += option.toHKD(option.getCashIn());
+                this.amtLost += option.toHKD(option.getLost());
                 this.numContracts += Math.abs(option.NumContract);
                 this.numRows++;
                 this.amtDaySum += option.toHKD(option.getAmtPerDay());
@@ -909,13 +923,14 @@ var MyApp;
             _this.IsHK = 0;
             _this.PriceLast = 0;
             _this._dirty = true;
-            _this._exposure_p = 0;
-            _this._exposure_c = 0;
-            _this._cash_in_amt = 0;
-            _this._cash_lost_amt = 0;
-            _this._num_call = 0;
-            _this._num_put = 0;
+            // _exposure_p: number = 0;
+            // _exposure_c: number = 0;
+            // _cash_in_amt: number = 0;
+            // _cash_lost_amt: number = 0;
+            // _num_call = 0;
+            // _num_put = 0;
             _this._isShow = true;
+            _this._stats = new OptionStats();
             _this._month_contracts = {};
             return _this;
         }
@@ -947,6 +962,9 @@ var MyApp;
             var idx = isCall ? 'num_call' : 'num_put';
             cell[idx] += num;
             cell.cash_in_daily += option.getAmtPerDay();
+            this._stats.amtCashIn += option.getCashIn();
+            this._stats.amtDaySum += option.getAmtPerDay();
+            this._stats.amtLost += option.getLost();
         };
         Stock.prototype.getCashIn = function (month) {
             var cell = this._month_contracts[month];
@@ -1015,11 +1033,15 @@ var MyApp;
             e.Premium = json.Premium;
             e.PriceAtBought = json.PriceAtBought;
             e.PriceAtExp = json.PriceAtExp;
+            e.PriceAtClose = json.PriceAtClose;
             e.NumContract = json.NumContract;
             e.P_C = json.P_C;
             e._stock = svr.mgr.stocks.getByKey(e.getStockSymbol());
             e.init();
             return e;
+        };
+        Option.prototype.onUpdate = function () {
+            this._dirty = true;
         };
         Option.prototype.getStockSymbol = function () {
             if (this.Name.startsWith('騰訊')) {

@@ -1293,7 +1293,8 @@ OPTIONS_JSON =
             "Premium": 8.4,
             "NumContract": -1,
             "P_C": "P",
-            "PriceAtBought": 145.69
+            "PriceAtBought": 145.69,
+            "PriceAtExp": 168.99
         },
 
 
@@ -1307,7 +1308,8 @@ OPTIONS_JSON =
             "Premium": 4.6,
             "NumContract": -2,
             "P_C": "C",
-            "PriceAtBought": 154.7
+            "PriceAtBought": 154.7,
+            "PriceAtExp": 168.99
         },
         {
             "Id": -1,
@@ -1492,6 +1494,21 @@ OPTIONS_JSON =
             "P_C": "P",
             "PriceAtBought": 599.5
         }
+        ,
+
+        {
+            "Id": -1,
+            "Name": "騰訊",
+            "Strike": 590,
+            "StockTicker": "",
+            "DateBought": "2021-06-28",
+            "DateExp": "2021-06-29",
+            "Premium": 2.53,
+            "NumContract": -1,
+            "P_C": "P",
+            "PriceAtBought": 593.5
+        }
+
 
     ]
 

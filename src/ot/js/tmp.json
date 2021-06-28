@@ -1,14 +1,13 @@
-[
+
   {
     "Id": -1,
     "Name": "騰訊",
-    "Strike": 580,
+    "Strike": 590,
     "StockTicker": "",
-    "DateBought": "2021/6/25 15:50",
-    "DateExp": "2021-07-29",
-    "Premium": 10.36,
+    "DateBought": "2021-06-28",
+    "DateExp": "2021-06-29",
+    "Premium": 2.53,
     "NumContract": -1,
     "P_C": "P",
-    "PriceAtBought": 599.5
+    "PriceAtBought": 593.5
   }
-]

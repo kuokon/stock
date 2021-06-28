@@ -98,22 +98,24 @@
 
 
             <td md-cell>
-                {{e._cash_in_amt}}
+                {{e._stats.amtCashIn}}
                 <br/>
 
-                <span ng-if="e._cash_lost_amt>0" style="background: lightpink">
-                -{{e._cash_lost_amt.toFixed(2)}}
+                <span ng-if="e._stats.amtLost>0" style="background: lightpink">
+
+                     -{{e._stats.amtLost.toFixed(2)}}
+
                 </span>
 
             </td>
 
             <td md-cell>
-                <span ng-if="e._exposure_c">
-                {{(e._exposure_c/10000).toFixed(2)}}w
+                <span ng-if="e._stats.exposure_c">
+                {{(e._stats.exposure_c/10000).toFixed(2)}}w
                 </span>
                 <br/>
-                <span ng-if="e._exposure_p">
-                {{(e._exposure_p/10000).toFixed(2)}}w
+                <span ng-if="e._stats.exposure_p">
+                {{(e._stats.exposure_p/10000).toFixed(2)}}w
                 </span>
 
             </td>

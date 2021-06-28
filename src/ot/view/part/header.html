@@ -36,34 +36,17 @@
                    ng-model-options="{ allowInvalid: true, debounce: 500 }">
         </md-input-container>
 
-        <!--        <md-input-container class="box-none" style="background: lightgrey; margin-left: 10px; width: 30px">-->
 
-        <!--            <input ng-model="vm.filter.dte" type="number"-->
-        <!--                   ng-model-options="{ allowInvalid: true, debounce: 500 }">-->
-        <!--        </md-input-container>-->
-
-        <span flex></span>
+        <i style="margin-left: 10px; cursor: pointer"
+           class="fa fa-refresh"
+           ng-click="vm.onReset()"> </i>
 
 
         <i style="margin-left: 10px ; background: lightsalmon" ng-if="vm.filter.month">
             <span>{{vm.filter.month}}</span>月
         </i>
 
-
-        <i style="margin-left: 10px"
-           class="fa fa-refresh"
-           ng-click="vm.onReset()"> </i>
-
-
-        <md-button class="md-fab md-mini  md-primary md-hue-1" ng-if="svr.getCurrUser().isAdmin()"
-                   ng-click="svr.goTo('/admin/')">
-            <i class="fa fa-superpowers"></i>
-        </md-button>
-
-
-        <h3 ng-show="svr.networkMgr.isNetworkError()" ng-click="svr.networkMgr.onNetworkOk(); svr.doSyncTasks();"
-            style="background: orangered;">
-            <i class="fa fa-wifi"></i></h3>
+        <span flex></span>
 
     </div>
 

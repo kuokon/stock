@@ -30,11 +30,14 @@ module MyApp {
 
         public month: number = 0;
 
+        public sort_order: number = 0;
+
 
         public reset(): void {
             this.txt = '';
             this.dte = 0;
             this.month = 0;
+            this.sort_order = 0;
         }
     }
 
@@ -122,35 +125,46 @@ module MyApp {
 
             this.stats.calc(res);
 
+
             let stocks = this.svr.mgr.stocks.getAll();
 
 
-            stocks.forEach(e => {
-                e._exposure_p = 0;
-                e._exposure_c = 0;
-                e._cash_in_amt = 0;
-                e._cash_lost_amt = 0;
-                e._num_call = 0;
-                e._num_put = 0;
+            stocks.forEach(stock => {
 
+
+                let options = res.filter(option => {
+                    return option._stock == stock
+                });
+
+                stock._stats.calc(options);
             });
 
-            res.forEach(e => {
+            // res.forEach(e => {
+            //
+            //     let ep = e.getExposure();
+            //     let stock = e.getStock();
+            //     if (e.isCall()) {
+            //         stock._exposure_c += ep;
+            //         stock._num_call += e.NumContract;
+            //     } else {
+            //         stock._exposure_p += ep;
+            //         stock._num_put += e.NumContract;
+            //     }
+            //
+            //     stock._cash_in_amt += e.getCashIn();
+            //     stock._cash_lost_amt += e.getLost();
+            //
+            // });
 
-                let ep = e.getExposure();
-                let stock = e.getStock();
-                if (e.isCall()) {
-                    stock._exposure_c += ep;
-                    stock._num_call += e.NumContract;
-                } else {
-                    stock._exposure_p += ep;
-                    stock._num_put += e.NumContract;
-                }
+            // sort by name-strike
+            if (this.filter.sort_order == 1) {
+                res = res.sort(((a, b) => {
+                    let aName = a.Name + a.P_C + '-' + a.Strike + a.DateBought;
+                    let bName = b.Name + b.P_C + '-' + b.Strike + b.DateBought;
+                    return -aName.localeCompare(bName);
+                }))
 
-                stock._cash_in_amt += e.getCashIn();
-                stock._cash_lost_amt += e.getLost();
-
-            });
+            }
 
             if (this.mock) {
                 res.unshift(this.mock);
@@ -167,6 +181,8 @@ module MyApp {
 
             this.mock.PriceAtBought = option.getStock().Price;
             this.mock.init();
+
+            this.mock._dirty = true;
         }
 
         onUpdateMock(stock: Stock, month: number, isCall: boolean): void {
@@ -209,8 +225,11 @@ module MyApp {
 
         onCopyDataToClipboard(options: Option[]): void {
 
-            //let res :Option[] = pr.parsed;
-            let buf = JSON.stringify(options, Helper.json_replacer);
+            let list = options.filter(e => {
+                return e._dirty
+            });
+
+            let buf = JSON.stringify(list, Helper.json_replacer);
             Helper.copyTxtToClipboard(this.svr, buf);
 
 
@@ -258,6 +277,9 @@ module MyApp {
 
                 let price, last;
                 let data = res.data['Time Series (Daily)'];
+                let errMsg = res.data['Error Message'];
+
+                errMsg && this.svr.UiError(errMsg);
 
                 for (const option of options) {
                     if (data[option.DateBought]) {
