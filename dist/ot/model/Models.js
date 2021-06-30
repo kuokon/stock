@@ -1063,7 +1063,7 @@ var MyApp;
             var m = moment(this.DateExp);
             var res = m.month() + 1;
             // hack()  if it's next year's this month, put it to previous month so that it won't overlap with this year's this month;
-            if (this._dayToExp > 365) {
+            if (this._dayToExp > 360) {
                 res--;
                 if (res < 1) {
                     res = 12;
@@ -1128,10 +1128,10 @@ var MyApp;
             this._dayBoughtTillExp = datExp.diff(dayBought, 'days') + 1;
         };
         Option.prototype.isExpired = function () {
-            return this._dayToExp < 0;
+            return this._dayToExp <= 0;
         };
         Option.prototype.match = function (filter) {
-            var txt = this.Strike + '-' + this.P_C + '-' + this.DateBought;
+            var txt = this.getStock().Symbol + this.Strike + '-' + this.P_C + '-' + this.DateBought;
             return (txt.indexOf(filter) >= 0);
         };
         Option.prototype.toHKD = function (amtPerDay) {

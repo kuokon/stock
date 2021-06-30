@@ -2,7 +2,7 @@ STOCKS_JSON =
     [
         {"Name": "騰訊", "Symbol": "0700", "Price": 597, "OptionMultiple": 100, "IsHK": 1}
         , {"Name": "阿里", "Symbol": "9988", "Price": 222.2, "OptionMultiple": 500, "IsHK": 1}
-        , {"Name": "BA 阿里", "Symbol": "BABA", "Price": 230.04, "OptionMultiple": 100, "IsHK": 0}
+        , {"Name": "阿里", "Symbol": "BABA", "Price": 230.04, "OptionMultiple": 100, "IsHK": 0}
         , {"Name": "富途", "Symbol": "FUTU", "Price": 179.5, "OptionMultiple": 100, "IsHK": 0}
     ];
 

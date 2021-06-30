@@ -1429,7 +1429,8 @@ module MyApp {
             let res = m.month() + 1;
 
             // hack()  if it's next year's this month, put it to previous month so that it won't overlap with this year's this month;
-            if (this._dayToExp > 365) {
+            if (this._dayToExp > 360) {
+
                 res--;
 
                 if (res < 1) {
@@ -1520,12 +1521,12 @@ module MyApp {
         }
 
         isExpired(): boolean {
-            return this._dayToExp < 0;
+            return this._dayToExp <= 0;
         }
 
         match(filter: string): boolean {
 
-            let txt = this.Strike + '-' + this.P_C + '-' + this.DateBought;
+            let txt = this.getStock().Symbol +  this.Strike + '-' + this.P_C + '-' + this.DateBought;
 
             return (txt.indexOf(filter) >= 0);
         }
