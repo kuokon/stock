@@ -38,20 +38,21 @@
 
 
             <th md-column style="width: 80px">
-                Exposure
+                <small> Exposure </small>
                 <br/>
                 {{(vm.stats.exposure_c/10000).toFixed(2)}}w
-                /
+                <br/>
                 {{(vm.stats.exposure_p/10000).toFixed(2)}}w
 
             </th>
 
-            <th md-column  style="width: 20px"
+            <th md-column  style="width: 10px; padding-right: 3px" class="box-none"
                 ng-click="vm.filter.month = m"
                 ng-repeat="m in svr.getMonthOptions()">
-                {{m}}月
-                <br/>
-                {{}}
+                <span style="word-break: break-word">
+                {{m}} <br/>
+                月
+                </span>
             </th>
 
 
@@ -117,16 +118,26 @@
 
                 <span ng-if="stats.amtLost>0" style="background: lightpink">
                      -{{stats.amtLost.toFixed(2)}}
+                     <small> ({{(stats.amtLost / stats.amtCashIn * 100).toFixed(2) }}%)</small>
                 </span>
 
             </td>
 
             <td md-cell>
+
+                <span ng-if="!stats.exposure_c" style="color: lightgrey" >
+                     --
+                </span>
+
                 <span ng-if="stats.exposure_c">
                 {{(stats.exposure_c/10000).toFixed(2)}}w
                 </span>
 
                 <br/>
+
+                <span ng-if="stats.exposure_p" style="color: lightgrey" >
+                     --
+                </span>
 
                 <span ng-if="stats.exposure_p">
                 {{(stats.exposure_p/10000).toFixed(2)}}w
@@ -135,7 +146,7 @@
             </td>
 
 
-            <td md-cell ng-repeat="m in svr.getMonthOptions()" >
+            <td md-cell style="width: 10px; padding-right: 15px" ng-repeat="m in svr.getMonthOptions()" >
                 {{ e.getContractNum(m, true)}}
                 <br/>
                 {{ e.getContractNum(m, false)}}
