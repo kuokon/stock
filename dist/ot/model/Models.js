@@ -1047,8 +1047,11 @@ var MyApp;
             if (this.Name.startsWith('騰訊')) {
                 return '0700';
             }
-            if (this.Name.startsWith('阿里') || this.Name.startsWith('BA')) {
+            if (this.Name.startsWith('阿里')) {
                 return '9988';
+            }
+            if (this.Name.startsWith('BABA')) {
+                return 'BABA';
             }
             if (this.Name.startsWith('FU')) {
                 return 'FUTU';
@@ -1186,8 +1189,8 @@ var MyApp;
         };
         Option.prototype.getLost = function () {
             var res = 0;
-            if (!this.isOutOfMoney(true)) {
-                var breakEven = this.getBreakEvenPrice(true);
+            if (!this.isOutOfMoney(false)) {
+                var breakEven = this.getBreakEvenPrice(false);
                 var price = this.getStock().Price;
                 var delta = this.getSign() * (price - breakEven);
                 res = delta * this.getNumShares();

@@ -210,9 +210,9 @@ module MyApp {
         }
 
 
-        onParse(raw): ParseResult {
+        onParse(raw, isHK=true): ParseResult {
 
-            let isHK = true;
+            // let isHK = true;
             return Import.parseRaw(this.svr, raw, isHK);
         }
 

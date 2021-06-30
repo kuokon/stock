@@ -3,8 +3,10 @@
 
 <!--<div       ng-include="'src/ot/view/option/sub-header.html'"></div>-->
 
-<div ng-include="'src/ot/view/option/list-stock.html'"></div>
-<div ng-include="'src/ot/view/option/list-month.html'"></div>
+<div layout="row">
+<span ng-include="'src/ot/view/option/list-stock.html'"></span>
+<!--<span ng-include="'src/ot/view/option/list-month.html'"></span>-->
+</div>
 
 <div ng-show="vm.mock" ng-include="'src/ot/view/option/risk-calc.html'"></div>
 
@@ -64,7 +66,7 @@
                 Risk/Return
             </th>
             <th md-column style="width: 20px">
-                Price
+                Price Bght / Exp
             </th>
         </tr>
         </thead>
@@ -160,14 +162,13 @@
                 <br/>
                 <span ng-if="e.PriceAtExp">
                     <md-input-container class="box-none" style="width: 50px">
-                        <label>Exp</label>
                         <input ng-model="e.PriceAtExp" ng-change="e.onUpdate()" type="number"/>
                     </md-input-container>
 
-                    {{ e.PriceAtExp }}
-                    <small>
-                    ({{( (e.PriceAtExp-e.Strike) / e.Strike * 100).toFixed(2) }}%)
-                    </small>
+<!--                    {{ e.PriceAtExp }}-->
+<!--                    <small>-->
+<!--                    ({{( (e.PriceAtExp-e.Strike) / e.Strike * 100).toFixed(2) }}%)-->
+<!--                    </small>-->
                 </span>
             </td>
 

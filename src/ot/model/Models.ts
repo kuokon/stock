@@ -1408,9 +1408,13 @@ module MyApp {
                 return '0700';
             }
 
-            if (this.Name.startsWith('阿里') || this.Name.startsWith('BA')) {
+            if (this.Name.startsWith('阿里')) {
                 return '9988';
             }
+            if (this.Name.startsWith('BABA')) {
+                return 'BABA';
+            }
+
             if (this.Name.startsWith('FU')) {
                 return 'FUTU';
             }
@@ -1613,8 +1617,8 @@ module MyApp {
 
         getLost(): number {
             let res = 0;
-            if (!this.isOutOfMoney(true)) {
-                let breakEven = this.getBreakEvenPrice(true);
+            if (!this.isOutOfMoney(false)) {
+                let breakEven = this.getBreakEvenPrice(false);
                 let price = this.getStock().Price;
                 let delta = this.getSign() * (price - breakEven);
                 res = delta * this.getNumShares();

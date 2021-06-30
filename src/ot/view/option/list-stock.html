@@ -1,10 +1,13 @@
-<md-table-container>
 
-    <table md-table ng-init="stocks = svr.mgr.stocks.getAll();">
+    <table md-table ng-init="stocks = svr.mgr.stocks.getAll();" style="width: 40%">
         <thead md-head>
         <tr md-row>
 
             <th md-column style="width: 20px"></th>
+
+            <th md-column style="width: 20px">
+                #c
+            </th>
 
             <th md-column ng-click="vm.isShowStocks = !vm.isShowStocks" style="width: 80px">
 
@@ -20,9 +23,6 @@
 
             </th>
 
-            <th md-column style="width: 80px">
-                #c
-            </th>
 
 
             <th md-column style="width: 80px">
@@ -45,14 +45,21 @@
                 {{(vm.stats.exposure_p/10000).toFixed(2)}}w
 
             </th>
-            <th md-column>
-                <span style="background: lightgoldenrodyellow; color: lightcoral; font-size: large"> . ROI/ IRR ! .</span>
+
+            <th md-column  style="width: 20px"
+                ng-click="vm.filter.month = m"
+                ng-repeat="m in svr.getMonthOptions()">
+                {{m}}月
+                <br/>
+                {{}}
             </th>
+
+
         </tr>
         </thead>
         <tbody md-body class="md-inline-form" ng-if="vm.isShowStocks">
 
-        <tr md-row ng-repeat="e in stocks ">
+        <tr md-row ng-repeat="e in stocks " ng-init="stats = e._stats">
             <td md-cell>
 
                 <md-input-container>
@@ -60,6 +67,18 @@
                 </md-input-container>
 
             </td>
+
+
+            <td md-cell>
+                {{stats.numCall}}
+                <br/>
+
+                <span>
+                {{stats.numPut}}
+                </span>
+
+            </td>
+
             <td md-cell>
                 <span ng-click="vm.updateStockPriceHistory(e)" style="cursor: pointer">
                     <i class="fa fa-dollar" ng-if="!e.isHK()"> </i>
@@ -86,42 +105,40 @@
             <!--                </span>-->
             <!--            </td>-->
 
+
+
             <td md-cell>
-                {{e._num_call}}
+                {{stats.amtCashIn}}
                 <br/>
 
-                <span>
-                {{e._num_put}}
+                <span ng-if="stats.amtLost <=0" style="color: lightgrey" >
+                     --
                 </span>
 
-            </td>
-
-
-            <td md-cell>
-                {{e._stats.amtCashIn}}
-                <br/>
-
-                <span ng-if="e._stats.amtLost>0" style="background: lightpink">
-
-                     -{{e._stats.amtLost.toFixed(2)}}
-
+                <span ng-if="stats.amtLost>0" style="background: lightpink">
+                     -{{stats.amtLost.toFixed(2)}}
                 </span>
 
             </td>
 
             <td md-cell>
-                <span ng-if="e._stats.exposure_c">
-                {{(e._stats.exposure_c/10000).toFixed(2)}}w
+                <span ng-if="stats.exposure_c">
+                {{(stats.exposure_c/10000).toFixed(2)}}w
                 </span>
+
                 <br/>
-                <span ng-if="e._stats.exposure_p">
-                {{(e._stats.exposure_p/10000).toFixed(2)}}w
+
+                <span ng-if="stats.exposure_p">
+                {{(stats.exposure_p/10000).toFixed(2)}}w
                 </span>
 
             </td>
 
 
-            <td md-cell>
+            <td md-cell ng-repeat="m in svr.getMonthOptions()" >
+                {{ e.getContractNum(m, true)}}
+                <br/>
+                {{ e.getContractNum(m, false)}}
             </td>
 
         </tr>
@@ -131,6 +148,3 @@
 
 
     </table>
-</md-table-container>
-
-

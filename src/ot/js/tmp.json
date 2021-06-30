@@ -1,13 +1,50 @@
-
+[
   {
     "Id": -1,
-    "Name": "騰訊",
-    "Strike": 590,
+    "Name": "FUTU",
+    "Strike": 167,
     "StockTicker": "",
-    "DateBought": "2021-06-28",
-    "DateExp": "2021-06-29",
-    "Premium": 2.53,
+    "DateBought": "2021/6/28 09:46",
+    "DateExp": "2021-07-02",
+    "Premium": 2.9,
     "NumContract": -1,
     "P_C": "P",
-    "PriceAtBought": 593.5
+    "PriceAtBought": 178
+  },
+  {
+    "Id": -1,
+    "Name": "FUTU",
+    "Strike": 170,
+    "StockTicker": "",
+    "DateBought": "2021/6/28 09:41",
+    "DateExp": "2021-07-02",
+    "Premium": 3.26,
+    "NumContract": -1,
+    "P_C": "P",
+    "PriceAtBought": 178
+  },
+  {
+    "Id": -1,
+    "Name": "FUTU",
+    "Strike": 190,
+    "StockTicker": "",
+    "DateBought": "2021/6/28 09:38",
+    "DateExp": "2021-07-02",
+    "Premium": 2.15,
+    "NumContract": -1,
+    "P_C": "C",
+    "PriceAtBought": 178
+  },
+  {
+    "Id": -1,
+    "Name": "FUTU",
+    "Strike": 182,
+    "StockTicker": "",
+    "DateBought": "2021/6/28 09:37",
+    "DateExp": "2021-07-02",
+    "Premium": 3.6,
+    "NumContract": -1,
+    "P_C": "C",
+    "PriceAtBought": 178
   }
+]

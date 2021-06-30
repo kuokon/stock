@@ -152,8 +152,9 @@ var MyApp;
             mock.DateBought = m.format('YYYY-MM-DD');
             mock.init();
         };
-        OptionController.prototype.onParse = function (raw) {
-            var isHK = true;
+        OptionController.prototype.onParse = function (raw, isHK) {
+            if (isHK === void 0) { isHK = true; }
+            // let isHK = true;
             return MyApp.Import.parseRaw(this.svr, raw, isHK);
         };
         OptionController.prototype.getSubheaders = function () {

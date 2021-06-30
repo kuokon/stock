@@ -7,6 +7,8 @@ module MyApp {
 
             let res = new ParseResult();
 
+            console.info('isHK: ' + isHK)
+
             let options: Option[] = [];
 
             if (txt === null || txt === undefined) {
@@ -29,9 +31,7 @@ module MyApp {
                 if (Helper.isBlank(line)) {
                     continue;
                 }
-
-
-                let obj = isHK ?  Import.parseHKCSV(svr, line) : Import.parseUScsv(line);
+                let obj = Import.parseLine(svr, line, isHK);
 
                 if (obj) {
                     res.parsed.push(obj);
@@ -44,105 +44,10 @@ module MyApp {
             return res;
         }
 
-        static parseUScsv(line) : Option {
-            // 方向	代碼	名稱	訂單價格	訂單數量	交易狀態	已成交	落盤時間	訂單類型	期限	盤前盤後	觸發價	沽空
-            let res: Option=null;
 
-            let txts = line.split('\t');
-
-
-            // 方向
-            let direction = txts[0] || '';
-
-            // 代碼
-            let sym = txts[1] || '';  // ALB201127C240000.HK
-            let name = txts[2] || ''; // 阿里 201127 240.00 購
-
-            // 交易狀態
-            let status = txts[5] || '';
-
-            // 落盤時間
-            let datetime = txts[7] || '';
-
-            // 訂單價格
-            let unitPrice =  txts[3] || '';
-
-            // 訂單數量 / 成交數量
-            let numExecuted = txts[4] || '';
-
-            let isOption = numExecuted.indexOf('張') >= 0;
-            let isSkipped = status == '已撤單';
-
-            if (isSkipped) {
-                return res;
-            }
-
-            let num = parseInt(numExecuted);
-
-            if (num && isOption) {
-
-                // sym = 'ALB201127C240000.HK'
-
-                res = new Option();
-                res.Name = name.substr(0, 2);//+ name.substr(name.lastIndexOf(' '));
-                res.DateBought = datetime;
-
-
-                // sym = 'FUTU210625P146000'
-                res.Strike = parseFloat(sym.substr(11, 3));
-
-                // sym = 'FUTU210625P146000'
-                let idx = 4;
-                res.DateExp = '20' + sym.substr(idx, 2) + '-' + sym.substr(idx+2, 2) + '-' + sym.substr(idx+4, 2);
-
-                res.NumContract = num;
-
-                //sym = 'FUTU210625P146000'
-                res.P_C = sym.substr(idx+6, 1);
-                if (!(res.P_C == 'P' || res.P_C == 'C')) {
-                    console.warn(' P_C ' + res.P_C);
-                }
-
-                res.Premium = parseFloat(unitPrice.replace(',', ''));
-                // res.NumShareExposed  =  res.NumContract * 100;
-                // res.AmtCost = res.NumShareExposed * res.Premium;
-                //res.AmtCost = parseFloat(amtExecuted.replace(',', ''));
-
-
-                //res.NumShareExposed = Math.round( res.AmtCost / res.Premium / Math.abs(res.NumContract) );
-                //
-                // if(res.NumShareExposed < 0) {
-                //     console.warn('#shares : exe ' + parseInt(amtExecuted) + ', premium: ' + res.Premium + ', num' + Math.abs(res.NumContract) )
-                // }
-
-                if (!(direction == '沽空' || direction == '買入')) {
-                    console.warn(' option not buy/sell  direction : ' + direction);
-
-                }
-
-                if (direction == '沽空') {
-                    res.NumContract = -res.NumContract;
-                }
-
-                // ALB201127P215000.HK
-
-
-            }else {
-                if (sym.length > 16) {
-                    console.warn(' maybe mis-parse!  line: ' + line);
-                }
-
-            }
-
-            return res;
-
-        }
-
-
-        // 代碼	名稱	方向	訂單價格	訂單數量	交易狀態	已成交@均價	落盤時間	訂單類型	期限	盤前競價	觸發價	沽空	成交數量	成交價格	成交金額	對手經紀	落盤時間	備註
-        // 代碼	名稱	方向	成交數量	成交價格	成交金額	對手經紀	成交時間
-
-        static parseHKCSV(svr:  DbService, line): Option {
+        // HK 代碼	名稱	方向	成交數量	成交價格	成交金額	對手經紀	成交時間
+        // US 代碼	名f稱	方向	成交數量	成交價格	成交金額	成交時間
+        static parseLine(svr:  DbService, line, isHK=true): Option {
 
             let res: Option = null;
 
@@ -161,51 +66,41 @@ module MyApp {
             let amtExecuted = (txts[5] || '').trim();
 
             // 成交時間
-            let datetime =  (txts[7] || '').trim();
+            let idx = isHK ? 7 : 6;
+            let datetime =  (txts[idx] || '').trim();
 
 
             // check if it's option and got executed
             let num = parseInt(numExecuted);
             let isOption = numExecuted.indexOf('張') >= 0;
 
-            // let isSkipped = status == '已撤單';
-            //
-            // if (isSkipped) {
-            //     return res;
-            // }
 
 
             if (num && isOption) {
 
                 // sym = 'ALB201127C240000.HK'
+                // sym = 'FUTU210702P167500'
                 res = new Option();
-                res.Name = name.substr(0, 2) ;//+ name.substr(name.lastIndexOf(' '));
+                res.Name = name.substr(0, name.indexOf(' '));//+ name.substr(name.lastIndexOf(' '));
                 res.DateBought = datetime;
 
                 // ALB201127C240000.HK
-                res.Strike = parseFloat(sym.substr(10, 3));
-
-                // ALB201127C240000.HK
-                res.DateExp = '20' + sym.substr(3, 2) + '-' + sym.substr(5, 2) + '-' + sym.substr(7, 2);
-
+                let idx_base = isHK ? 3 : 4;
+                res.DateExp = '20' + sym.substr(idx_base, 2) + '-' + sym.substr(idx_base+2, 2) + '-' + sym.substr(idx_base+4, 2);
+                res.P_C = sym.substr(idx_base+6, 1);
+                res.Strike = parseFloat(sym.substr(idx_base+7, 3));
                 res.NumContract = num;
 
-                // ALB201127C240000.HK
-                res.P_C = sym.substr(9, 1);
+
                 if (!(res.P_C == 'P' || res.P_C == 'C')) {
                     console.warn(' P_C ' + res.P_C);
                 }
 
                 res.Premium = parseFloat(priceExecuted.replace(',', ''));
-
                 let amtCost = parseFloat(amtExecuted.replace(',', ''));
-
-                //res.NumShareExposed = Math.round( amtCost / res.Premium / Math.abs(res.NumContract) );
 
                 let stock = svr.mgr.stocks.getByKey(res.getStockSymbol());
                 res._stock = stock;
-
-
 
                 let calcCost = res.Premium * res.getNumShares();
                 if(amtCost != (calcCost)) {

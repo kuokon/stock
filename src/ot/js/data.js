@@ -1,8 +1,9 @@
 STOCKS_JSON =
     [
-        {"Name": "騰訊", "Symbol": "0700", "Price": 599.5, "OptionMultiple": 100, "IsHK": 1}
-        , {"Name": "阿里", "Symbol": "9988", "Price": 215.6, "OptionMultiple": 500, "IsHK": 1}
-        , {"Name": "富途", "Symbol": "FUTU", "Price": 168.11, "OptionMultiple": 100, "IsHK": 0}
+        {"Name": "騰訊", "Symbol": "0700", "Price": 597, "OptionMultiple": 100, "IsHK": 1}
+        , {"Name": "阿里", "Symbol": "9988", "Price": 222.2, "OptionMultiple": 500, "IsHK": 1}
+        , {"Name": "BA 阿里", "Symbol": "BABA", "Price": 230.04, "OptionMultiple": 100, "IsHK": 0}
+        , {"Name": "富途", "Symbol": "FUTU", "Price": 179.5, "OptionMultiple": 100, "IsHK": 0}
     ];
 
 
@@ -1508,8 +1509,68 @@ OPTIONS_JSON =
             "P_C": "P",
             "PriceAtBought": 593.5
         }
-
-
+        ,
+        {
+            "Id": -1,
+            "Name": "FUTU",
+            "Strike": 167,
+            "StockTicker": "",
+            "DateBought": "2021/6/28 09:46",
+            "DateExp": "2021-07-02",
+            "Premium": 2.9,
+            "NumContract": -1,
+            "P_C": "P",
+            "PriceAtBought": 178
+        },
+        {
+            "Id": -1,
+            "Name": "FUTU",
+            "Strike": 170,
+            "StockTicker": "",
+            "DateBought": "2021/6/28 09:41",
+            "DateExp": "2021-07-02",
+            "Premium": 3.26,
+            "NumContract": -1,
+            "P_C": "P",
+            "PriceAtBought": 178
+        },
+        {
+            "Id": -1,
+            "Name": "FUTU",
+            "Strike": 190,
+            "StockTicker": "",
+            "DateBought": "2021/6/28 09:38",
+            "DateExp": "2021-07-02",
+            "Premium": 2.15,
+            "NumContract": -1,
+            "P_C": "C",
+            "PriceAtBought": 178
+        },
+        {
+            "Id": -1,
+            "Name": "FUTU",
+            "Strike": 182,
+            "StockTicker": "",
+            "DateBought": "2021/6/28 09:37",
+            "DateExp": "2021-07-02",
+            "Premium": 3.6,
+            "NumContract": -1,
+            "P_C": "C",
+            "PriceAtBought": 178
+        }
+        ,
+        {
+            "Id": -1,
+            "Name": "BABA",
+            "Strike": 230,
+            "StockTicker": "",
+            "DateBought": "2021/6/29 09:39",
+            "DateExp": "2021-07-16",
+            "Premium": 4.45,
+            "NumContract": -1,
+            "P_C": "C",
+            "PriceAtBought": 230.04
+        }
     ]
 
 ;
