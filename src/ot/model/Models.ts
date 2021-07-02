@@ -1521,7 +1521,8 @@ module MyApp {
         }
 
         isExpired(): boolean {
-            return this._dayToExp <= 0;
+            return this._dayToExp < 0;
+            // return this._dayToExp <= 0;
         }
 
         match(filter: string): boolean {

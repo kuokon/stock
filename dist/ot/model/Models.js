@@ -1128,7 +1128,8 @@ var MyApp;
             this._dayBoughtTillExp = datExp.diff(dayBought, 'days') + 1;
         };
         Option.prototype.isExpired = function () {
-            return this._dayToExp <= 0;
+            return this._dayToExp < 0;
+            // return this._dayToExp <= 0;
         };
         Option.prototype.match = function (filter) {
             var txt = this.getStock().Symbol + this.Strike + '-' + this.P_C + '-' + this.DateBought;
