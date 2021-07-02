@@ -2,13 +2,17 @@
     <thead md-head>
     <tr md-row>
 
-        <th md-column style="width: 10px"></th>
+        <th md-column style="width: 10px">
+
+
+            <i style="cursor: pointer" class="fa fa-clipboard" ng-click="vm.onCopyDataToClipboard(stocks) "></i>
+        </th>
 
         <th md-column style="width: 20px; ">
             #c
         </th>
 
-        <th md-column ng-click="vm.refreshStockPrice()"  style="cursor: pointer; width: 100px">
+        <th md-column ng-click="vm.refreshStockPrice()" style="cursor: pointer; width: 100px">
 
             名稱 # {{stocks.length}}
 
@@ -20,16 +24,14 @@
         <!--                Price-->
 
 
-
-
-
         <th md-column style="width: 80px">
             Cash In
             <br/>
+            <small>
             {{ (vm.stats.amtCashIn/10000).toFixed(2)}}w |
             {{ (vm.stats.cost_exposure_ratio.toFixed(2))}}%
+            </small>
 
-            <i style="cursor: pointer" class="fa fa-clipboard" ng-click="vm.onCopyDataToClipboard(stocks) "></i>
 
 
         </th>
@@ -61,9 +63,12 @@
     <tr md-row ng-repeat="e in stocks " ng-init="stats = e._stats">
         <td md-cell>
 
-            <md-input-container>
+            <md-input-container class="box-none">
                 <md-checkbox ng-model="e._isShow"></md-checkbox>
             </md-input-container>
+
+
+            <small>{{ e.Symbol}} </small>
 
         </td>
 
@@ -83,11 +88,9 @@
                     <i class="fa fa-dollar" ng-if="!e.isHK()"> </i>
                     {{ e.Name}}
 
-                    <small>{{ e.Symbol}} </small>
-
                     <br/>
 
-                        <md-input-container class="box-none">
+                        <md-input-container class="box-none" style="width: 70px">
                             <input type="number" ng-model="e.Price">
                         </md-input-container>
 
@@ -103,9 +106,11 @@
                 </span>
 
             <span ng-if="stats.amtLost>0" style="background: lightpink">
+                <small>
                      -{{stats.amtLost.toFixed(2)}}
-                     <small> ({{(stats.amtLost / stats.amtCashIn * 100).toFixed(2) }}%)</small>
-                </span>
+                      ({{(stats.amtLost / stats.amtCashIn * 100).toFixed(2) }}%)
+                </small>
+            </span>
 
         </td>
 
@@ -121,7 +126,7 @@
 
             <br/>
 
-            <span ng-if="stats.exposure_p" style="color: lightgrey">
+            <span ng-if="!stats.exposure_p" style="color: lightgrey">
                      --
                 </span>
 

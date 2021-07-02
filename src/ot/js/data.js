@@ -1,9 +1,11 @@
 STOCKS_JSON =
     [
-        {"Name": "騰訊", "Symbol": "0700", "Price": 597, "OptionMultiple": 100, "IsHK": 1}
-        , {"Name": "阿里", "Symbol": "9988", "Price": 222.2, "OptionMultiple": 500, "IsHK": 1}
-        , {"Name": "阿里", "Symbol": "BABA", "Price": 230.04, "OptionMultiple": 100, "IsHK": 0}
-        , {"Name": "富途", "Symbol": "FUTU", "Price": 179.5, "OptionMultiple": 100, "IsHK": 0}
+
+        {"Name": "騰訊", "Symbol": "0700", "Price": 580, "OptionMultiple": 100, "IsHK": 1}
+        , {"Name": "阿里", "Symbol": "9988", "Price": 220.2, "OptionMultiple": 500, "IsHK": 1}
+
+        , {"Name": "阿里", "Symbol": "BABA", "Price": 221.87, "OptionMultiple": 100, "IsHK": 0}
+        , {"Name": "富途", "Symbol": "FUTU", "Price": 161.09, "OptionMultiple": 100, "IsHK": 0}
     ];
 
 
@@ -1570,7 +1572,33 @@ OPTIONS_JSON =
             "NumContract": -1,
             "P_C": "C",
             "PriceAtBought": 230.04
+        },
+
+        {
+            "Id": -1,
+            "Name": "FUTU",
+            "Strike": 155,
+            "StockTicker": "",
+            "DateBought": "2021/7/1 11:22",
+            "DateExp": "2021-07-09",
+            "Premium": 2.45,
+            "NumContract": -1,
+            "P_C": "P",
+            "PriceAtBought": 161.09
+        },
+        {
+            "Id": -1,
+            "Name": "FUTU",
+            "Strike": 165,
+            "StockTicker": "",
+            "DateBought": "2021/7/1 11:22",
+            "DateExp": "2021-07-09",
+            "Premium": 6,
+            "NumContract": -1,
+            "P_C": "P",
+            "PriceAtBought": 161.09
         }
+
     ]
 
 ;
