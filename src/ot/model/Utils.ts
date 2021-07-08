@@ -320,6 +320,7 @@ module MyApp {
         name: string;
         type: number;
         type_num: number;
+        typeName : string;
 
 
         isNum() : boolean {
@@ -331,19 +332,32 @@ module MyApp {
         }
 
 
-        public static make(name: string, type: number, num: number): Attr {
+        public static make(name: string, type: number, num: number, typeName:string): Attr {
             let r = new Attr();
             r.name = name.trim();
             r.type = type;
             r.type_num = num > 0 ? num : 30;
-
+            r.typeName = typeName;
             return r;
         }
+
+
+        static sql_2_cSharp_type_map = {
+            float : 'double'
+            , int : 'int'
+            , decimal : 'decimal'
+            , bigint : 'int64'
+            , bit : 'boolean'
+            , smallint : 'Int16'
+            , tinyint: 'byte'
+        };
+
 
 
         toSql(): string {
 
             let str = '';
+
             switch (this.type) {
                 case ModelGen.TYPE_NUM: {
 
@@ -398,10 +412,16 @@ module MyApp {
 
         toCSharp(): string {
 
+            let typeName:string = Attr.sql_2_cSharp_type_map[this.typeName] || this.typeName;
+
+
             let str = '';
             switch (this.type) {
                 case ModelGen.TYPE_NUM: {
-                    str = ' int ';
+
+                    let isInt = (typeName.toUpperCase() == 'INT');
+                    str =  typeName +  (isInt ? '' : '? ');
+
                     break;
                 }
                 case ModelGen.TYPE_STR: {
@@ -435,11 +455,11 @@ module MyApp {
         attrs: Attr[] = [];
 
         constructor() {
-            this.add('Id', 'num', -1);
+            this.add('Id', 'int', -1);
 
-            this.add('Status', 'num');
+            this.add('Status', 'int');
             this.add('Remark', 'str', 50);
-            this.add('UpdateBy', 'num');
+            this.add('UpdateBy', 'int');
             this.add('UpdateAt', 'date');
         }
 
@@ -461,7 +481,7 @@ module MyApp {
                 console.warn(' Model use upper-case for 1st char name: ' + name);
             }
 
-            this.attrs.push(Attr.make(upper, t, strLen));
+            this.attrs.push(Attr.make(upper, t, strLen, type));
         }
 
 
@@ -498,8 +518,8 @@ module MyApp {
             let res = [];
 
 
-            res.push('// CSharp --');
-            res.push(' [Table("' + this.clazz + ' ", Schema = "ot")]');
+            res.push('  // CSharp --');
+            res.push(' [Table("' + this.clazz + ' ", Schema = "dbo")]');
             res.push(' public class ' + this.clazz);
             res.push(' { ');
 
@@ -541,13 +561,17 @@ module MyApp {
 
             res.push('');
 
+            res.push('static fromJson(json) :  ' + this.clazz + ' {');
             res.push('static fromJson(svr:DbService, json) :  ' + this.clazz + ' {');
             res.push('    let e = new ' + this.clazz + '() ; ');
             res.push('    e._dirty = false ;');
             for (const attr of this.attrs) {
 
-                let defaultVal = attr.isNum() ? '0' : 'NA';
-                res.push('    e.' + attr.name + ' = json.' + attr.name + ' ||  ' + defaultVal +  '; ');
+                if(attr.isStr()) {
+                    res.push('    e.' + attr.name + ' = (json.' + attr.name + ' || \'\').trim() ; ');
+                } else {
+                    res.push('    e.' + attr.name + ' = json.' + attr.name + ' ||  0 ; ');
+                }
             }
 
             res.push('       return e;  } ');

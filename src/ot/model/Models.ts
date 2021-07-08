@@ -314,16 +314,6 @@ module MyApp {
             return this.Name.startsWith('N/A');
         }
 
-        addOutletTaskCount(outletCode) {
-            if (!this.outletTaskCountMap[outletCode]) {
-                this.outletTaskCountMap[outletCode] = 0;
-            }
-            this.outletTaskCountMap[outletCode] = this.outletTaskCountMap[outletCode] + 1;
-        }
-
-        getOutletTaskCount(outletCode) {
-            return this.outletTaskCountMap[outletCode];
-        }
 
         isInspector(): boolean {
             return this.Role === 'INSPECTOR';
@@ -1411,7 +1401,7 @@ module MyApp {
             if (this.Name.startsWith('阿里')) {
                 return '9988';
             }
-            if (this.Name.startsWith('BABA')) {
+            if (this.Name.startsWith('BA')) {
                 return 'BABA';
             }
 

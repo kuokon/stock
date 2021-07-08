@@ -231,15 +231,6 @@ var MyApp;
         User.prototype.isNull = function () {
             return this.Name.startsWith('N/A');
         };
-        User.prototype.addOutletTaskCount = function (outletCode) {
-            if (!this.outletTaskCountMap[outletCode]) {
-                this.outletTaskCountMap[outletCode] = 0;
-            }
-            this.outletTaskCountMap[outletCode] = this.outletTaskCountMap[outletCode] + 1;
-        };
-        User.prototype.getOutletTaskCount = function (outletCode) {
-            return this.outletTaskCountMap[outletCode];
-        };
         User.prototype.isInspector = function () {
             return this.Role === 'INSPECTOR';
         };
@@ -1050,7 +1041,7 @@ var MyApp;
             if (this.Name.startsWith('阿里')) {
                 return '9988';
             }
-            if (this.Name.startsWith('BABA')) {
+            if (this.Name.startsWith('BA')) {
                 return 'BABA';
             }
             if (this.Name.startsWith('FU')) {

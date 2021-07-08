@@ -98,7 +98,8 @@
         </td>
 
         <td md-cell>
-            {{stats.amtCashIn}}
+
+             {{stats.amtCashIn.toFixed(2)}}
             <br/>
 
             <span ng-if="stats.amtLost <=0" style="color: lightgrey">

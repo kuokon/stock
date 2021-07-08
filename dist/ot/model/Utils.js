@@ -254,11 +254,12 @@ var MyApp;
         Attr.prototype.isStr = function () {
             return this.type == ModelGen.TYPE_STR;
         };
-        Attr.make = function (name, type, num) {
+        Attr.make = function (name, type, num, typeName) {
             var r = new Attr();
             r.name = name.trim();
             r.type = type;
             r.type_num = num > 0 ? num : 30;
+            r.typeName = typeName;
             return r;
         };
         Attr.prototype.toSql = function () {
@@ -308,10 +309,12 @@ var MyApp;
             return 'public ' + this.name + ': ' + str + ';';
         };
         Attr.prototype.toCSharp = function () {
+            var typeName = Attr.sql_2_cSharp_type_map[this.typeName] || this.typeName;
             var str = '';
             switch (this.type) {
                 case ModelGen.TYPE_NUM: {
-                    str = ' int ';
+                    var isInt = (typeName.toUpperCase() == 'INT');
+                    str = typeName + (isInt ? '' : '? ');
                     break;
                 }
                 case ModelGen.TYPE_STR: {
@@ -327,6 +330,15 @@ var MyApp;
             }
             return 'public ' + str + ' ' + this.name + ' { get; set; }';
         };
+        Attr.sql_2_cSharp_type_map = {
+            float: 'double',
+            int: 'int',
+            decimal: 'decimal',
+            bigint: 'int64',
+            bit: 'boolean',
+            smallint: 'Int16',
+            tinyint: 'byte'
+        };
         return Attr;
     }());
     MyApp.Attr = Attr;
@@ -334,10 +346,10 @@ var MyApp;
         function ModelGen() {
             this.clazz = 'MyModel';
             this.attrs = [];
-            this.add('Id', 'num', -1);
-            this.add('Status', 'num');
+            this.add('Id', 'int', -1);
+            this.add('Status', 'int');
             this.add('Remark', 'str', 50);
-            this.add('UpdateBy', 'num');
+            this.add('UpdateBy', 'int');
             this.add('UpdateAt', 'date');
         }
         ModelGen.prototype.add = function (name, type, strLen) {
@@ -354,7 +366,7 @@ var MyApp;
             if (upper != name) {
                 console.warn(' Model use upper-case for 1st char name: ' + name);
             }
-            this.attrs.push(Attr.make(upper, t, strLen));
+            this.attrs.push(Attr.make(upper, t, strLen, type));
         };
         ModelGen.prototype.toAll = function () {
             var sp = '\n';
@@ -377,8 +389,8 @@ var MyApp;
         };
         ModelGen.prototype.toCSharp = function () {
             var res = [];
-            res.push('// CSharp --');
-            res.push(' [Table("' + this.clazz + ' ", Schema = "ot")]');
+            res.push('  // CSharp --');
+            res.push(' [Table("' + this.clazz + ' ", Schema = "dbo")]');
             res.push(' public class ' + this.clazz);
             res.push(' { ');
             for (var _i = 0, _a = this.attrs; _i < _a.length; _i++) {
@@ -413,13 +425,18 @@ var MyApp;
             }
             res.push(' public _dirty:boolean = true;');
             res.push('');
+            res.push('static fromJson(json) :  ' + this.clazz + ' {');
             res.push('static fromJson(svr:DbService, json) :  ' + this.clazz + ' {');
             res.push('    let e = new ' + this.clazz + '() ; ');
             res.push('    e._dirty = false ;');
             for (var _b = 0, _c = this.attrs; _b < _c.length; _b++) {
                 var attr = _c[_b];
-                var defaultVal = attr.isNum() ? '0' : 'NA';
-                res.push('    e.' + attr.name + ' = json.' + attr.name + ' ||  ' + defaultVal + '; ');
+                if (attr.isStr()) {
+                    res.push('    e.' + attr.name + ' = (json.' + attr.name + ' || \'\').trim() ; ');
+                }
+                else {
+                    res.push('    e.' + attr.name + ' = json.' + attr.name + ' ||  0 ; ');
+                }
             }
             res.push('       return e;  } ');
             return res.join('\n');

@@ -1,25 +1,9 @@
+Id    Code    Nickname    Remark    SelfIntroduction    Mark1    Mark2    Mark3    Mark4    Mark5    TeacherOpinion    Rejected    Att1    Att2    Att3    Att4    Version    hasPhoto    hasId    hasCert    hasBankBook    hasTel    hasPhoto2    hasId2    hasCert2    hasBankBook2    hasTel2    student_idNumber    UpdateAt    UpdateBy    CreateAt
+2562    CE2021-D2681    ""    ""    0    0    0    0    0    0    0    0    2    0    0    2    2    0    0    0    0    0    1    1    1    0    0    14738314    2021-07-07 09:41: 28.793    64
 
-  {
-    "Id": -1,
-    "Name": "FUTU",
-    "Strike": 155,
-    "StockTicker": "",
-    "DateBought": "2021/7/1 11:22",
-    "DateExp": "2021-07-09",
-    "Premium": 2.45,
-    "NumContract": -1,
-    "P_C": "P",
-    "PriceAtBought": 161.09
-  },
-  {
-    "Id": -1,
-    "Name": "FUTU",
-    "Strike": 165,
-    "StockTicker": "",
-    "DateBought": "2021/7/1 11:22",
-    "DateExp": "2021-07-09",
-    "Premium": 6,
-    "NumContract": -1,
-    "P_C": "P",
-    "PriceAtBought": 161.09
-  }
+
+
+
+Id	Code	Nickname	Remark	SelfIntroduction	Mark1	Mark2	Mark3	Mark4	Mark5	TeacherOpinion	Rejected	Att1	Att2	Att3	Att4	Version	hasPhoto	hasId	hasCert	hasBankBook	hasTel	hasPhoto2	hasId2	hasCert2	hasBankBook2	hasTel2	student_idNumber	UpdateAt	UpdateBy	CreateAt
+3141	CE2021-D0305	""	""	0	0	0	0	0	0	0	0	2	0	2	2	-1	0	0	0	0	0	1	1	1	0	1	74222191	2021-07-06 14:45:00.340	43	2021-07-06 14:45:01.400
+2887	CE2021-D0305	Victor	""	0	0	0	0	0	0	0	0	2	0	0	2	-2	0	0	0	0	0	1	1	1	0	1	74222191	2021-07-07 14:55:42.513	43
